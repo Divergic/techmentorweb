@@ -1,0 +1,15 @@
+@import "../../../node_modules/izitoast/dist/css/iziToast.css";
+@import "notify.scss";
+
+.auth0-lock.auth0-lock {
+    height: auto !important;
+}
+
+.auth0-lock-center {    
+    height: auto !important;
+    vertical-align: top !important;
+}
+
+.auth0-lock-header {
+    display: none;
+}
