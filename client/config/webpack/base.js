@@ -13,11 +13,48 @@ const extractSass = new ExtractTextPlugin({
     filename: "content/[name].css",
 });
 
+let plugins = [
+    new webpack.DefinePlugin(
+        { 
+            "webpackDefine": {
+                "environment": JSON.stringify(config.environment),
+                "apiUri": JSON.stringify(config.apiUri),
+                "audience": JSON.stringify(config.authAudience),
+                "authDomain": JSON.stringify(config.authDomain),
+                "authorizeUri": JSON.stringify(config.authAuthorizeUri),
+                "clientId": JSON.stringify(config.authClientId),
+                "responseType": JSON.stringify(config.authResponseType),
+                "scope": JSON.stringify(config.authScope),
+                "sentryUri": JSON.stringify(config.clientSentryUri)
+            } 
+        }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: "vendor",
+        filename: "scripts/vendor.js"
+    }),
+    new HtmlWebpackPlugin({
+        hash: true,
+        filename: "index.html",
+        template: path.join(sourcePath, "/index.html"),
+    }),
+    extractSass
+];
+
+if (config.configuration === "release") {
+    let uglify = new webpack.optimize.UglifyJsPlugin({
+        compress: {
+            warnings: false
+        }
+    });
+
+    plugins.push(uglify);
+}
+
 module.exports = {
     name: "client",
     target: "web",
     entry: {
-        app: [sourcePath + "/index.ts"],
+        app: [path.join(sourcePath, "/index.ts")],
         vendor: ["vue", "vuex", "vue-router", "vuex-persistedstate", "vee-validate", "store", "iziToast", "axios", "es6-promise/auto", "auth0-js", "vue-class-component"]
     },
     output: {
@@ -27,7 +64,7 @@ module.exports = {
     },
     devtool: "source-map",
     resolve: {
-        extensions: [".ts"]
+        extensions: [".ts", ".vue", ".js"]
     },
     module: {
         rules: [
@@ -40,7 +77,7 @@ module.exports = {
                 exclude: /node_modules|vue\/src/,
                 loader: "ts-loader",
                 options: {
-                    configFile: rootPath + "tsconfig.json",
+                    configFile: path.join(rootPath, "tsconfig.json"),
                     emitErrors: true,
                     failOnHint: true,
                     appendTsSuffixTo: [/\.vue$/]
@@ -79,30 +116,5 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.DefinePlugin(
-            { 
-                "webpackDefine": {
-                    "environment": JSON.stringify(config.environment),
-                    "apiUri": JSON.stringify(config.apiUri),
-                    "audience": JSON.stringify(config.authAudience),
-                    "authDomain": JSON.stringify(config.authDomain),
-                    "authorizeUri": JSON.stringify(config.authAuthorizeUri),
-                    "clientId": JSON.stringify(config.authClientId),
-                    "responseType": JSON.stringify(config.authResponseType),
-                    "scope": JSON.stringify(config.authScope),
-                    "sentryUri": JSON.stringify(config.clientSentryUri)
-                } 
-            }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            filename: "scripts/vendor.js"
-        }),
-        new HtmlWebpackPlugin({
-            hash: true,
-            filename: "index.html",
-            template: sourcePath + "/index.html",
-        }),
-        extractSass
-    ]
+    plugins: plugins
 };

@@ -11,12 +11,11 @@ describe("config.ts", () => {
     describe("constructor", () => {
         it("populates configuration from json", () => {
             
-            expect(sut.apiUri.length).toBeGreaterThan(0);
-            expect(sut.authDomain.length).toBeGreaterThan(0);
-            expect(sut.authorizeUri.length).toBeGreaterThan(0);
-            expect(sut.clientId.length).toBeGreaterThan(0);
-            expect(sut.responseType.length).toBeGreaterThan(0);
-            expect(sut.sentryUri.length).toBeGreaterThan(0);
+            expect(sut.apiUri.length).toBeGreaterThan(0, "apiUri");
+            expect(sut.authDomain.length).toBeGreaterThan(0, "authDomain");
+            expect(sut.authorizeUri.length).toBeGreaterThan(0, "authorizeUri");
+            expect(sut.clientId.length).toBeGreaterThan(0, "clientId");
+            expect(sut.responseType.length).toBeGreaterThan(0, "responseType");
         });
     });
 });

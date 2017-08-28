@@ -33,7 +33,7 @@ module.exports = function (config) {
     },
     reporters: ["progress"], //, "verbose"
     colors: true,
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
     singleRun: false,
     concurrency: Infinity
   });

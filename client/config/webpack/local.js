@@ -1,6 +1,6 @@
 const config = require("../../../config");
 const OpenBrowserPlugin = require("open-browser-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer/lib/BundleAnalyzerPlugin");
 
 module.exports = {
     plugins: [

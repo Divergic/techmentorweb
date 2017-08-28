@@ -12,7 +12,7 @@ module.exports = {
     },
     devtool: "source-map",
     resolve: {
-        extensions: [".ts"]
+        extensions: [".ts", ".vue", ".js"]
     },
     module: {
         rules: [
@@ -21,11 +21,18 @@ module.exports = {
                 exclude: /node_modules|vue\/src/,
                 loader: "ts-loader",
                 options: {
-                    configFile: rootPath + "/tsconfig.json",
+                    configFile: path.join(rootPath, "tsconfig.json"),
                     emitErrors: true,
                     failOnHint: true,
                     appendTsSuffixTo: [/\.vue$/]
                 }
+            },
+            {
+              test: /\.vue$/,
+              loader: 'vue-loader',
+              options: {
+                esModule: true
+              }
             }
         ]
     },
