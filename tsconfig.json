@@ -18,13 +18,6 @@
   },
   "compileOnSave": false,
   "typeRoots": ["./typings"],
-  "filesGlob": [
-      "./client/**/*.ts",
-      "!./node_modules/**/*.ts"
-  ],
-  "files": [
-      "./client/src/index.ts"
-  ],
   "exclude": [
     "node_modules"
   ]
