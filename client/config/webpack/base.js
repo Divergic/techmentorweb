@@ -27,7 +27,10 @@ let plugins = [
             "sentryUri": JSON.stringify(config.clientSentryUri)
         } 
     }),
-    new webpack.optimize.CommonsChunkPlugin({names: ["vendor"], filename: 'scripts/[name].js'}),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: "vendor",
+        filename: "scripts/vendor.js"
+    }),
     new HtmlWebpackPlugin({
         hash: true,
         filename: "index.html",

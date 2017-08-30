@@ -1,16 +1,20 @@
 var webpack = require("webpack");
 var path = require("path");
 var fs = require("fs");
+var config = require("../../config")
 
 var nodeModules = {};
 
-fs.readdirSync("node_modules")
-    .filter(function(x) {
-        return [".bin"].indexOf(x) === -1;
-    })
-    .forEach(function(mod) {
-        nodeModules[mod] = "commonjs " + mod;
-    });
+if (config.configuration !== "release") {
+    // Filer out node_modules for debug builds
+    fs.readdirSync("node_modules")
+        .filter(function(x) {
+            return [".bin"].indexOf(x) === -1;
+        })
+        .forEach(function(mod) {
+            nodeModules[mod] = "commonjs " + mod;
+        });
+}
 
 module.exports = {
     name: "server",
