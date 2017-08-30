@@ -1,26 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../../pages/home/home.vue";
-import Conduct from "../../pages/conduct/conduct.vue";
-import Profile from "../../pages/profile/profile.vue";
-import NotFound from "../../pages/notfound/notfound.vue";
-import SignIn from "../../pages/signin/signin.vue";
 import { Authentication } from "../../services/authentication/authentication";
 
 export default class Router {
-  compile(): VueRouter {
 
+  compile(): VueRouter {
+    
     Vue.use(VueRouter);
 
     const routes = [
-      { name: "home", path: "/", component: Home, meta: { signInTarget: "profile" } },
-      { name: "conduct", path: "/conduct/", component: Conduct, meta: { signInTarget: "profile" } },
-      { name: "signin", path: "/signin/", component: SignIn },
-      { name: "profile", path: "/profile/", component: Profile, meta: { requiresAuth: true } },
-      { name: "notfound", path: "*", component: NotFound, meta: { signInTarget: "profile" } }
+      { name: "home", path: "/", component: require.ensure([], function(require) { return require("../../pages/home/home.vue"); }, "app"), meta: { signInTarget: "profile" } },
+      { name: "conduct", path: "/conduct/", component: require.ensure([], function(require) { return require("../../pages/conduct/conduct.vue"); }, "app.public"), meta: { signInTarget: "profile" } },
+      { name: "signin", path: "/signin/", component: require.ensure([], function(require) { return require("../../pages/signin/signin.vue"); }, "app.auth") },
+      { name: "profile", path: "/profile/", component: require.ensure([], function(require) { return require("../../pages/profile/profile.vue"); }, "app.profile"), meta: { requiresAuth: true } },
+      { name: "notfound", path: "*", component: require.ensure([], function(require) { return require("../../pages/notfound/notfound.vue"); }, "app.public"), meta: { signInTarget: "profile" } }
     ];
 
-    let router = new VueRouter({
+    let router = new VueRouter(<VueRouter.RouterOptions>{
       mode: "history",
       routes: routes,
       scrollBehavior(to, from, savedPosition) {
