@@ -16,7 +16,7 @@ module.exports = function(webpackCompiler) {
         app.use(csp);
 
         app.use(webpackDevMiddleware(webpackCompiler, {
-            lazy: false,
+            lazy: true,
             noInfo: true,
             publicPath: "/",
             historyApiFallback: true,
