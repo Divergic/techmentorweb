@@ -17,6 +17,7 @@ let plugins = [
     { 
         "webpackDefine": {
             "environment": JSON.stringify(config.environment),
+            "configuration": JSON.stringify(config.configuration),
             "apiUri": JSON.stringify(config.apiUri),
             "audience": JSON.stringify(config.authAudience),
             "authDomain": JSON.stringify(config.authDomain),

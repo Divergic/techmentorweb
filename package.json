@@ -46,6 +46,7 @@
     "izitoast": "^1.1.5",
     "mime-types": "^2.1.16",
     "serve-static": "^1.12.4",
+    "source-map-support": "^0.4.16",
     "store": "^2.0.12",
     "vee-validate": "^2.0.0-rc.14",
     "vue": "^2.4.2",
