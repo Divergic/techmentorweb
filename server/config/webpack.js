@@ -1,6 +1,7 @@
 var webpack = require("webpack");
 var path = require("path");
 var fs = require("fs");
+const config = require("../../config");
 
 var nodeModules = {};
 
@@ -26,6 +27,16 @@ module.exports = {
         filename: "server.js"
     },
     plugins: [
+        new webpack.DefinePlugin(
+        { 
+            "webpackDefine": {
+                "environment": JSON.stringify(config.environment),
+                "configuration": JSON.stringify(config.configuration),
+                "port": JSON.stringify(config.port),
+                "apiUri": JSON.stringify(config.apiUri),
+                "sentryUri": JSON.stringify(config.serverSentryUri)
+            } 
+        }),
         new webpack.IgnorePlugin(/\.(css|less)$/),
         new webpack.BannerPlugin(
             {

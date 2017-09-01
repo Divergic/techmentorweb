@@ -13,7 +13,7 @@ module.exports = function(webpackCompiler) {
         const app = express();
 
         app.use(headers);
-        app.use(csp);
+        app.use(csp(config.apiUri));
 
         app.use(webpackDevMiddleware(webpackCompiler, {
             lazy: false,

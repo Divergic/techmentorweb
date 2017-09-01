@@ -10,7 +10,7 @@ Vue.use(VeeValidate);
 import Router from "./components/router/router";
 import App from "./components/app/app.vue";
 require("./styles/theme.scss");
-
+ 
 class Application {
 
     constructor() {
