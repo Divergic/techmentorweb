@@ -19,7 +19,7 @@ describe("authFailure.ts", () => {
             expect(actual.error_description).toBe(sut.error_description);
             expect(actual.state).toBe(sut.state);
 
-            let valid = actual.isValid();
+            let valid = actual.isFailure();
 
             expect(valid).toBeTruthy();
         });
@@ -41,72 +41,72 @@ describe("authFailure.ts", () => {
         });
     });
 
-    describe("isValid", () => {
+    describe("isFailure", () => {
         it("return true when all values are present", () => {
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).toBeTruthy();
         });
         it("return false when error is undefined", () => {
             (<any>sut).error = undefined;
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when error is null", () => {
             (<any>sut).error = null;
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when error is empty", () => {
             sut.error = "";
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when error_description is undefined", () => {
             (<any>sut).error_description = undefined;
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when error_description is null", () => {
             (<any>sut).error_description = null;
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when error_description is empty", () => {
             sut.error_description = "";
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when state is undefined", () => {
             (<any>sut).state = undefined;
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when state is null", () => {
             (<any>sut).state = null;
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });
         it("return false when state is empty", () => {
             sut.state = "";
 
-            let actual = sut.isValid();
+            let actual = sut.isFailure();
             
             expect(actual).not.toBeTruthy();
         });

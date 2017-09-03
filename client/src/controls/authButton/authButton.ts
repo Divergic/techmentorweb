@@ -30,7 +30,7 @@ export default class AuthButton extends AuthComponent {
 
         this.$store.commit("accessToken", "");
         this.$store.commit("idToken", "");
-        this.$store.commit("profileId", "");
+        this.$store.commit("isAdministrator", "");
 
         if (requiresRedirect) {
             this.$router.push({ name: "home"});

@@ -62,6 +62,7 @@ export default class SignIn extends AuthComponent {
                 // Store session context
                 this.$store.commit("idToken", response.idToken);
                 this.$store.commit("accessToken", response.accessToken);
+                this.$store.commit("isAdministrator", response.isAdministrator);
 
                 return true;
             } else {

@@ -7,6 +7,7 @@ import * as auth0 from "auth0-js";
 export class SignInResponse {
     idToken: string;
     accessToken: string;
+    isAdministrator: boolean;
 }
 
 export interface IAuthenticator {
@@ -32,7 +33,7 @@ export class Authenticator implements IAuthenticator {
         
         let failure = AuthFailure.createFrom(this.location.fromHash<AuthFailure>());
 
-        if (failure.isValid()) {
+        if (failure.isFailure()) {
             // This looks like it is an authentication failure from a redirect
             throw new Failure(failure.error_description);
         }
@@ -81,12 +82,26 @@ export class Authenticator implements IAuthenticator {
             that.auth0.parseHash((err, authResult) => {
                 if (err) {
                     reject(err);
-                } 
-                else {
-                    let response = <SignInResponse>authResult;
 
-                    resolve(response);
+                    return;
                 }
+
+                // Find any namespaced role claims
+                let response = <SignInResponse>authResult;
+
+                if (!authResult.idTokenPayload) {
+                    resolve(response);
+
+                    return;
+                }
+
+                let roles = authResult.idTokenPayload["http://techmentor/roles"] || [];
+                
+                if (roles.indexOf("Administrator") > -1) {
+                    response.isAdministrator = true;
+                }
+
+                resolve(response);
             });
         });
     }

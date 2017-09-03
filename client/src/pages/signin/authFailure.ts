@@ -15,7 +15,7 @@ export default class AuthFailure {
         return value;
     }
 
-    public isValid(): Boolean {
+    public isFailure(): Boolean {
         if (!this.error || this.error.length === 0) {
             return false;
         }
