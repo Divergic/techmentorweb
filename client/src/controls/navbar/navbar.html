@@ -1,0 +1,6 @@
+<div>
+    <router-link :to="{ name: 'home' }">Home</router-link>
+    <router-link :to="{ name: 'profile' }" v-if="isAuthenticated()">Profile</router-link>
+    <router-link :to="{ name: 'admin' }" v-if="isAdministrator()">Admin</router-link>
+    <AuthButton></AuthButton>
+</div>

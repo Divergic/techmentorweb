@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "noUnusedLocals": true,
+    "lib": ["dom", "es5", "es2015.promise"]
+  },
+  "compileOnSave": false,
+  "typeRoots": ["./typings"],
+  "exclude": [
+    "node_modules"
+  ]
+}

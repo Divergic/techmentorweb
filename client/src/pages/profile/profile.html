@@ -1,0 +1,34 @@
+<div>
+    <h1>Profile</h1>
+
+    <fieldset>
+        <legend>Profile</legend>
+        <form>
+            <div>
+                <label for="firstName">First Name</label>
+                <input id="firstName" name="firstName" type="text" title="First Name" autofocus="autofocus" placeholder="First Name" maxlength="50" required="required" v-model="model.firstName" v-validate data-vv-rules="required" />
+                <span v-show="errors.has('firstName')">{{ errors.first('firstName') }}</span>
+            </div>
+            <div>
+                <label for="lastName">Last Name</label>
+                <input id="lastName" name="lastName" type="text" title="Last Name"placeholder="Last Name" maxlength="50" required="required" v-model="model.lastName" v-validate data-vv-rules="required" />
+                <span v-show="errors.has('lastName')">{{ errors.first('lastName') }}</span>
+            </div>
+            <div>
+                <label for="email">Email Address</label>
+                <input id="email" name="email" type="email" title="Email Address" placeholder="Email" required="required" maxlength="256" v-model="model.email" v-validate data-vv-rules="required|email" />
+                <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
+            </div>
+            <div>
+                <label for="timeZoneId">Time Zone</label>
+                <select id="timeZoneId" name="timeZoneId" v-model="model.timeZoneId" title="Time Zone">
+                    <option value="" selected="selected" disabled="disabled">Time Zone</option>
+                </select>
+                <span v-show="errors.has('timeZoneId')">{{ errors.first('timeZoneId') }}</span>
+            </div>
+            <div>
+                <button class="btn" @click="save" type="button">Save</button>
+            </div>
+        </form>
+    </fieldset>
+</div>

@@ -1,0 +1,25 @@
+// Override the theme styles that impact notifications
+.iziToast {
+    min-height: 0;
+}
+
+.iziToast-close {
+    margin: 0;
+}
+
+.iziToast > .iziToast-body > .iziToast-icon {
+    height: 24px;
+    width: 24px;
+}
+
+.iziToast > .iziToast-body {
+    height: 0;
+}
+
+.notifyErrorIcon {
+    content: url("../images/ban.svg");
+}
+
+.notifySuccessIcon {
+    content: url("../images/check.svg");
+}
