@@ -3,7 +3,7 @@ import StoreData from "../dataStore/storeData";
 
 export interface IDataStore {
     accessToken: string;
-    profileId: string;
+    isAdministrator: boolean;
     idToken: string;
 }
 
@@ -21,14 +21,14 @@ export class DataStore implements IDataStore {
         return options.accessToken;
     }
     
-    public get profileId(): string {
+    public get isAdministrator(): boolean {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {
-            return "";
+            return false;
         }
 
-        return options.profileId;
+        return options.isAdministrator;
     }
     
     public get idToken(): string {

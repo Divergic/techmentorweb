@@ -9,7 +9,7 @@ describe("store.ts", () => {
     beforeEach(() => {
         vuex = <StoreData>{
             accessToken: "This is the access token",
-            profileId: "someGuid",
+            isAdministrator: true,
             idToken: "This is the id token"
         };
         sut = new DataStore();
@@ -43,27 +43,27 @@ describe("store.ts", () => {
         });
     });
 
-    describe("profileId", () => {
-        it("returns empty when vuex data is null", () => {
+    describe("isAdministrator", () => {
+        it("returns false when vuex data is null", () => {
             store.set("vuex", null);
 
-            let actual = sut.profileId;
+            let actual = sut.isAdministrator;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeFalsy();
         });
-        it("returns empty when vuex data is undefined", () => {
+        it("returns false when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
-            let actual = sut.profileId;
+            let actual = sut.isAdministrator;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeFalsy();
         });
-        it("returns token from storage", () => {
+        it("returns value from storage", () => {
             store.set("vuex", vuex);
 
-            let actual = sut.profileId;
+            let actual = sut.isAdministrator;
 
-            expect(actual).toEqual(vuex.profileId);
+            expect(actual).toEqual(vuex.isAdministrator);
         });
     });
 

@@ -3,6 +3,8 @@ import conductComponent from "../../pages/conduct/conduct.vue";
 import profileComponent from "../../pages/profile/profile.vue";
 import notFoundComponent from "../../pages/notfound/notfound.vue";
 import signInComponent from "../../pages/signin/signin.vue";
+import unauthorizedComponent from "../../pages/unauthorized/unauthorized.vue";
+import adminComponent from "../../pages/admin/admin.vue";
 
 // declare var webpackDefine: any;
 
@@ -29,8 +31,10 @@ import signInComponent from "../../pages/signin/signin.vue";
  
 export default [
     { name: "home", path: "/", component: homeComponent, meta: { signInTarget: "profile" } },
-    { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "profile" } },
+    { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "profile" } },,
+    { name: "unauthorized", path: "/unauthorized/", component: unauthorizedComponent },
     { name: "signin", path: "/signin/", component: signInComponent },
     { name: "profile", path: "/profile/", component: profileComponent, meta: { requiresAuth: true } },
+    { name: "admin", path: "/admin/", component: adminComponent, meta: { requiresAuth: true, requiresAdmin: true } },
     { name: "notfound", path: "*", component: notFoundComponent, meta: { signInTarget: "profile" } }
   ];

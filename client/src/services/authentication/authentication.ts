@@ -2,6 +2,7 @@ import { IDataStore, DataStore } from "../dataStore/dataStore";
 
 export interface IAuthentication {
     isAuthenticated: boolean;
+    isAdministrator: boolean;
 }
 
 export class Authentication implements IAuthentication {
@@ -18,4 +19,8 @@ export class Authentication implements IAuthentication {
 
         return false;
     }
+    
+        public get isAdministrator(): boolean {
+            return this.store.isAdministrator;
+        }
 }

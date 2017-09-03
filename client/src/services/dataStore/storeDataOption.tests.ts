@@ -10,7 +10,7 @@ describe("tokenStateOption.ts", () => {
     beforeEach(() => {
         state = <StoreData>{
             accessToken: "This is the access token",
-            profileId: "someGuid",
+            isAdministrator: true,
             idToken: "This is the id token"
         };
         sut = new StoreDataOptions();
@@ -27,13 +27,13 @@ describe("tokenStateOption.ts", () => {
         });
     });
     
-    describe("getters.profileId", () => {
+    describe("getters.isAdministrator", () => {
         it("returns stored value", () => {
-            let getter = <Vuex.Getter<StoreData, StoreData>>sut.getters["profileId"];
+            let getter = <Vuex.Getter<StoreData, StoreData>>sut.getters["isAdministrator"];
 
             let actual = getter(state, null, state, null);
             
-            expect(actual).toEqual(state.profileId);
+            expect(actual).toEqual(state.isAdministrator);
         });
     });
     
@@ -73,28 +73,28 @@ describe("tokenStateOption.ts", () => {
         });
     });
 
-    describe("mutations.profileId", () => {
+    describe("mutations.isAdministrator", () => {
         it("can store null value", () => {
-            let setter = <Vuex.Mutation<StoreData>>sut.mutations["profileId"];
+            let setter = <Vuex.Mutation<StoreData>>sut.mutations["isAdministrator"];
 
             setter(state, null);
             
-            expect(state.profileId).toBeNull();
+            expect(state.isAdministrator).toBeFalsy();
         });
         it("can store undefined value", () => {
-            let setter = <Vuex.Mutation<StoreData>>sut.mutations["profileId"];
+            let setter = <Vuex.Mutation<StoreData>>sut.mutations["isAdministrator"];
 
             setter(state, undefined);
 
-            expect(state.profileId).toBeUndefined();
+            expect(state.isAdministrator).toBeFalsy();
         });
         it("can store new value", () => {
-            let expected = "my new value";
-            let setter = <Vuex.Mutation<StoreData>>sut.mutations["profileId"];
+            let expected = false;
+            let setter = <Vuex.Mutation<StoreData>>sut.mutations["isAdministrator"];
 
             setter(state, expected);
             
-            expect(state.profileId).toEqual(expected);
+            expect(state.isAdministrator).toEqual(expected);
         });
     });
 

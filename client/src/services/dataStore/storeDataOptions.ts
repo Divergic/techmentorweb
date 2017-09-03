@@ -7,8 +7,8 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         accessToken: (state: StoreData): string => {
             return state.accessToken;
         },
-        profileId: (state: StoreData): string => {
-            return state.profileId;
+        isAdministrator: (state: StoreData): boolean => {
+            return state.isAdministrator;
         },
         idToken: (state: StoreData): string => {
             return state.idToken;
@@ -19,8 +19,8 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         accessToken: (state: StoreData, token: string) => {
             state.accessToken = token;
         },
-        profileId: (state: StoreData, profileId: string) => {
-            state.profileId = profileId;
+        isAdministrator: (state: StoreData, isAdministrator: boolean) => {
+            state.isAdministrator = isAdministrator;
         },
         idToken: (state: StoreData, token: string) => {
             state.idToken = token;

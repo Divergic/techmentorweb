@@ -1,5 +1,5 @@
 export default class StoreData {
     accessToken: string;
-    profileId: string;
+    isAdministrator: boolean;
     idToken: string;
 }

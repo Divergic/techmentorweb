@@ -25,18 +25,24 @@ export default class Router {
 
     router.beforeEach((to, from, next) => {
       if (to.matched.some(record => record.meta.requiresAuth)) {
-        // this route requires auth, check if logged in
-        // if not, redirect to login page.
         if (!authentication.isAuthenticated) {          
-          router.push({name: "signin", query: { redirectUri: to.fullPath }});
+          next({name: "signin", query: { redirectUri: to.fullPath }});
 
           return;
-        } else {
-          next();
         }
-      } else {
-        next(); // make sure to always call next()!
       }
+
+      // At this point we either don't require authentication or the user is authenticated
+      if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresAdmin)) {
+        if (!authentication.isAdministrator) {
+          next({name: "unauthorized" });
+
+          return;
+        }
+      }
+
+      // Always make a call to next()
+      next();
     });
 
     return router;
