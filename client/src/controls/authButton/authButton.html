@@ -1,4 +1,1 @@
-<span>
-    <button v-if="!isAuthenticated()" v-bind:title="tooltip()" v-on:click="signIn()">Sign In</button>
-    <button v-if="isAuthenticated()" v-bind:title="tooltip()" v-on:click="signOut">Sign Out</button>
-</span>
+<v-btn :title="text" v-on:click="click()" flat>{{text}}</v-btn>

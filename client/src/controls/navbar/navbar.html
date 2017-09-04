@@ -1,6 +1,12 @@
-<div>
-    <router-link :to="{ name: 'home' }">Home</router-link>
-    <router-link :to="{ name: 'profile' }" v-if="isAuthenticated()">Profile</router-link>
-    <router-link :to="{ name: 'admin' }" v-if="isAdministrator()">Admin</router-link>
-    <AuthButton></AuthButton>
-</div>
+<v-toolbar dark class="primary">
+    <v-toolbar-title class="white--text">Tech Mentor</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn :to="{ name: 'home' }" title="Home" flat exact>
+            Home
+        </v-btn>
+        <v-btn :to="{ name: 'profile' }" v-if="isAuthenticated()" title="Profile" flat>Profile</v-btn>
+        <v-btn :to="{ name: 'admin' }" v-if="isAdministrator()" title="Admin" flat>Admin</v-btn>
+        <AuthButton></AuthButton>
+    </v-toolbar-items>
+</v-toolbar>

@@ -1,10 +1,12 @@
 import "es6-promise/auto";
 import Vue from "vue";
 import Vuex from "vuex";
+import Vuetify from "vuetify";
 import * as VeeValidate from "vee-validate";
 import StoreDataOptions from "./services/dataStore/storeDataOptions";
 
 Vue.use(Vuex);
+Vue.use(Vuetify);
 Vue.use(VeeValidate);
 
 import Router from "./components/router/router";

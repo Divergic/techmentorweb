@@ -50,6 +50,29 @@ describe("authButton.ts", () => {
         sut.configure(location);         
     });
     
+    describe("click", () => {
+        it("invokes signIn when not authenticated", () => {
+            store.getters.idToken = undefined;
+
+            spyOn(sut, "signIn");
+            spyOn(sut, "signOut");
+
+            sut.click();
+
+            expect(sut.signIn).toHaveBeenCalled();
+            expect(sut.signOut).not.toHaveBeenCalled();
+        });
+        it("invokes signOut when authenticated", () => {
+            spyOn(sut, "signIn");
+            spyOn(sut, "signOut");
+
+            sut.click();
+
+            expect(sut.signIn).not.toHaveBeenCalled();
+            expect(sut.signOut).toHaveBeenCalled();
+        });
+    });
+    
     describe("signIn", () => {
         it("authenticates with redirect to route sign in target when sign in target defined", () => {
             spyOn(router, "push");
@@ -121,16 +144,16 @@ describe("authButton.ts", () => {
         });
     });
     
-    describe("tooltip", () => {
+    describe("text", () => {
         it("returns correct message when authenticated", () => {
-            let actual = sut.tooltip();
+            let actual = sut.text;
 
             expect(actual).toEqual("Sign out");
         });
         it("returns correct message when not authenticated", () => {
             store.getters.idToken = undefined;
 
-            let actual = sut.tooltip();
+            let actual = sut.text;
 
             expect(actual).toEqual("Sign in");
         });

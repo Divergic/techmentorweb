@@ -1,12 +1,14 @@
-<footer>
-
-    <div>
-        <p>
-            <router-link :to="{ name: 'conduct' }">Code of Conduct</router-link>
-        </p>
-        <p>
-            <a href="https://twitter.com/roryprimrose" target="_blank" rel="noopener">Rory Primrose - Twitter</a>
-        </p>
-    </div>
-
-</footer>
+<v-bottom-nav absolute :value="true" class="transparent">
+    <v-btn :to="{ name: 'conduct' }" flat class="teal--text" value="recent">
+        <span>Code of Conduct</span>
+    </v-btn>
+    <v-btn href="https://github.com/Divergic/techmentorweb" target="_blank" flat class="teal--text" value="favorites">
+        <span>GitHub - Website</span>
+    </v-btn>
+    <v-btn href="https://github.com/Divergic/techmentorapi" target="_blank" flat class="teal--text" value="favorites">
+        <span>GitHub - API</span>
+    </v-btn>
+    <v-btn href="https://twitter.com/roryprimrose" target="_blank" flat class="teal--text" value="nearby">
+        <span>Twitter</span>
+    </v-btn>
+</v-bottom-nav>

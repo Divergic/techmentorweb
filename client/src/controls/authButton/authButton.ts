@@ -17,6 +17,15 @@ export default class AuthButton extends AuthComponent {
         this.location = location;
     }
 
+    public click(): void {
+        if (this.isAuthenticated()) {
+            this.signOut();
+        }
+        else {
+            this.signIn();
+        }
+    }
+
     public signIn(): void {
         // Check if the current route has a sign in target
         let signInTarget = this.signInTarget();
@@ -73,12 +82,11 @@ export default class AuthButton extends AuthComponent {
         return targetRoute.href;
     }
 
-    public tooltip(): string {
+    public get text(): string {
         if (this.isAuthenticated()) {
             return "Sign out";
         }
 
         return "Sign in";
     };
-
 };
