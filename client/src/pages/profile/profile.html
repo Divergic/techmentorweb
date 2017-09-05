@@ -1,34 +1,129 @@
 <div>
     <h4>Profile</h4>
 
-    <fieldset>
-        <legend>Profile</legend>
-        <form>
-            <div>
-                <label for="firstName">First Name</label>
-                <input id="firstName" name="firstName" type="text" title="First Name" autofocus="autofocus" placeholder="First Name" maxlength="50" required="required" v-model="model.firstName" v-validate data-vv-rules="required" />
-                <span v-show="errors.has('firstName')">{{ errors.first('firstName') }}</span>
-            </div>
-            <div>
-                <label for="lastName">Last Name</label>
-                <input id="lastName" name="lastName" type="text" title="Last Name"placeholder="Last Name" maxlength="50" required="required" v-model="model.lastName" v-validate data-vv-rules="required" />
-                <span v-show="errors.has('lastName')">{{ errors.first('lastName') }}</span>
-            </div>
-            <div>
-                <label for="email">Email Address</label>
-                <input id="email" name="email" type="email" title="Email Address" placeholder="Email" required="required" maxlength="256" v-model="model.email" v-validate data-vv-rules="required|email" />
-                <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
-            </div>
-            <div>
-                <label for="timeZoneId">Time Zone</label>
-                <select id="timeZoneId" name="timeZoneId" v-model="model.timeZoneId" title="Time Zone">
-                    <option value="" selected="selected" disabled="disabled">Time Zone</option>
-                </select>
-                <span v-show="errors.has('timeZoneId')">{{ errors.first('timeZoneId') }}</span>
-            </div>
-            <div>
-                <button class="btn" @click="save" type="button">Save</button>
-            </div>
-        </form>
-    </fieldset>
+    <form>
+        <v-expansion-panel>
+            <v-expansion-panel-content>
+                <div slot="header">Personal</div>
+                <v-card class="ma-3">
+                    <v-text-field
+                        name="firstName"
+                        label="First Name"
+                        title="First Name"
+                        autofocus="autofocus"
+                        maxlength="50"
+                        required
+                        v-model="model.firstName"
+                        :error-messages="errors.collect('firstName')"
+                        v-validate="'required'">
+                    </v-text-field>
+                    <v-text-field
+                        name="lastName"
+                        label="Last Name"
+                        title="Last Name"
+                        maxlength="50"
+                        required
+                        v-model="model.lastName"
+                        :error-messages="errors.collect('lastName')"
+                        v-validate="'required'">
+                    </v-text-field>
+                    <v-text-field
+                        name="email"
+                        label="Email Address"
+                        title="Email Address"
+                        v-model="model.email"
+                        :error-messages="errors.collect('email')"
+                        v-validate="'required|email'">
+                    </v-text-field>
+                    <v-select
+                        name="birthYear"
+                        label="Birth Year"
+                        title="Birth Year"
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="birthYears"
+                        v-model="model.birthYear"
+                        autocomplete>
+                    </v-select>
+                    <v-select
+                        name="gender"
+                        label="Gender"
+                        title="Gender"
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="genders"
+                        v-model="model.gender"
+                        autocomplete>
+                    </v-select>
+                </v-card>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header">Profile</div>
+                <v-card class="ma-3">
+                        <v-select
+                            name="status"
+                            label="Status"
+                            title="Status"
+                            item-text="name"
+                            item-value="value"
+                            v-bind:items="statuses"
+                            v-model="model.status">
+                        </v-select>
+                    <v-select
+                        name="yearStartedInTech"
+                        label="Year Started In Tech"
+                        title="Year Started In Tech"
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="startedInTechYears"
+                        v-model="model.yearStartedInTech"
+                        autocomplete>
+                    </v-select>
+                    <v-select
+                        name="timeZone"
+                        label="Time Zone"
+                        title="Time Zone"
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="timezones"
+                        v-model="model.timeZone"
+                        autocomplete>
+                    </v-select>
+                    <v-text-field
+                        name="about"
+                        label="About"
+                        title="About"
+                        v-model="model.about"
+                        multi-line>
+                    </v-text-field>
+                </v-card>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+                <div slot="header">Websites</div>
+                <v-card class="ma-3">
+                    <v-text-field
+                        name="website"
+                        label="Website"
+                        title="Website"
+                        v-model="model.website">
+                    </v-text-field>
+                    <v-text-field
+                        name="gitHubUsername"
+                        label="GitHub Username"
+                        title="GitHub Username"
+                        v-model="model.gitHubUsername">
+                    </v-text-field>
+                    <v-text-field
+                        name="twitterUsername"
+                        label="Twitter Username"
+                        title="Twitter Username"
+                        v-model="model.twitterUsername">
+                    </v-text-field>
+                </v-card>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-btn primary @click="OnSave">
+            Save
+        </v-btn>
+    </form>
 </div>

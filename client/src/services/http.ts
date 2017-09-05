@@ -31,6 +31,24 @@ export class Http implements IHttp {
 
             return Promise.resolve(config);
         });
+        
+        this.client.interceptors.response.use(async (response: AxiosResponse) => {
+            return Promise.resolve(response);
+        }, async (error: any) => {
+
+            let response = error.response;
+
+            if (response.status === 401) {
+                // Assumption here is that routing has ensured that the user cannot use a page they are not allowed to
+                // So if they are already in a page that is executing a service then this should be a scenario where the
+                // user is not authenticated
+                const failure = new Failure("Your authentication session has expired.")
+
+                return Promise.reject(failure);
+            }
+
+            return Promise.resolve(error);
+        });
     }
 
     public async get<T>(resourceUri: string): Promise<T> {

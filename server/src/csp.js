@@ -5,12 +5,16 @@ function buildConfiguration(apiUri) {
         // Specify directives as normal. 
         directives: {
             defaultSrc: ["'none'"],
-            fontSrc: ["'none'"],
+            fontSrc: [
+                "https://fonts.gstatic.com/s/materialicons/",
+                "https://fonts.gstatic.com/s/roboto/"
+            ],
             scriptSrc: [
                 "'self'"
             ],
             styleSrc: [
-                "'self'"
+                "'self'",
+                "https://fonts.googleapis.com/css"
             ],
             connectSrc: [
                 "'self'",
