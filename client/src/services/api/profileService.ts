@@ -39,6 +39,10 @@ export class UserProfile {
     public twitterUsername?: string;
     public website?: string;
     public yearStartedInTech?: number;
+
+    public constructor() {
+        this.status = ProfileStatus.Hidden;
+    }    
 };
 
 export interface IProfileService {

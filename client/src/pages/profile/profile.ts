@@ -5,6 +5,7 @@ import { IProfileService, ProfileService, UserProfile, ProfileStatus } from "../
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { IYearsService, YearsService } from "../../services/years"
+import store from "store";
 
 class Item<T> {
     public name: string;
@@ -15,7 +16,7 @@ class Item<T> {
 export default class Profile extends AuthComponent {
     private profileService: IProfileService;
     private yearsService: IYearsService;
-    private model: UserProfile = new UserProfile();
+    private model: UserProfile;
     private notify: INotify;
     private timezones: Array<Item<string>>;
     private birthYears: Array<Item<number>>;
@@ -25,6 +26,9 @@ export default class Profile extends AuthComponent {
 
     public constructor() {
         super();
+        
+        // Get the profile stored before an auth refresh or create a new one
+        this.model = store.get("profile") || new UserProfile();
         
         this.profileService = new ProfileService();
         this.yearsService = new YearsService();
@@ -57,7 +61,18 @@ export default class Profile extends AuthComponent {
     }
 
     public OnSave(): void {
-        console.table(this.model);
+        // Temporarily store the model to handle scenarios where the auth token has expired
+        // We don't want the user to loose their changes with an auth refresh
+        store.set("profile", this.model);
+
+        try {
+            console.table(this.model);
+            
+            store.remove("profile");
+        }
+        catch (error) {
+            // TODO: Catch authentication token expiry and call sign in again
+        }
     }
 
     public configure(profileService: IProfileService, yearsService: IYearsService, notify: INotify, timezones: Array<string>) {
@@ -84,7 +99,7 @@ export default class Profile extends AuthComponent {
     private prepareItemList<T>(values: Array<T>): Array<Item<T>> {
         let items = new Array<Item<T>>();
 
-        items.push(<Item<T>>{name: "None selected"});
+        items.push(<Item<T>>{name: "Unspecified"});
 
         for (let index = 0; index < values.length; index++) {
             let value = values[index];
