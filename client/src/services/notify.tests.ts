@@ -7,6 +7,8 @@ describe("notify.ts", () => {
         error: function(options) {
         },
         success: function(options) {
+        },
+        info: function(options) {
         }
     };
 
@@ -41,6 +43,19 @@ describe("notify.ts", () => {
             sut.showFailure(failure);    
             
             expect(spy.calls.argsFor(0)[0].message).toEqual(failure.message);
+        });
+    });
+    
+    describe("showInformation", () => {
+        it("displays information message", () => {
+            let message = "This is my information message";
+
+            let spy = spyOn(toast, "info");
+            let sut = new Notify(toast);
+
+            sut.showInformation(message);    
+            
+            expect(spy.calls.argsFor(0)[0].message).toEqual(message);
         });
     });
     

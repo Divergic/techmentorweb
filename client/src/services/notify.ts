@@ -4,6 +4,7 @@ import * as iziToast from "iziToast";
 export interface INotify {
     showError(message: string): void;
     showFailure(failure: Failure): void;
+    showInformation(message: string): void;
     showSuccess(message: string): void;
 }
 
@@ -24,6 +25,13 @@ export class Notify implements INotify {
             title: "Error",
             message: failure.message,
             icon: "notifyErrorIcon"
+        });
+    }
+
+    public showInformation(message: string): void {
+        this.toast.info({
+            title: "Information",
+            message: message
         });
     }
 

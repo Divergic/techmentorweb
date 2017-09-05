@@ -1,39 +1,31 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
-import Timezones from "tz-ids/index.jsnext.js";
-import { IProfileService, ProfileService, UserProfile, ProfileStatus } from "../../services/api/profileService";
+import { IProfileService, ProfileService, UserProfile } from "../../services/api/profileService";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
-import { IYearsService, YearsService } from "../../services/years"
+import { IListsService, ListsService, ListItem } from "../../services/lists"
 import store from "store";
-
-class Item<T> {
-    public name: string;
-    public value?: T;
-} 
 
 @Component
 export default class Profile extends AuthComponent {
     private profileService: IProfileService;
-    private yearsService: IYearsService;
-    private model: UserProfile;
+    private listsService: IListsService;
     private notify: INotify;
-    private timezones: Array<Item<string>>;
-    private birthYears: Array<Item<number>>;
-    private genders: Array<Item<string>>;
-    private statuses: Array<Item<number>>;
-    private startedInTechYears: Array<Item<number>>;
+
+    // Properties for view binding
+    private model: UserProfile = new UserProfile();
+    private timezones: Array<ListItem<string>> = new Array<ListItem<string>>();
+    private birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
+    private genders: Array<ListItem<string>> = new Array<ListItem<string>>();
+    private statuses: Array<ListItem<number>> = new Array<ListItem<number>>();
+    private startedInTechYears: Array<ListItem<number>> = new Array<ListItem<number>>();
 
     public constructor() {
         super();
         
-        // Get the profile stored before an auth refresh or create a new one
-        this.model = store.get("profile") || new UserProfile();
-        
         this.profileService = new ProfileService();
-        this.yearsService = new YearsService();
+        this.listsService = new ListsService();
         this.notify = new Notify();
-        this.timezones = this.prepareItemList(<Array<string>>(Timezones));
     }
     
     public mounted(): Promise<void> {
@@ -41,20 +33,22 @@ export default class Profile extends AuthComponent {
     }
 
     public OnLoad(): Promise<void> {
-        let availableBirthYears = this.yearsService.getBirthYears();
-        this.birthYears = this.prepareItemList(availableBirthYears);
+        // Get the profile stored before an auth refresh or create a new one
+        let cachedProfile: UserProfile = <UserProfile>store.get("profile");
+        
+        if (cachedProfile) {
+            this.model = cachedProfile;
+            
+            this.notify.showInformation("Your authentication session had expired.<br />Please try saving your profile again.");
 
-        let availableGenders = <Array<string>>["Male", "Female", "Non-binary"];
-        this.genders = this.prepareItemList(availableGenders);
+            store.remove("profile");
+        }
 
-        let availableTechYears = this.yearsService.getTechYears();
-        this.startedInTechYears = this.prepareItemList(availableTechYears);
-
-        this.statuses = <Array<Item<number>>>[
-            <Item<number>> {name: "Hidden", value: ProfileStatus.Hidden}, 
-            <Item<number>> {name: "Unavailable", value: ProfileStatus.Unavailable}, 
-            <Item<number>> {name: "Available", value: ProfileStatus.Available}
-        ];
+        this.timezones = this.listsService.getTimezones();
+        this.birthYears = this.listsService.getBirthYears();
+        this.startedInTechYears = this.listsService.getTechYears();
+        this.statuses = this.listsService.getProfileStatuses();
+        this.genders = this.listsService.getGenders();
         
         // TODO: Add loading indicator support
         return this.load();
@@ -75,11 +69,10 @@ export default class Profile extends AuthComponent {
         }
     }
 
-    public configure(profileService: IProfileService, yearsService: IYearsService, notify: INotify, timezones: Array<string>) {
+    public configure(profileService: IProfileService, listsService: IListsService, notify: INotify) {
         this.profileService = profileService;
-        this.yearsService = yearsService;
+        this.listsService = listsService;
         this.notify = notify;
-        this.timezones = this.prepareItemList(timezones);
     }
 
     async load(): Promise<void> {
@@ -94,19 +87,5 @@ export default class Profile extends AuthComponent {
                 throw failure;
             }
         }
-    }
-
-    private prepareItemList<T>(values: Array<T>): Array<Item<T>> {
-        let items = new Array<Item<T>>();
-
-        items.push(<Item<T>>{name: "Unspecified"});
-
-        for (let index = 0; index < values.length; index++) {
-            let value = values[index];
-
-            items.push(<Item<T>>{name: value.toString(), value: value});
-        }
-
-        return items;
     }
 }
