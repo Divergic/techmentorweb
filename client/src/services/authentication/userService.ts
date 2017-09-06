@@ -1,4 +1,4 @@
-import { IDataStore, DataStore } from "./dataStore/dataStore";
+import { IDataStore, DataStore } from "../dataStore/dataStore";
 
 export interface IUserService {
     isAuthenticated: boolean;

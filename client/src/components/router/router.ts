@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { UserService } from "../../services/userService";
+import { UserService } from "../../services/authentication/userService";
 import Routes from "./routes";
  
 export default class Router {

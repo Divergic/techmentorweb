@@ -1,19 +1,19 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
-import { IAuthenticator, Authenticator } from "./authenticator";
+import { IAuthenticationService, AuthenticationService } from "../../services/authentication/authenticationService";
 
 @Component
 export default class SignIn extends AuthComponent {
-    private authenticator: IAuthenticator;
+    private authenticator: IAuthenticationService;
 
     public constructor() {
         super();
 
-        this.authenticator = new Authenticator();
+        this.authenticator = new AuthenticationService();
     }
 
     public configure(
-        authenticator: IAuthenticator): void {
+        authenticator: IAuthenticationService): void {
         this.authenticator = authenticator;
     }
 

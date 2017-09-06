@@ -1,7 +1,7 @@
-import { IConfig, Config } from "../../services/config/config";
-import { ILocation, Location } from "../../services/location";
+import { IConfig, Config } from "../config/config";
+import { ILocation, Location } from "../location";
 import AuthFailure from "./authFailure";
-import Failure from "../../services/failure";
+import Failure from "../failure";
 import * as auth0 from "auth0-js";
 
 export class SignInResponse {
@@ -10,11 +10,11 @@ export class SignInResponse {
     isAdministrator: boolean;
 }
 
-export interface IAuthenticator {
+export interface IAuthenticationService {
     Authenticate(): Promise<SignInResponse | null>;
 }
 
-export class Authenticator implements IAuthenticator {
+export class AuthenticationService implements IAuthenticationService {
     private auth0: auth0.WebAuth;
 
     public constructor(
