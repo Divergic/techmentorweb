@@ -32,7 +32,7 @@ import adminComponent from "../../pages/admin/admin.vue";
 export default [
     { name: "home", path: "/", component: homeComponent, meta: { signInTarget: "profile" } },
     { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "profile" } },,
-    { name: "unauthorized", path: "/unauthorized/", component: unauthorizedComponent },
+    { name: "unauthorized", path: "/unauthorized/", component: unauthorizedComponent, meta: { signOutToHome: true } },
     { name: "signin", path: "/signin/", component: signInComponent },
     { name: "profile", path: "/profile/", component: profileComponent, meta: { requiresAuth: true } },
     { name: "admin", path: "/admin/", component: adminComponent, meta: { requiresAuth: true, requiresAdmin: true } },

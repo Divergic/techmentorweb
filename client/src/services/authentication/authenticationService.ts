@@ -11,7 +11,7 @@ export class SignInResponse {
 }
 
 export interface IAuthenticationService {
-    Authenticate(): void;
+    Authenticate(returnUri?: string): void;
     IsAuthResponse(): boolean;
     ProcessAuthResponse(): Promise<SignInResponse>;
 }
@@ -41,15 +41,28 @@ export class AuthenticationService implements IAuthenticationService {
         return false;
     }
 
-    public Authenticate(): void {
+    public Authenticate(returnUri?: string): void {
         console.log("Authenticating the user");
-
-        // We need to come back to the current location
-        let currentUri = this.location.getHref();
         
+        let location = this.location.getLocation();
+
+        if (!returnUri) {
+            returnUri = location.pathname + location.search + location.hash;
+        }
+
+        // Ensure that the redirect uri is rooted
+        let parsedUri = returnUri.replace(/^http(s)?:\/\/[^\/]+/i, "");
+        let baseUri = location.protocol + "//" + location.host;
+        let rootedUri = baseUri + parsedUri;
+        
+        console.log("Authenticating user and returning to " + rootedUri);
+        
+        // Build the uri for the sign in page as the callback uri
+        let callbackUri = baseUri + "/signin?redirectUri=" + encodeURIComponent(rootedUri);
+
         this.auth0.authorize({
                 audience: this.config.audience,
-                redirectUri: currentUri,
+                redirectUri: callbackUri,
                 responseType: this.config.responseType,
                 scope: this.config.scope
             });            

@@ -57,6 +57,10 @@ export default class AuthButton extends AuthComponent {
             return true;
         }
 
+        if (route.meta.signOutToHome) {
+            return true;
+        }
+
         return false;
     }
 

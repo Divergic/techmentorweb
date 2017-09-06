@@ -28,6 +28,7 @@ describe("authButton.ts", () => {
             currentRoute: {
                 meta: {
                     requiresAuth: false,
+                    signOutToHome: false,
                     signInTarget: signInTarget
                 }
             },
@@ -134,6 +135,18 @@ describe("authButton.ts", () => {
             spyOn(router, "push");
 
             router.currentRoute.meta.requiresAuth = true;
+            
+            sut.signOut();
+
+            let data = router.push.calls.argsFor(0)[0];
+
+            expect(router.push).toHaveBeenCalled();
+            expect(data.name).toEqual("home");
+        });
+        it("redirects to home if current route requires sign out to home", () => {
+            spyOn(router, "push");
+
+            router.currentRoute.meta.signOutToHome = true;
             
             sut.signOut();
 

@@ -2,6 +2,7 @@ export class LocationInfo {
     host: string;
     href: string;
     hash: string;
+    pathname: string;
     protocol: string;
     search: string;
 }

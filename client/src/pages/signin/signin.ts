@@ -55,7 +55,6 @@ export default class SignIn extends AuthComponent {
         }
         else if (this.authenticator.IsAuthResponse()) {
             // The user does not yet have an auth session
-            console.log("Authenticating");
             let response = await this.authenticator.ProcessAuthResponse();
 
             // Store session context
@@ -67,8 +66,9 @@ export default class SignIn extends AuthComponent {
         }
         else {
             // The user does not yet have an auth session
-            console.log("Authenticating");
-            this.authenticator.Authenticate();
+            let redirectUri = this.getRedirectUri();
+
+            this.authenticator.Authenticate(redirectUri);
             
             // We are redirecting to authenticate
             return false;
