@@ -1,11 +1,11 @@
-import { IDataStore, DataStore } from "../dataStore/dataStore";
+import { IDataStore, DataStore } from "./dataStore/dataStore";
 
-export interface IAuthentication {
+export interface IUserService {
     isAuthenticated: boolean;
     isAdministrator: boolean;
 }
 
-export class Authentication implements IAuthentication {
+export class UserService implements IUserService {
     
     public constructor(private store: IDataStore = new DataStore()) {
     }

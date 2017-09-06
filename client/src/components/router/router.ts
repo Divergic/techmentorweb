@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { Authentication } from "../../services/authentication/authentication";
+import { UserService } from "../../services/userService";
 import Routes from "./routes";
  
 export default class Router {
@@ -21,11 +21,11 @@ export default class Router {
       }
     });
 
-    const authentication = new Authentication();
+    const userService = new UserService();
 
     router.beforeEach((to, from, next) => {
       if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!authentication.isAuthenticated) {          
+        if (!userService.isAuthenticated) {          
           next({name: "signin", query: { redirectUri: to.fullPath }});
 
           return;
@@ -34,7 +34,7 @@ export default class Router {
 
       // At this point we either don't require authentication or the user is authenticated
       if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresAdmin)) {
-        if (!authentication.isAdministrator) {
+        if (!userService.isAdministrator) {
           next({name: "unauthorized" });
 
           return;

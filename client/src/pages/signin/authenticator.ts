@@ -11,7 +11,7 @@ export class SignInResponse {
 }
 
 export interface IAuthenticator {
-    Authenticate(): Promise<SignInResponse>;
+    Authenticate(): Promise<SignInResponse | null>;
 }
 
 export class Authenticator implements IAuthenticator {
@@ -29,7 +29,7 @@ export class Authenticator implements IAuthenticator {
         });
     }
 
-    public async Authenticate(): Promise<SignInResponse> {
+    public async Authenticate(): Promise<SignInResponse | null> {
         
         let failure = AuthFailure.createFrom(this.location.fromHash<AuthFailure>());
 
@@ -51,7 +51,7 @@ export class Authenticator implements IAuthenticator {
 
             await this.Authorize();
 
-            return <SignInResponse><any>null;
+            return null;
         }
     }
 
