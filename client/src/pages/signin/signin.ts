@@ -53,22 +53,25 @@ export default class SignIn extends AuthComponent {
 
             return true;
         }
+        else if (this.authenticator.IsAuthResponse()) {
+            // The user does not yet have an auth session
+            console.log("Authenticating");
+            let response = await this.authenticator.ProcessAuthResponse();
+
+            // Store session context
+            this.$store.commit("idToken", response.idToken);
+            this.$store.commit("accessToken", response.accessToken);
+            this.$store.commit("isAdministrator", response.isAdministrator);
+
+            return true;
+        }
         else {
             // The user does not yet have an auth session
             console.log("Authenticating");
-            let response = await this.authenticator.Authenticate();
-
-            if (response) {
-                // Store session context
-                this.$store.commit("idToken", response.idToken);
-                this.$store.commit("accessToken", response.accessToken);
-                this.$store.commit("isAdministrator", response.isAdministrator);
-
-                return true;
-            } else {
-                // We are redirecting to authenticate
-                return false;
-            }
+            this.authenticator.Authenticate();
+            
+            // We are redirecting to authenticate
+            return false;
         }
     };
 
