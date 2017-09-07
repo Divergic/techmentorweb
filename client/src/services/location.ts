@@ -14,6 +14,7 @@ export interface ILocation {
     getHref(): string;
     getHash(): string;
     getSearch(): string;
+    makeAbsolute(uri: string): string;
     setHref(uri: string): void;
 }
 
@@ -47,6 +48,28 @@ export class Location implements ILocation {
 
     public getSearch(): string {
         return this.instance.location.search;
+    }
+
+    public makeAbsolute(uri: string): string {
+        let expression = /^http(s)?:\/\/[^\/]+/i;
+
+        if (uri.match(expression)) {
+            // The uri is already rooted to an absolute address
+            return uri;
+        }
+
+        let location = this.getLocation();
+
+        // Determine the base url
+        let baseUri = location.protocol + "//" + location.host;
+
+        if (uri.substr(0, 1) !== "/") {
+            uri = "/" + uri;
+        }
+
+        let absoluteUri = baseUri + uri;
+
+        return absoluteUri;
     }
 
     public setHref(uri: string): void {

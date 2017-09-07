@@ -47,18 +47,13 @@ export class AuthenticationService implements IAuthenticationService {
         let location = this.location.getLocation();
 
         if (!returnUri) {
-            returnUri = location.pathname + location.search + location.hash;
+            returnUri = location.href;
         }
 
-        // Ensure that the redirect uri is rooted
-        let parsedUri = returnUri.replace(/^http(s)?:\/\/[^\/]+/i, "");
-        let baseUri = location.protocol + "//" + location.host;
-        let rootedUri = baseUri + parsedUri;
-        
-        console.log("Authenticating user and returning to " + rootedUri);
+        console.log("Authenticating user and returning to " + returnUri);
         
         // Build the uri for the sign in page as the callback uri
-        let callbackUri = baseUri + "/signin?redirectUri=" + encodeURIComponent(rootedUri);
+        let callbackUri = this.location.makeAbsolute("/signin?redirectUri=" + encodeURIComponent(returnUri));
 
         this.auth0.authorize({
                 audience: this.config.audience,

@@ -28,7 +28,7 @@ describe("location.ts", () => {
                 href: "https://www.test.com?a=1&b=0&c=3&d&e&a=5&a=t%20e%20x%20t&e=http%3A%2F%2Fw3schools.com%2Fmy%20test.asp%3Fname%3Dståle%26car%3Dsaab#error=access_denied&error_description=User%20did%20not%20authorize%20the%20request&state=GhfIFENDVdnzTbL0FLCsy515ofzFIyjw",
                 hash: "#error=access_denied&error_description=User%20did%20not%20authorize%20the%20request&state=GhfIFENDVdnzTbL0FLCsy515ofzFIyjw",
                 host: "www.test.com",
-                protocol: "https",
+                protocol: "https:",
                 search: "?a=1&b=0&c=3&d&e&a=5&a=t%20e%20x%20t&e=http%3A%2F%2Fw3schools.com%2Fmy%20test.asp%3Fname%3Dståle%26car%3Dsaab"
             };
         let instance = <Window>{
@@ -118,6 +118,26 @@ describe("location.ts", () => {
             let actual = sut.getSearch();    
             
             expect(actual).toEqual(location.search);
+        });
+    });
+
+    describe("makeAbsolute", () =>  {
+        it("returns same address when already absolute", () => {
+            let actual = sut.makeAbsolute(location.href);
+
+            expect(actual).toEqual(location.href);
+        });
+        it("returns absolute address when currently relative", () => {
+            let uri = "/stuff/here?a=1&b=0&c=3&d&e&a=5&a=t%20e%20x%20t&e=http%3A%2F%2Fw3schools.com%2Fmy%20test.asp%3Fname%3Dståle%26car%3Dsaab#error=access_denied&error_description=User%20did%20not%20authorize%20the%20request&state=GhfIFENDVdnzTbL0FLCsy515ofzFIyjw";
+            let actual = sut.makeAbsolute(uri);
+
+            expect(actual).toEqual("https://www.test.com" + uri);
+        });
+        it("returns absolute address when relative path not starting with /", () => {
+            let uri = "stuff/here?a=1&b=0&c=3&d&e&a=5&a=t%20e%20x%20t&e=http%3A%2F%2Fw3schools.com%2Fmy%20test.asp%3Fname%3Dståle%26car%3Dsaab#error=access_denied&error_description=User%20did%20not%20authorize%20the%20request&state=GhfIFENDVdnzTbL0FLCsy515ofzFIyjw";
+            let actual = sut.makeAbsolute(uri);
+
+            expect(actual).toEqual("https://www.test.com/" + uri);
         });
     });
     
