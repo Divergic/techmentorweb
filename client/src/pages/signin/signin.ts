@@ -4,17 +4,17 @@ import { IAuthenticationService, AuthenticationService } from "../../services/au
 
 @Component
 export default class SignIn extends AuthComponent {
-    private authenticator: IAuthenticationService;
+    private authenticationService: IAuthenticationService;
 
     public constructor() {
         super();
 
-        this.authenticator = new AuthenticationService();
+        this.authenticationService = new AuthenticationService();
     }
 
     public configure(
-        authenticator: IAuthenticationService): void {
-        this.authenticator = authenticator;
+        authenticationService: IAuthenticationService): void {
+        this.authenticationService = authenticationService;
     }
 
     public mounted(): Promise<void> {
@@ -53,14 +53,15 @@ export default class SignIn extends AuthComponent {
 
             return true;
         }
-        else if (this.authenticator.IsAuthResponse()) {
+        else if (this.authenticationService.IsAuthResponse()) {
             // The user does not yet have an auth session
-            let response = await this.authenticator.ProcessAuthResponse();
+            let response = await this.authenticationService.ProcessAuthResponse();
 
             // Store session context
-            this.$store.commit("idToken", response.idToken);
             this.$store.commit("accessToken", response.accessToken);
+            this.$store.commit("idToken", response.idToken);
             this.$store.commit("isAdministrator", response.isAdministrator);
+            this.$store.commit("tokenExpires", response.tokenExpires);
 
             return true;
         }
@@ -68,7 +69,7 @@ export default class SignIn extends AuthComponent {
             // The user does not yet have an auth session
             let redirectUri = this.getRedirectUri();
 
-            this.authenticator.Authenticate(redirectUri);
+            this.authenticationService.Authenticate(redirectUri);
             
             // We are redirecting to authenticate
             return false;

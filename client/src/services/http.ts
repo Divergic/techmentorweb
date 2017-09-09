@@ -1,5 +1,7 @@
 import { IConfig, Config } from "./config/config";
 import { IDataStore, DataStore } from "./dataStore/dataStore";
+import { ILocation, Location } from "./location";
+import { IUserService, UserService } from "./authentication/userService";
 import Axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
 import Failure from "./failure";
 
@@ -11,7 +13,7 @@ export interface IHttp {
 export class Http implements IHttp {
     private client: AxiosInstance;
 
-    public constructor(client?: AxiosInstance, config: IConfig = new Config(), dataStore: IDataStore = new DataStore()) {
+    public constructor(client?: AxiosInstance, config: IConfig = new Config(), dataStore: IDataStore = new DataStore(), location: ILocation = new Location(), userService: IUserService = new UserService()) {
         if (client) {
             this.client = client;
         } else {
@@ -38,16 +40,31 @@ export class Http implements IHttp {
 
             let response = error.response;
 
-            if (response.status === 401) {
-                // Assumption here is that routing has ensured that the user cannot use a page they are not allowed to
-                // So if they are already in a page that is executing a service then this should be a scenario where the
-                // user is not authenticated
-                const failure = new Failure("Your authentication session has expired.")
-
-                return Promise.reject(failure);
+            if (response.status !== 401) {
+                return Promise.resolve(error);
             }
 
-            return Promise.resolve(error);
+            if (userService.isAuthenticated === false) {
+                // The user is not authenticated and has been able to issue a request to a secure resource
+                return Promise.resolve(error);
+            }
+
+            if (userService.sessionExpired === false) {
+                // The user is authenticated has still has a valid session
+                // They have invoked something they are not allowed to hit
+                return Promise.resolve(error);
+            }
+
+            const failure = new Failure("Your authentication session has expired.")
+
+            // We will redirect the user to authenticate again because their session has expired
+            let returnUri = location.getHref();
+            let signInUri = location.getSignInUri(returnUri);
+
+            // Redirect to the sign in page with a return back to the current page
+            location.setHref(signInUri);
+            
+            return Promise.reject(failure);
         });
     }
 
@@ -76,6 +93,12 @@ export class Http implements IHttp {
     }
 
     private ProcessResult<T>(response: AxiosResponse, allowedStatusCodes: Array<number>): T {
+        // In failure scenarios, the first parameter is actually an error with response as a property
+        // This needs to be mapped correctly so that the rest of the method can execute correctly
+        if ((<any>response).response) {
+            response = <AxiosResponse>(<any>response).response;
+        }
+
         if (!response.status) {
             throw this.CreateFailure(response.data);
         }
@@ -100,10 +123,17 @@ export class Http implements IHttp {
     private CreateFailure(error: any): Failure {
         console.error(error);
         
-        if (error.response
-            && error.response.data
-            && error.response.data.message) {
-            return new Failure(error.response.data.message);
+        if (typeof error === "string") {
+            return new Failure(error);
+        }
+        
+        if (error.response && error.response.data) {
+            if (typeof error.response.data === "string") {
+                return new Failure(error.response.data);
+            }
+            else if (error.response.data.message) {
+                return new Failure(error.response.data.message);
+            }
         }
 
         throw error;

@@ -8,10 +8,11 @@ export class SignInResponse {
     idToken: string;
     accessToken: string;
     isAdministrator: boolean;
+    tokenExpires: Date;
 }
 
 export interface IAuthenticationService {
-    Authenticate(returnUri?: string): void;
+    Authenticate(returnUri: string): void;
     IsAuthResponse(): boolean;
     ProcessAuthResponse(): Promise<SignInResponse>;
 }
@@ -41,19 +42,10 @@ export class AuthenticationService implements IAuthenticationService {
         return false;
     }
 
-    public Authenticate(returnUri?: string): void {
-        console.log("Authenticating the user");
-        
-        let location = this.location.getLocation();
-
-        if (!returnUri) {
-            returnUri = location.href;
-        }
-
+    public Authenticate(returnUri: string): void {
         console.log("Authenticating user and returning to " + returnUri);
         
-        // Build the uri for the sign in page as the callback uri
-        let callbackUri = this.location.makeAbsolute("/signin?redirectUri=" + encodeURIComponent(returnUri));
+        let callbackUri = this.location.getSignInUri(returnUri);
 
         this.auth0.authorize({
                 audience: this.config.audience,
@@ -91,6 +83,12 @@ export class AuthenticationService implements IAuthenticationService {
 
                     return;
                 }
+
+                let secondsSinceEpoc = <number>authResult.idTokenPayload.exp;
+                let epoc = new Date(1970, 1, 1);
+                let expiresAt = new Date(epoc.getTime() + (secondsSinceEpoc * 1000));
+
+                response.tokenExpires = expiresAt;
 
                 let roles = authResult.idTokenPayload["http://techmentor/roles"] || [];
                 

@@ -14,6 +14,7 @@ export interface ILocation {
     getHref(): string;
     getHash(): string;
     getSearch(): string;
+    getSignInUri(returnUri: string): string;
     makeAbsolute(uri: string): string;
     setHref(uri: string): void;
 }
@@ -48,6 +49,13 @@ export class Location implements ILocation {
 
     public getSearch(): string {
         return this.instance.location.search;
+    }
+
+    public getSignInUri(returnUri: string): string {
+        let redirectUri = encodeURIComponent(returnUri);
+        let signInUri = "/signin?redirectUri=" + redirectUri;
+
+        return this.makeAbsolute(signInUri);
     }
 
     public makeAbsolute(uri: string): string {

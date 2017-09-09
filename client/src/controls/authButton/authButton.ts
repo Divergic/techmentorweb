@@ -38,8 +38,9 @@ export default class AuthButton extends AuthComponent {
         let requiresRedirect = this.signOutRequiresRedirect();
 
         this.$store.commit("accessToken", "");
-        this.$store.commit("isAdministrator", "");
         this.$store.commit("idToken", "");
+        this.$store.commit("isAdministrator", "");
+        this.$store.commit("tokenExpires", "");
 
         if (requiresRedirect) {
             this.$router.push({ name: "home"});

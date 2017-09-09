@@ -113,6 +113,7 @@ describe("authButton.ts", () => {
 
             expect(store.commit).toHaveBeenCalledWith("accessToken", "");
             expect(store.commit).toHaveBeenCalledWith("idToken", "");
+            expect(store.commit).toHaveBeenCalledWith("tokenExpires", "");
             expect(store.commit).toHaveBeenCalledWith("isAdministrator", "");
         });
         it("does not redirect if current route lacks meta", () => {

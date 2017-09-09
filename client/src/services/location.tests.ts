@@ -121,6 +121,14 @@ describe("location.ts", () => {
         });
     });
 
+    describe("getSignInUri", () => {
+        it("returns absolute sign in uri with return uri", () => {
+            let actual = sut.getSignInUri("/profile");    
+            
+            expect(actual).toEqual("https://www.test.com/signin?redirectUri=%2Fprofile");
+        });
+    });
+
     describe("makeAbsolute", () =>  {
         it("returns same address when already absolute", () => {
             let actual = sut.makeAbsolute(location.href);

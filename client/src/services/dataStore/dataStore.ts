@@ -5,12 +5,12 @@ export interface IDataStore {
     accessToken: string;
     isAdministrator: boolean;
     idToken: string;
+    tokenExpires: Date;
 }
 
 export class DataStore implements IDataStore {
     
-    // This cannot be a setter because changes to vuex data must be done via Component.$state.commit()
-    
+    // This cannot be a setter because changes to vuex data must be done via Component.$state.commit()    
     public get accessToken(): string {
         let options = <StoreData>store.get("vuex");
 
@@ -39,5 +39,21 @@ export class DataStore implements IDataStore {
         }
 
         return options.idToken;
+    }
+    
+    public get tokenExpires(): Date {
+        let options = <StoreData>store.get("vuex");
+
+        if (!options) {            
+            // There are no options so we will return a default as already expired in the past
+            let currentTime = new Date();
+
+            return new Date(currentTime.getTime() - 1000 * 60);
+        }
+
+        // vuex seems to store values as strings so we need to convert it again even though TypeScript thinks the type is correct
+        let storedValue = <string><any>options.tokenExpires;
+        
+        return new Date(storedValue);
     }
 }
