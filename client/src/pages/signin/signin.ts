@@ -47,7 +47,8 @@ export default class SignIn extends AuthComponent {
     }
 
     public async Authenticate(): Promise<Boolean> {
-        if (this.isAuthenticated()) {
+        if (this.isAuthenticated()
+            && !this.sessionExpired()) {
             // The user already has an auth session
             console.log("User is already authenticated");
 

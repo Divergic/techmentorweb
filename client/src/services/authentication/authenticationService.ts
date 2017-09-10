@@ -85,8 +85,7 @@ export class AuthenticationService implements IAuthenticationService {
                 }
 
                 let secondsSinceEpoc = <number>authResult.idTokenPayload.exp;
-                let epoc = new Date(1970, 1, 1);
-                let expiresAt = new Date(epoc.getTime() + (secondsSinceEpoc * 1000));
+                let expiresAt = new Date(secondsSinceEpoc * 1000);
 
                 response.tokenExpires = expiresAt;
 

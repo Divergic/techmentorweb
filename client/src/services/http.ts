@@ -8,6 +8,7 @@ import Failure from "./failure";
 export interface IHttp {
     get<T>(resourceUri: string): Promise<T>;
     post<T, R>(resourceUri: string, data?: T): Promise<R>;
+    put<T, R>(resourceUri: string, data?: T): Promise<R>;
 }
 
 export class Http implements IHttp {
@@ -46,12 +47,16 @@ export class Http implements IHttp {
 
             if (userService.isAuthenticated === false) {
                 // The user is not authenticated and has been able to issue a request to a secure resource
+                console.debug("HTTP request failed because the user is not authenticated");
+
                 return Promise.resolve(error);
             }
 
             if (userService.sessionExpired === false) {
                 // The user is authenticated has still has a valid session
                 // They have invoked something they are not allowed to hit
+                console.debug("HTTP request failed because the users authentication session has expired");
+                
                 return Promise.resolve(error);
             }
 
@@ -86,6 +91,18 @@ export class Http implements IHttp {
             let response = <AxiosResponse>(rawResponse);
 
             return this.ProcessResult<R>(response, [200, 201, 204]);
+        }
+        catch (error) {
+            throw this.CreateFailure(error);
+        }
+    }
+
+    public async put<T, R>(resourceUri: string, data?: T): Promise<R> {
+        try {
+            let rawResponse = await this.client.put(resourceUri, data);
+            let response = <AxiosResponse>(rawResponse);
+
+            return this.ProcessResult<R>(response, [200, 204]);
         }
         catch (error) {
             throw this.CreateFailure(error);

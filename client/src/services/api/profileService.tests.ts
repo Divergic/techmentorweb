@@ -18,20 +18,32 @@ describe("profileService.ts", () => {
         http = <IHttp>{
             get: async (resource: string): Promise<UserProfile> => {
                 return profile;
+            },
+            put: async (resource: string, profile: UserProfile): Promise<void> => {
             }
         };
 
         sut = new ProfileService(http);          
     });
 
-    describe("getUserProfile", () => {
+    describe("getAccountProfile", () => {
         it("returns profile from API", core.runAsync(async () => {
             spyOn(http, "get").and.callThrough();
 
-            let actual = await sut.getUserProfile();
+            let actual = await sut.getAccountProfile();
 
             expect(http.get).toHaveBeenCalledWith("profile/");
             expect(actual).toEqual(profile);
+        }));
+    });
+
+    describe("updateAccountProfile", () => {
+        it("puts profile to API", core.runAsync(async () => {
+            spyOn(http, "put").and.callThrough();
+
+            await sut.updateAccountProfile(profile);
+
+            expect(http.put).toHaveBeenCalledWith("profile/", profile);
         }));
     });
 });

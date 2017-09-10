@@ -13,11 +13,12 @@ export default class Profile extends AuthComponent {
     private notify: INotify;
 
     // Properties for view binding
+    private loaded: boolean = false;
     private model: UserProfile = new UserProfile();
     private timezones: Array<ListItem<string>> = new Array<ListItem<string>>();
     private birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
     private genders: Array<ListItem<string>> = new Array<ListItem<string>>();
-    private statuses: Array<ListItem<number>> = new Array<ListItem<number>>();
+    private statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
     private startedInTechYears: Array<ListItem<number>> = new Array<ListItem<number>>();
 
     public constructor() {
@@ -32,41 +33,54 @@ export default class Profile extends AuthComponent {
         return this.OnLoad();
     }
 
-    public OnLoad(): Promise<void> {
-        // Get the profile stored before an auth refresh or create a new one
-        let cachedProfile: UserProfile = <UserProfile>store.get("profile");
+    public async OnLoad(): Promise<void> {
+        // TODO: Add loading indicator support
         
-        if (cachedProfile) {
-            this.model = cachedProfile;
-            
-            this.notify.showInformation("Your authentication session had expired.<br />Please try saving your profile again.");
-
-            store.remove("profile");
-        }
-
         this.timezones = this.listsService.getTimezones();
         this.birthYears = this.listsService.getBirthYears();
         this.startedInTechYears = this.listsService.getTechYears();
         this.statuses = this.listsService.getProfileStatuses();
         this.genders = this.listsService.getGenders();
-        
-        // TODO: Add loading indicator support
-        return this.load();
+
+        await this.loadProfile();
+
+        this.loaded = true;
     }
 
-    public OnSave(): void {
+    public async OnSave(): Promise<void> {
         // Temporarily store the model to handle scenarios where the auth token has expired
         // We don't want the user to loose their changes with an auth refresh
         store.set("profile", this.model);
 
         try {
-            console.table(this.model);
+            await this.profileService.updateAccountProfile(this.model);
             
             store.remove("profile");
+            
+            this.notify.showSuccess("Your profile has been updated.");        
         }
-        catch (error) {
-            // TODO: Catch authentication token expiry and call sign in again
+        catch (failure) {
+            // Check Failure.visibleToUser
+            if (failure.visibleToUser) {
+                this.notify.showFailure(<Failure>failure);
+            } else {
+                throw failure;
+            }
         }
+    }
+
+    public isBanned(): boolean {
+        if (!this.loaded) {
+            console.log("the profile isn't loaded")
+            return false;
+        }
+
+        if (this.model.bannedAt) {
+            console.log("The profile is banned");
+            return true;
+        }
+        console.log("The profile is not banned");
+        return false;
     }
 
     public configure(profileService: IProfileService, listsService: IListsService, notify: INotify) {
@@ -75,9 +89,21 @@ export default class Profile extends AuthComponent {
         this.notify = notify;
     }
 
-    async load(): Promise<void> {
+    private async loadProfile(): Promise<void> {
         try {
-            this.model = await this.profileService.getUserProfile();
+            // Get the profile stored before an auth refresh or create a new one
+            let cachedProfile: UserProfile = <UserProfile>store.get("profile");
+
+            if (cachedProfile) {
+                this.model = cachedProfile;
+                
+                this.notify.showInformation("Your authentication session had expired.<br />Please try saving your profile again.");
+    
+                store.remove("profile");
+            }
+            else {
+                this.model = await this.profileService.getAccountProfile();
+            }    
         }
         catch (failure) {
             // Check Failure.visibleToUser

@@ -46,16 +46,23 @@ export class UserProfile {
 };
 
 export interface IProfileService {
-    getUserProfile(): Promise<UserProfile>;
+    getAccountProfile(): Promise<UserProfile>;
+    updateAccountProfile(profile: UserProfile): Promise<void>;
 }
 
 export class ProfileService implements IProfileService {
     public constructor(private http: IHttp = new Http()) {
     }
 
-    public async getUserProfile(): Promise<UserProfile> {
+    public getAccountProfile(): Promise<UserProfile> {
         let uri: string = "profile/";
 
-        return await this.http.get<UserProfile>(uri);
+        return this.http.get<UserProfile>(uri);
+    }
+
+    public updateAccountProfile(profile: UserProfile): Promise<void> {
+        let uri: string = "profile/";
+
+        return this.http.put<UserProfile, void>(uri, profile);
     }
 };

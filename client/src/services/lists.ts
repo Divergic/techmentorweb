@@ -1,5 +1,4 @@
 import Timezones from "tz-ids/index.jsnext.js";
-import { ProfileStatus } from "./api/profileService";
 
 export class ListItem<T> {
     public name: string;
@@ -9,7 +8,7 @@ export class ListItem<T> {
 export interface IListsService {
     getBirthYears(): Array<ListItem<number>>;
     getGenders(): Array<ListItem<string>>;
-    getProfileStatuses(): Array<ListItem<number>>;
+    getProfileStatuses(): Array<ListItem<string>>;
     getTechYears(): Array<ListItem<number>>;
     getTimezones(): Array<ListItem<string>>;
 }
@@ -38,11 +37,11 @@ export class ListsService implements IListsService {
         return this.prepareItemList(availableGenders);
     }
 
-    public getProfileStatuses(): Array<ListItem<number>> {
-        return <Array<ListItem<number>>>[
-            <ListItem<number>> {name: "Hidden", value: ProfileStatus.Hidden}, 
-            <ListItem<number>> {name: "Unavailable", value: ProfileStatus.Unavailable}, 
-            <ListItem<number>> {name: "Available", value: ProfileStatus.Available}
+    public getProfileStatuses(): Array<ListItem<string>> {
+        return <Array<ListItem<string>>>[
+            <ListItem<string>> {name: "Hidden", value: "hidden"}, 
+            <ListItem<string>> {name: "Unavailable", value: "unavailable"}, 
+            <ListItem<string>> {name: "Available", value: "available"}
         ];
     }
 
