@@ -22,8 +22,6 @@ module.exports = {
                 loader: "ts-loader",
                 options: {
                     configFile: path.join(rootPath, "tsconfig.json"),
-                    emitErrors: true,
-                    failOnHint: true,
                     appendTsSuffixTo: [/\.vue$/]
                 }
             },

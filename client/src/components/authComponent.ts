@@ -15,18 +15,20 @@ export default class AuthComponent extends Vue {
             return true;
         }
 
-        let currentTime = new Date();
-        
         // vuex seems to store values as strings so we need to convert it again even though TypeScript thinks the type is correct
-        let storedValue = <string><any>this.$store.getters["tokenExpires"];
+        let storedValue = <number><any>this.$store.getters["tokenExpires"];
 
         if (!storedValue) {
             return true;
         }
 
-        let convertedValue = new Date(storedValue);
+        let currentTime = new Date();
+        let currentInUtc = new Date(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), currentTime.getUTCDate(), currentTime.getUTCHours(), currentTime.getUTCMinutes(), currentTime.getUTCSeconds(), currentTime.getUTCMilliseconds());
+        let secondsSinceEpoch = Date.UTC(currentInUtc.getUTCFullYear(), currentInUtc.getUTCMonth(), currentInUtc.getUTCDate(), currentInUtc.getUTCHours(), currentInUtc.getUTCMinutes(), currentInUtc.getUTCSeconds(), currentInUtc.getUTCMilliseconds()) / 1000;
+        let nowSinceEpoch = Date.now() / 1000;
+        console.log(secondsSinceEpoch + " - " + nowSinceEpoch);
 
-        if (convertedValue <= currentTime) {
+        if (storedValue <= secondsSinceEpoch) {
             return true;
         }
 

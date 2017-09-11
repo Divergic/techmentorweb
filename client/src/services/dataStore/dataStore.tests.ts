@@ -11,7 +11,7 @@ describe("store.ts", () => {
             accessToken: "This is the access token",
             isAdministrator: true,
             idToken: "This is the id token",
-            tokenExpires: new Date()
+            tokenExpires: 1505118903
         };
         sut = new DataStore();
     });
@@ -93,26 +93,26 @@ describe("store.ts", () => {
     });
     
     describe("tokenExpires", () => {
-        it("returns date in past when vuex data is null", () => {
+        it("returns zero when vuex data is null", () => {
             store.set("vuex", null);
 
             let actual = sut.tokenExpires;
 
-            expect(actual.getTime()).toBeLessThan(new Date().getTime());
+            expect(actual).toEqual(0);
         });
-        it("returns date in past when vuex data is undefined", () => {
+        it("returns zero when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
             let actual = sut.tokenExpires;
 
-            expect(actual.getTime()).toBeLessThan(new Date().getTime());
+            expect(actual).toEqual(0);
         });
         it("returns expires from storage", () => {
             store.set("vuex", vuex);
 
             let actual = sut.tokenExpires;
             console.log(typeof actual);
-            expect(actual.getTime()).toEqual(vuex.tokenExpires.getTime());
+            expect(actual).toEqual(vuex.tokenExpires);
         });
     });
 });

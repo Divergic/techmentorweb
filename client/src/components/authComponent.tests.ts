@@ -11,7 +11,7 @@ describe("authComponent.ts", () => {
         store = {
             getters: {
                 idToken: "this is my token",
-                tokenExpires: futureTime.toString()
+                tokenExpires: futureTime.getTime() / 1000
             }
         };
 
@@ -70,7 +70,7 @@ describe("authComponent.ts", () => {
             expect(actual).toBeTruthy();
         });
         it("returns true when tokenExpires is in the past", () => {
-            store.getters.tokenExpires = new Date(Date.now() - 60000);
+            store.getters.tokenExpires = store.getters.tokenExpires - 60000;
 
             let actual = sut.sessionExpired();
 

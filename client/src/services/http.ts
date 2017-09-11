@@ -55,7 +55,7 @@ export class Http implements IHttp {
             if (userService.sessionExpired === false) {
                 // The user is authenticated has still has a valid session
                 // They have invoked something they are not allowed to hit
-                console.debug("HTTP request failed because the users authentication session has expired");
+                console.debug("HTTP request failed but the user is authenticated with a valid session");
                 
                 return Promise.resolve(error);
             }

@@ -5,7 +5,7 @@ export interface IDataStore {
     accessToken: string;
     isAdministrator: boolean;
     idToken: string;
-    tokenExpires: Date;
+    tokenExpires: number;
 }
 
 export class DataStore implements IDataStore {
@@ -41,19 +41,17 @@ export class DataStore implements IDataStore {
         return options.idToken;
     }
     
-    public get tokenExpires(): Date {
+    public get tokenExpires(): number {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {            
-            // There are no options so we will return a default as already expired in the past
-            let currentTime = new Date();
-
-            return new Date(currentTime.getTime() - 1000 * 60);
+            // There are no options so we will return a value that would represent epoch
+            return 0;
         }
 
         // vuex seems to store values as strings so we need to convert it again even though TypeScript thinks the type is correct
-        let storedValue = <string><any>options.tokenExpires;
+        let storedValue = <number><any>options.tokenExpires;
         
-        return new Date(storedValue);
+        return storedValue;
     }
 }

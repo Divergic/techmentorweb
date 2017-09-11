@@ -8,7 +8,7 @@ export class SignInResponse {
     idToken: string;
     accessToken: string;
     isAdministrator: boolean;
-    tokenExpires: Date;
+    tokenExpires: number;
 }
 
 export interface IAuthenticationService {
@@ -85,9 +85,8 @@ export class AuthenticationService implements IAuthenticationService {
                 }
 
                 let secondsSinceEpoc = <number>authResult.idTokenPayload.exp;
-                let expiresAt = new Date(secondsSinceEpoc * 1000);
 
-                response.tokenExpires = expiresAt;
+                response.tokenExpires = secondsSinceEpoc;
 
                 let roles = authResult.idTokenPayload["http://techmentor/roles"] || [];
                 

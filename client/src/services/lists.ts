@@ -61,10 +61,10 @@ export class ListsService implements IListsService {
         return this.prepareItemList(Timezones);
     }
     
-    private prepareItemList<T>(values: Array<T>): Array<ListItem<T>> {
+    private prepareItemList<T>(values: Array<T>, defaultValue?: T | undefined): Array<ListItem<T>> {
         let items = new Array<ListItem<T>>();
 
-        items.push(<ListItem<T>>{name: "Unspecified"});
+        items.push(<ListItem<T>>{name: "Unspecified", value: <T><any>null});
 
         for (let index = 0; index < values.length; index++) {
             let value = values[index];

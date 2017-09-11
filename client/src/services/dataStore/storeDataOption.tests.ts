@@ -12,7 +12,7 @@ describe("tokenStateOption.ts", () => {
             accessToken: "This is the access token",
             isAdministrator: true,
             idToken: "This is the id token",
-            tokenExpires: new Date()
+            tokenExpires: 1505118903
         };
         sut = new StoreDataOptions();
     });
@@ -150,7 +150,7 @@ describe("tokenStateOption.ts", () => {
             expect(state.tokenExpires).toBeUndefined();
         });
         it("can store new value", () => {
-            let expected = new Date(Date.now() - 60000);
+            let expected = 1505228903;
             let setter = <Vuex.Mutation<StoreData>>sut.mutations["tokenExpires"];
 
             setter(state, expected);

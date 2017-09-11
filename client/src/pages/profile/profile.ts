@@ -71,15 +71,13 @@ export default class Profile extends AuthComponent {
 
     public isBanned(): boolean {
         if (!this.loaded) {
-            console.log("the profile isn't loaded")
             return false;
         }
 
         if (this.model.bannedAt) {
-            console.log("The profile is banned");
             return true;
         }
-        console.log("The profile is not banned");
+        
         return false;
     }
 
@@ -103,7 +101,27 @@ export default class Profile extends AuthComponent {
             }
             else {
                 this.model = await this.profileService.getAccountProfile();
-            }    
+            }
+
+            // Add default values when missing to fields that should be bound to lists that provide an unspecified value
+            // The reason for this is that the model from the API will have these fields missing from the JSON
+            // but we want the select lists to default to the Unspecified value. We need to trigger this binding
+            // by pushing a value onto the properties that match the Unspecified value in the select.
+            if (!this.model.gender) {
+                this.model.gender = <string><any>null;
+            }
+
+            if (!this.model.birthYear) {
+                this.model.birthYear = <number><any>null;
+            }
+
+            if (!this.model.yearStartedInTech) {
+                this.model.yearStartedInTech = <number><any>null;
+            }
+
+            if (!this.model.timeZone) {
+                this.model.timeZone = <string><any>null;
+            }
         }
         catch (failure) {
             // Check Failure.visibleToUser

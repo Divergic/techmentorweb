@@ -13,7 +13,7 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         idToken: (state: StoreData): string => {
             return state.idToken;
         },
-        tokenExpires: (state: StoreData): Date => {
+        tokenExpires: (state: StoreData): number => {
             return state.tokenExpires;
         }
     };
@@ -28,7 +28,7 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         idToken: (state: StoreData, token: string) => {
             state.idToken = token;
         },
-        tokenExpires: (state: StoreData, expires: Date) => {
+        tokenExpires: (state: StoreData, expires: number) => {
             state.tokenExpires = expires;
         }
     };
