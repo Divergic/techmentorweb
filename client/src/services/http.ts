@@ -49,6 +49,7 @@ export class Http implements IHttp {
                 // The user is not authenticated and has been able to issue a request to a secure resource
                 console.debug("HTTP request failed because the user is not authenticated");
 
+                // TODO: This really should redirect to the unauthorized page
                 return Promise.resolve(error);
             }
 
@@ -57,6 +58,7 @@ export class Http implements IHttp {
                 // They have invoked something they are not allowed to hit
                 console.debug("HTTP request failed but the user is authenticated with a valid session");
                 
+                // TODO: This really should redirect to the unauthorized page
                 return Promise.resolve(error);
             }
 

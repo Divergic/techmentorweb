@@ -22,15 +22,17 @@ export default class AuthComponent extends Vue {
             return true;
         }
 
-        let currentTime = new Date();
-        let currentInUtc = new Date(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), currentTime.getUTCDate(), currentTime.getUTCHours(), currentTime.getUTCMinutes(), currentTime.getUTCSeconds(), currentTime.getUTCMilliseconds());
-        let secondsSinceEpoch = Date.UTC(currentInUtc.getUTCFullYear(), currentInUtc.getUTCMonth(), currentInUtc.getUTCDate(), currentInUtc.getUTCHours(), currentInUtc.getUTCMinutes(), currentInUtc.getUTCSeconds(), currentInUtc.getUTCMilliseconds()) / 1000;
-        let nowSinceEpoch = Date.now() / 1000;
-        console.log(secondsSinceEpoch + " - " + nowSinceEpoch);
+        let secondsSinceEpoch = Date.now() / 1000;
 
         if (storedValue <= secondsSinceEpoch) {
+            console.log("The authentication token has expired");
+            
             return true;
         }
+
+        // This debug code is written this way so that the whole statement can be removed on release builds
+        // The function call is required because Date does not provide a fluent interface on setTime
+        console.debug("Token expires at " + (function(){let date = new Date();date.setTime(storedValue * 1000);return date;})());
 
         return false;
     }

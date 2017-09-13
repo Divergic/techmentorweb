@@ -78,15 +78,23 @@ export class AuthenticationService implements IAuthenticationService {
                 // Find any namespaced role claims
                 let response = <SignInResponse>authResult;
 
+                let issuedAt = <number>authResult.idTokenPayload.iat;
+                let accessTokenLifespan = <number>authResult.expiresIn;
+                let secondsSinceEpoc = issuedAt + accessTokenLifespan;
+
+                // Allow for clock skew of a maximum of three minutes
+                // Taking this off the token expiry means that the token will be seen as expired a few minutes before it actually does. 
+                // This is only referenced when a HTTP call to the API returns a 401. Successful calls don't care. 
+                // This avoids the issue of clock skew when the API returns 401 for an expired token
+                // but the code here doesn't think it has expired. In this case, the Http class will display an unauthorized page rather than
+                // cause an automatic redirect to re-authenticate.
+                response.tokenExpires = secondsSinceEpoc - 180;
+
                 if (!authResult.idTokenPayload) {
                     resolve(response);
 
                     return;
                 }
-
-                let secondsSinceEpoc = <number>authResult.idTokenPayload.exp;
-
-                response.tokenExpires = secondsSinceEpoc;
 
                 let roles = authResult.idTokenPayload["http://techmentor/roles"] || [];
                 
