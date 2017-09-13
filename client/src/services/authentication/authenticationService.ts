@@ -23,8 +23,6 @@ export class AuthenticationService implements IAuthenticationService {
     public constructor(
         private location: ILocation = new Location(), 
         private config: IConfig = new Config()) {
-        this.location = location;
-        this.config = config;
         
         this.auth0 = new auth0.WebAuth({
             domain: this.config.authDomain,
