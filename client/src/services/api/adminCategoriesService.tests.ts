@@ -1,4 +1,4 @@
-import { AdminCategoriesService, AdminCategory, AdminCategoryGroup } from "./adminCategoriesService";
+import { AdminCategoriesService, AdminCategory } from "./adminCategoriesService";
 import { IHttp } from "../http";
 
 const core = require("../../tests/core");
@@ -13,7 +13,7 @@ describe("adminCategoriesService.ts", () => {
         
         adminCategories.push(
             <AdminCategory>{
-                group: AdminCategoryGroup.Language,
+                group: "language",
                 name: "English",
                 linkCount: 123,
                 reviewed: true,
@@ -21,7 +21,7 @@ describe("adminCategoriesService.ts", () => {
             });
         adminCategories.push(
             <AdminCategory>{
-                group: AdminCategoryGroup.Gender,
+                group: "gender",
                 name: "Female",
                 linkCount: 543,
                 reviewed: true,
@@ -29,7 +29,7 @@ describe("adminCategoriesService.ts", () => {
             });
         adminCategories.push(
             <AdminCategory>{
-                group: AdminCategoryGroup.Language,
+                group: "language",
                 name: "I Rock",
                 linkCount: 0,
                 reviewed: true,

@@ -2,7 +2,7 @@
     <v-alert error :value="isBanned()">
       Your account has been banned and will not be publically visible.
     </v-alert>
-    <form>
+    <v-form>
         <div slot="header"><b>Personal</b></div>
         <v-text-field
             name="firstName"
@@ -119,5 +119,5 @@
         <v-btn primary @click="OnSave">
             Save
         </v-btn>
-    </form>
+    </v-form>
 </div>

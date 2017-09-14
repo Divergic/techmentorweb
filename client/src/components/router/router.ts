@@ -25,7 +25,8 @@ export default class Router {
 
     router.beforeEach((to, from, next) => {
       if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!userService.isAuthenticated) {          
+        if (!userService.isAuthenticated
+          || userService.sessionExpired) {
           next({name: "signin", query: { redirectUri: to.fullPath }});
 
           return;

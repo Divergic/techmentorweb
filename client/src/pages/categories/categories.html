@@ -1,1 +1,33 @@
-<h4>Manage Categories</h4>
+<div>
+    <v-layout row>
+        <v-flex xs12 sm6 offset-sm3>
+            <v-card>
+                <v-toolbar class="light-blue darken-1 white--text" dark>
+                    <v-toolbar-title>Categories</v-toolbar-title>
+                </v-toolbar>
+                <v-list subheader>
+                    <div v-for="categorySet in categorySets">
+                        <v-subheader class="grey lighten-4">{{ categorySet.groupName }}</v-subheader>
+                        <v-template v-for="(category, index) in categorySet.categories">
+                            <v-list-tile>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ category.name }}</v-list-tile-title>
+                                    <v-list-tile-sub-title>Linked to {{ category.linkCount }} profiles</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                                <v-list-tile-action>
+                                    <v-checkbox v-model="category.visible" title="The category will be publically visible when selected"></v-checkbox>
+                                </v-list-tile-action>
+                            </v-list-tile>
+                            <v-divider></v-divider>
+                        </v-template>
+                        <v-list-tile v-if="categorySet.categories.length === 0">
+                            <v-list-tile-content>
+                                <v-list-tile-sub-title>No categories created in this section.</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </div>
+                </v-list>
+            </v-card>
+        </v-flex>
+  </v-layout>
+</div>

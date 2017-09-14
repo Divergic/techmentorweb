@@ -1,13 +1,7 @@
 import { IHttp, Http } from "../http";
 
-export enum AdminCategoryGroup {
-    Skill = 0,
-    Language,
-    Gender
-}
-
 export class AdminCategory {
-    group: AdminCategoryGroup;
+    group: string;
     linkCount: number;
     name: string;
     reviewed: boolean;
