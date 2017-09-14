@@ -50,8 +50,6 @@ export default class SignIn extends AuthComponent {
         if (this.isAuthenticated()
             && !this.sessionExpired()) {
             // The user already has an auth session
-            console.log("User is already authenticated");
-
             return true;
         }
         else if (this.authenticationService.IsAuthResponse()) {

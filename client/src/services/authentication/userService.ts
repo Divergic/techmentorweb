@@ -37,14 +37,16 @@ export class UserService implements IUserService {
         let secondsSinceEpoch = Date.now() / 1000;
 
         if (storedValue <= secondsSinceEpoch) {
-            console.log("The authentication token has expired");
+            console.warn("The authentication token has expired");
             
             return true;
         }
-
-        // This debug code is written this way so that the whole statement can be removed on release builds
-        // The function call is required because Date does not provide a fluent interface on setTime
-        console.debug("Token expires at " + (function(){let date = new Date();date.setTime(storedValue * 1000);return date;})());
+        
+        let expiresAt = new Date();
+        
+        expiresAt.setTime(storedValue * 1000);
+        
+        console.info("Token expires at " + expiresAt);
         
         return false;
     }

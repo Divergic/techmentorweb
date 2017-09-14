@@ -40,9 +40,7 @@ export class AuthenticationService implements IAuthenticationService {
         return false;
     }
 
-    public Authenticate(returnUri: string): void {
-        console.log("Authenticating user and returning to " + returnUri);
-        
+    public Authenticate(returnUri: string): void {        
         let callbackUri = this.location.getSignInUri(returnUri);
 
         this.auth0.authorize({
@@ -54,8 +52,6 @@ export class AuthenticationService implements IAuthenticationService {
     }
         
     public async ProcessAuthResponse(): Promise<SignInResponse> {
-        console.log("Processing authentication response");
-
         let that = this;
 
         let failure = AuthFailure.createFrom(this.location.fromHash<AuthFailure>());
