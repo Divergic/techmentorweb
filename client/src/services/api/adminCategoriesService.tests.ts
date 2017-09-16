@@ -3,50 +3,6 @@ import { IHttp } from "../http";
 
 const core = require("../../tests/core");
 
-describe("AdminCategory", () => {
-    let source: AdminCategory;
-    let sut: AdminCategory;
-
-    beforeEach(() => {
-        source = <AdminCategory>{
-            group: "group",
-            linkCount: 123,
-            name: "name",
-            reviewed: true,
-            visible: true
-        };
-
-        sut = new AdminCategory(source);
-    });
-
-    describe("copy constructor", () => {
-        it("stores information from source instance", () => {
-            expect(sut.group).toEqual(source.group);
-            expect(sut.linkCount).toEqual(source.linkCount);
-            expect(sut.name).toEqual(source.name);
-            expect(sut.reviewed).toBeTruthy();
-            expect(sut.visible).toBeTruthy();
-            expect(sut.requiresUpdate).toBeFalsy();
-        });
-    });
-
-    describe("visible", () => {
-        it("sets requiresUpdate to true when changed", () => {
-            sut.visible = false;
-
-            expect(sut.requiresUpdate).toBeTruthy();
-        });
-    });
-    
-    describe("reviewed", () => {
-        it("sets requiresUpdate to true when changed", () => {
-            sut.reviewed = false;
-
-            expect(sut.requiresUpdate).toBeTruthy();
-        });
-    });
-});
-
 describe("AdminUpdateCategory", () => {
     describe("constructor", () => {
         it("can create without a value", () => {

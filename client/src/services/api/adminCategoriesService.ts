@@ -1,40 +1,11 @@
 import { IHttp, Http } from "../http";
 
 export class AdminCategory {
-    public constructor(source: AdminCategory) {
-        this.group = source.group;
-        this.linkCount = source.linkCount;
-        this.name = source.name;
-        this.reviewed = source.reviewed;
-        this.visible = source.visible;
-        this.requiresUpdate = false;
-    }
-
-    private reviewedState: boolean;
-    private visibleState: boolean;
-
     group: string;
     linkCount: number;
     name: string;
-    requiresUpdate: boolean;
-
-    get reviewed(): boolean {
-        return this.reviewedState;
-    };
-    set reviewed(value: boolean)
-    {
-        this.reviewedState = value;
-        this.requiresUpdate = true;
-    };
-
-    get visible(): boolean {
-        return this.visibleState;
-    };
-    set visible(value: boolean)
-    {
-        this.visibleState = value;
-        this.requiresUpdate = true;
-    };
+    reviewed: boolean;
+    visible: boolean;
 }
 
 export class AdminUpdateCategory {

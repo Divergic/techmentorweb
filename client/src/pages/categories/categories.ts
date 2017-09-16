@@ -42,7 +42,7 @@ export default class Categories extends Vue {
         }
 
         category.reviewed = true;
-        
+
         let model = new AdminUpdateCategory(category);
 
         // Pushing an update to the API will automatically set the reviewed flag to true on the backend
@@ -63,16 +63,14 @@ export default class Categories extends Vue {
         let categories = await this.adminCategoriesService.getCategories();
 
         categories.forEach(element => {
-            var category = new AdminCategory(element);
-
             if (element.group.toLowerCase() === "gender") {
-                genders.categories.push(category);
+                genders.categories.push(element);
             } 
             else if (element.group.toLowerCase() === "language") {
-                languages.categories.push(category);
+                languages.categories.push(element);
             }
             else {
-                skills.categories.push(category);
+                skills.categories.push(element);
             }
         });
 
