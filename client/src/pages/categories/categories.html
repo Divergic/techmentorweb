@@ -8,18 +8,18 @@
                 <v-list subheader>
                     <div v-for="categorySet in categorySets">
                         <v-subheader class="grey lighten-4">{{ categorySet.groupName }}</v-subheader>
-                        <v-template v-for="(category, index) in categorySet.categories">
-                            <v-list-tile>
+                        <template v-for="(category, index) in categorySet.categories">
+                            <v-list-tile :class="category.reviewed ? null : 'light-green lighten-4'" @mouseenter="EnsureReviewed(category)">
                                 <v-list-tile-content>
                                     <v-list-tile-title>{{ category.name }}</v-list-tile-title>
                                     <v-list-tile-sub-title>Linked to {{ category.linkCount }} profiles</v-list-tile-sub-title>
                                 </v-list-tile-content>
                                 <v-list-tile-action>
-                                    <v-checkbox v-model="category.visible" title="The category will be publically visible when selected"></v-checkbox>
+                                    <v-switch v-model="category.visible" @change="ToggleVisible(category)" title="The category will be publically visible when selected"></v-switch>
                                 </v-list-tile-action>
                             </v-list-tile>
                             <v-divider></v-divider>
-                        </v-template>
+                        </template>
                         <v-list-tile v-if="categorySet.categories.length === 0">
                             <v-list-tile-content>
                                 <v-list-tile-sub-title>No categories created in this section.</v-list-tile-sub-title>

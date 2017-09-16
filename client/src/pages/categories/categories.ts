@@ -1,6 +1,6 @@
 import Component from "vue-class-component";
 import Vue from "vue";
-import { IAdminCategoriesService, AdminCategoriesService, AdminCategory } from "../../services/api/adminCategoriesService";
+import { IAdminCategoriesService, AdminCategoriesService, AdminCategory, AdminUpdateCategory } from "../../services/api/adminCategoriesService";
 
 export class CategorySet {
     public constructor(groupName: string) {
@@ -36,6 +36,25 @@ export default class Categories extends Vue {
         this.categorySets = await this.loadCategories();
     }
 
+    public async EnsureReviewed(category: AdminCategory): Promise<void> {
+        if (category.reviewed) {
+            return;
+        }
+
+        category.reviewed = true;
+        
+        let model = new AdminUpdateCategory(category);
+
+        // Pushing an update to the API will automatically set the reviewed flag to true on the backend
+        await this.adminCategoriesService.updateCategory(model);
+    }
+
+    public async ToggleVisible(category: AdminCategory): Promise<void> {
+        let model = new AdminUpdateCategory(category);
+
+        await this.adminCategoriesService.updateCategory(model);
+    }
+
     private async loadCategories(): Promise<Array<CategorySet>> {
         let genders = new CategorySet("Genders");
         let languages = new CategorySet("Languages");
@@ -44,22 +63,24 @@ export default class Categories extends Vue {
         let categories = await this.adminCategoriesService.getCategories();
 
         categories.forEach(element => {
-            if (element.group === "gender") {
-                genders.categories.push(element);
+            var category = new AdminCategory(element);
+
+            if (element.group.toLowerCase() === "gender") {
+                genders.categories.push(category);
             } 
-            else if (element.group === "language") {
-                languages.categories.push(element);
+            else if (element.group.toLowerCase() === "language") {
+                languages.categories.push(category);
             }
             else {
-                skills.categories.push(element);
+                skills.categories.push(category);
             }
         });
 
         let sets = new Array<CategorySet>();
 
-        sets.push(genders);
-        sets.push(languages);
         sets.push(skills);
+        sets.push(languages);
+        sets.push(genders);
         
         return sets;
     }

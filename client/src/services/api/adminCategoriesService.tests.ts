@@ -1,9 +1,80 @@
-import { AdminCategoriesService, AdminCategory } from "./adminCategoriesService";
+import { AdminCategoriesService, AdminCategory, AdminUpdateCategory } from "./adminCategoriesService";
 import { IHttp } from "../http";
 
 const core = require("../../tests/core");
 
-describe("adminCategoriesService.ts", () => {
+describe("AdminCategory", () => {
+    let source: AdminCategory;
+    let sut: AdminCategory;
+
+    beforeEach(() => {
+        source = <AdminCategory>{
+            group: "group",
+            linkCount: 123,
+            name: "name",
+            reviewed: true,
+            visible: true
+        };
+
+        sut = new AdminCategory(source);
+    });
+
+    describe("copy constructor", () => {
+        it("stores information from source instance", () => {
+            expect(sut.group).toEqual(source.group);
+            expect(sut.linkCount).toEqual(source.linkCount);
+            expect(sut.name).toEqual(source.name);
+            expect(sut.reviewed).toBeTruthy();
+            expect(sut.visible).toBeTruthy();
+            expect(sut.requiresUpdate).toBeFalsy();
+        });
+    });
+
+    describe("visible", () => {
+        it("sets requiresUpdate to true when changed", () => {
+            sut.visible = false;
+
+            expect(sut.requiresUpdate).toBeTruthy();
+        });
+    });
+    
+    describe("reviewed", () => {
+        it("sets requiresUpdate to true when changed", () => {
+            sut.reviewed = false;
+
+            expect(sut.requiresUpdate).toBeTruthy();
+        });
+    });
+});
+
+describe("AdminUpdateCategory", () => {
+    describe("constructor", () => {
+        it("can create without a value", () => {
+            let sut = new AdminUpdateCategory();
+
+            expect(sut.group).toBeUndefined();
+            expect(sut.name).toBeUndefined();
+            expect(sut.visible).toBeFalsy();
+        });
+        it("can create with copy value", () => {
+            let source = <AdminCategory>{
+                group: "language",
+                name: "English",
+                linkCount: 123,
+                reviewed: true,
+                visible: true
+            };
+
+            let sut = new AdminUpdateCategory(source);
+
+            expect(sut.group).toEqual(source.group);
+            expect(sut.name).toEqual(source.name);
+            expect(sut.visible).toEqual(source.visible);
+        })
+    })
+});
+
+describe("AdminCategoriesService", () => {
     let adminCategories: Array<AdminCategory>;
     let http: IHttp;
     let sut: AdminCategoriesService;
@@ -41,6 +112,8 @@ describe("adminCategoriesService.ts", () => {
             get: async (resource: string): Promise<Array<AdminCategory>> => {
                 return adminCategories;
             },
+            put: async (resource: string, data: any): Promise<void> => {                
+            }
         };
 
         sut = new AdminCategoriesService(http);          
@@ -54,6 +127,39 @@ describe("adminCategoriesService.ts", () => {
 
             expect(http.get).toHaveBeenCalledWith("categories/");
             expect(actual).toEqual(adminCategories);
+        }));
+    });
+
+    describe("updateCategory", () => {
+        it("sends category update to API", core.runAsync(async () => {
+            let category = new AdminUpdateCategory();
+
+            category.group = "Skill";
+            category.name = "somename"
+            category.visible = true;
+
+            let spy = spyOn(http, "put");
+
+            await sut.updateCategory(category);
+
+            expect(http.put).toHaveBeenCalled();
+            expect(spy.calls.mostRecent().args[0]).toEqual("categories/Skill/somename");
+            expect(spy.calls.mostRecent().args[1].visible).toBeTruthy();
+        }));
+        it("correctly encodes spaces in name for resource on API", core.runAsync(async () => {
+            let category = new AdminUpdateCategory();
+
+            category.group = "Skill";
+            category.name = "some name"
+            category.visible = true;
+
+            let spy = spyOn(http, "put");
+
+            await sut.updateCategory(category);
+
+            expect(http.put).toHaveBeenCalled();
+            expect(spy.calls.mostRecent().args[0]).toEqual("categories/Skill/some%20name");
+            expect(spy.calls.mostRecent().args[1].visible).toBeTruthy();
         }));
     });
 });
