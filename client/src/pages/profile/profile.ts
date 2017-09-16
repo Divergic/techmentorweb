@@ -103,6 +103,19 @@ export default class Profile extends AuthComponent {
                 this.model = await this.profileService.getAccountProfile();
             }
 
+            // Populate first name, last name and email from data store if the values are not found
+            if (!this.model.email) {
+                this.model.email = this.$store.getters["email"];
+            }
+
+            if (!this.model.firstName) {
+                this.model.firstName = this.$store.getters["firstName"];
+            }
+
+            if (!this.model.lastName) {
+                this.model.lastName = this.$store.getters["lastName"];
+            }
+
             // Add default values when missing to fields that should be bound to lists that provide an unspecified value
             // The reason for this is that the model from the API will have these fields missing from the JSON
             // but we want the select lists to default to the Unspecified value. We need to trigger this binding

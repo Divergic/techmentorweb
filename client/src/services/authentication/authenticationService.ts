@@ -5,9 +5,12 @@ import Failure from "../failure";
 import * as auth0 from "auth0-js";
 
 export class SignInResponse {
-    idToken: string;
     accessToken: string;
+    email: string;
+    firstName: string;
+    idToken: string;
     isAdministrator: boolean;
+    lastName: string;
     tokenExpires: number;
 }
 
@@ -72,6 +75,10 @@ export class AuthenticationService implements IAuthenticationService {
                 // Find any namespaced role claims
                 let response = <SignInResponse>authResult;
 
+                response.email = authResult.idTokenPayload.email;
+                response.firstName = authResult.idTokenPayload.given_name;
+                response.lastName = authResult.idTokenPayload.family_name;
+
                 let issuedAt = <number>authResult.idTokenPayload.iat;
                 let accessTokenLifespan = <number>authResult.expiresIn;
                 let secondsSinceEpoc = issuedAt + accessTokenLifespan;
@@ -83,12 +90,6 @@ export class AuthenticationService implements IAuthenticationService {
                 // but the code here doesn't think it has expired. In this case, the Http class will display an unauthorized page rather than
                 // cause an automatic redirect to re-authenticate.
                 response.tokenExpires = secondsSinceEpoc - 180;
-
-                if (!authResult.idTokenPayload) {
-                    resolve(response);
-
-                    return;
-                }
 
                 let roles = authResult.idTokenPayload["http://techmentor/roles"] || [];
                 

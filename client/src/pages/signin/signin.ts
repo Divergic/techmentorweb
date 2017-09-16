@@ -58,8 +58,11 @@ export default class SignIn extends AuthComponent {
 
             // Store session context
             this.$store.commit("accessToken", response.accessToken);
+            this.$store.commit("email", response.email);
+            this.$store.commit("firstName", response.firstName);
             this.$store.commit("idToken", response.idToken);
             this.$store.commit("isAdministrator", response.isAdministrator);
+            this.$store.commit("lastName", response.lastName);
             this.$store.commit("tokenExpires", response.tokenExpires);
 
             return true;

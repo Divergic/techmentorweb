@@ -3,8 +3,11 @@ import StoreData from "../dataStore/storeData";
 
 export interface IDataStore {
     accessToken: string;
-    isAdministrator: boolean;
+    email: string;
+    firstName: string;
     idToken: string;
+    isAdministrator: boolean;
+    lastName: string;
     tokenExpires: number;
 }
 
@@ -19,6 +22,26 @@ export class DataStore implements IDataStore {
         }
 
         return options.accessToken;
+    }
+    
+    public get email(): string {
+        let options = <StoreData>store.get("vuex");
+
+        if (!options) {
+            return "";
+        }
+
+        return options.email;
+    }
+    
+    public get firstName(): string {
+        let options = <StoreData>store.get("vuex");
+
+        if (!options) {
+            return "";
+        }
+
+        return options.firstName;
     }
     
     public get isAdministrator(): boolean {
@@ -39,6 +62,16 @@ export class DataStore implements IDataStore {
         }
 
         return options.idToken;
+    }
+    
+    public get lastName(): string {
+        let options = <StoreData>store.get("vuex");
+
+        if (!options) {
+            return "";
+        }
+
+        return options.lastName;
     }
     
     public get tokenExpires(): number {

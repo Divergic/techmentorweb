@@ -112,9 +112,12 @@ describe("authButton.ts", () => {
             sut.signOut();
 
             expect(store.commit).toHaveBeenCalledWith("accessToken", "");
+            expect(store.commit).toHaveBeenCalledWith("email", "");
+            expect(store.commit).toHaveBeenCalledWith("firstName", "");
             expect(store.commit).toHaveBeenCalledWith("idToken", "");
-            expect(store.commit).toHaveBeenCalledWith("tokenExpires", "");
             expect(store.commit).toHaveBeenCalledWith("isAdministrator", "");
+            expect(store.commit).toHaveBeenCalledWith("lastName", "");
+            expect(store.commit).toHaveBeenCalledWith("tokenExpires", "");
         });
         it("does not redirect if current route lacks meta", () => {
             spyOn(router, "push");

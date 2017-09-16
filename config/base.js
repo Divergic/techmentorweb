@@ -15,7 +15,7 @@ module.exports = {
     authAuthorizeUri: "https://techmentor.auth0.com/authorize",
     authClientId: "pgbWchlK1lxblyok5oYOe7vCGvhb0yTE",
     authResponseType: "token id_token",
-    authScope: "all",
+    authScope: "openid profile email",
     apiUri: "https://techmentorapidev.azurewebsites.net/",
     clientSentryUri: "",
 
