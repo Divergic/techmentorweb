@@ -1,9 +1,13 @@
 <div>
+    <div v-if="loading" class="text-xs-center">
+        <v-progress-circular indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
+        <p class="ma-3 subheading">Loading your profile, please wait...</p>
+    </div>  
     <v-alert error :value="isBanned()">
       Your account has been banned and will not be publically visible.
     </v-alert>
-    <v-form>
-        <div slot="header"><b>Personal</b></div>
+    <v-form v-if="!loading">
+        <h6>Personal</h6>
         <v-text-field
             name="firstName"
             label="First Name"
@@ -56,7 +60,7 @@
             v-bind:items="genders"
             v-model="model.gender">
         </v-select>
-        <div slot="header"><b>Profile</b></div>
+        <h6>Profile</h6>
         <v-select
             name="status"
             label="Status"
@@ -94,7 +98,7 @@
             v-model="model.about"
             multi-line>
         </v-text-field>
-        <div slot="header"><b>Websites</b></div>
+        <h6>Websites</h6>
         <v-text-field
             name="website"
             label="Website"

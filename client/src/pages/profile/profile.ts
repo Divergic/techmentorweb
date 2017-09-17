@@ -13,7 +13,7 @@ export default class Profile extends AuthComponent {
     private notify: INotify;
 
     // Properties for view binding
-    private loaded: boolean = false;
+    private loading: boolean = true;
     private model: UserProfile = new UserProfile();
     private timezones: Array<ListItem<string>> = new Array<ListItem<string>>();
     private birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
@@ -34,8 +34,6 @@ export default class Profile extends AuthComponent {
     }
 
     public async OnLoad(): Promise<void> {
-        // TODO: Add loading indicator support
-        
         this.timezones = this.listsService.getTimezones();
         this.birthYears = this.listsService.getBirthYears();
         this.startedInTechYears = this.listsService.getTechYears();
@@ -44,7 +42,7 @@ export default class Profile extends AuthComponent {
 
         await this.loadProfile();
 
-        this.loaded = true;
+        this.loading = false;
     }
 
     public async OnSave(): Promise<void> {
@@ -70,7 +68,7 @@ export default class Profile extends AuthComponent {
     }
 
     public isBanned(): boolean {
-        if (!this.loaded) {
+        if (this.loading) {
             return false;
         }
 
