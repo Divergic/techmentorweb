@@ -3,123 +3,179 @@
         <v-progress-circular indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
         <p class="ma-3 subheading">Loading your profile, please wait...</p>
     </div>  
+    <v-alert warning :value="model.status == 'hidden'">
+      Your account is currently hidden and will not be publically visible.
+    </v-alert>
     <v-alert error :value="isBanned()">
       Your account has been banned and will not be publically visible.
     </v-alert>
     <v-form v-if="!loading">
-        <h6>Personal</h6>
-        <v-text-field
-            name="firstName"
-            label="First Name"
-            title="First Name"
-            maxlength="50"
-            required
-            autocomplete="disabled"
-            :autofocus="true"
-            v-model="model.firstName"
-            :error-messages="errors.collect('firstName')"
-            v-validate="'required'">
-        </v-text-field>
-        <v-text-field
-            name="lastName"
-            label="Last Name"
-            title="Last Name"
-            maxlength="50"
-            required
-            autocomplete="disabled"
-            v-model="model.lastName"
-            :error-messages="errors.collect('lastName')"
-            v-validate="'required'">
-        </v-text-field>
-        <v-text-field
-            name="email"
-            label="Email Address"
-            title="Email Address"
-            required
-            autocomplete="disabled"
-            v-model="model.email"
-            :error-messages="errors.collect('email')"
-            v-validate="'required|email'">
-        </v-text-field>
-        <v-select
-            name="birthYear"
-            label="Birth Year"
-            title="Birth Year"
-            autocomplete
-            item-text="name"
-            item-value="value"
-            v-bind:items="birthYears"
-            v-model="model.birthYear">
-        </v-select>
-        <v-select
-            name="gender"
-            label="Gender"
-            title="Gender"
-            item-text="name"
-            item-value="value"
-            v-bind:items="genders"
-            v-model="model.gender">
-        </v-select>
-        <h6>Profile</h6>
-        <v-select
-            name="status"
-            label="Status"
-            title="Status"
-            item-text="name"
-            item-value="value"
-            v-bind:items="statuses"
-            v-model="model.status">
-        </v-select>
-        <v-select
-            name="yearStartedInTech"
-            label="Year Started In Tech"
-            title="Year Started In Tech"
-            autocomplete
-            item-text="name"
-            item-value="value"
-            v-bind:items="startedInTechYears"
-            v-model="model.yearStartedInTech">
-        </v-select>
-        <v-select
-            name="timeZone"
-            label="Time Zone"
-            title="Time Zone"
-            autocomplete
-            item-text="name"
-            item-value="value"
-            v-bind:items="timezones"
-            v-model="model.timeZone">
-        </v-select>
-        <v-text-field
-            name="about"
-            label="About"
-            title="About"
-            autocomplete="disabled"
-            v-model="model.about"
-            multi-line>
-        </v-text-field>
+        <h6>Profile</h6>                
+        <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
+                <v-flex xs6>
+                    <v-select
+                        name="status"
+                        label="Status"
+                        title="Status"
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="statuses"
+                        v-model="model.status">
+                    </v-select>
+                </v-flex>
+                <v-flex xs6>
+                    <v-text-field
+                        name="email"
+                        label="Email Address"
+                        title="Email Address"
+                        required
+                        autocomplete="disabled"
+                        v-model="model.email"
+                        :error-messages="errors.collect('email')"
+                        v-validate="'required|email'">
+                    </v-text-field>
+                </v-flex>
+            </v-layout>
+        </v-container>   
+        <h6>Personal</h6> 
+        <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
+                <v-flex xs6>
+                    <v-text-field
+                        name="firstName"
+                        label="First Name"
+                        title="First Name"
+                        maxlength="50"
+                        required
+                        autocomplete="disabled"
+                        :autofocus="true"
+                        v-model="model.firstName"
+                        :error-messages="errors.collect('firstName')"
+                        v-validate="'required'">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                    <v-text-field
+                        name="lastName"
+                        label="Last Name"
+                        title="Last Name"
+                        maxlength="50"
+                        required
+                        autocomplete="disabled"
+                        v-model="model.lastName"
+                        :error-messages="errors.collect('lastName')"
+                        v-validate="'required'">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                    <v-select
+                        name="birthYear"
+                        label="Birth Year"
+                        title="Birth Year"
+                        autocomplete
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="birthYears"
+                        v-model="model.birthYear">
+                    </v-select>
+                </v-flex>
+                <v-flex xs6>
+                    <v-select
+                        name="gender"
+                        label="Gender"
+                        title="Gender"
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="genders"
+                        v-model="model.gender">
+                    </v-select>
+                </v-flex>
+                <v-flex xs6>
+                    <v-select
+                        name="timeZone"
+                        label="Time Zone"
+                        title="Time Zone"
+                        autocomplete
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="timezones"
+                        v-model="model.timeZone">
+                    </v-select>
+                </v-flex>
+                <v-flex xs12>
+                    <v-text-field
+                        name="about"
+                        label="About"
+                        title="About"
+                        autocomplete="disabled"
+                        v-model="model.about"
+                        multi-line>
+                    </v-text-field>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <h6>Technical</h6>
+        <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
+                <v-flex xs6>
+                    <v-select
+                        name="yearStartedInTech"
+                        label="Year Started In Tech"
+                        title="Year Started In Tech"
+                        autocomplete
+                        item-text="name"
+                        item-value="value"
+                        v-bind:items="startedInTechYears"
+                        v-model="model.yearStartedInTech">
+                    </v-select>
+                </v-flex>
+            </v-layout>
+        </v-container>
         <h6>Websites</h6>
-        <v-text-field
-            name="website"
-            label="Website"
-            title="Website"
-            autocomplete="disabled"
-            v-model="model.website">
-        </v-text-field>
-        <v-text-field
-            name="gitHubUsername"
-            label="GitHub Username"
-            title="GitHub Username"
-            autocomplete="disabled"
-            v-model="model.gitHubUsername">
-        </v-text-field>
-        <v-text-field
-            name="twitterUsername"
-            label="Twitter Username"
-            title="Twitter Username"
-            autocomplete="disabled"
-            v-model="model.twitterUsername">
-        </v-text-field>
+        <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
+                <v-flex xs12>
+                    <v-text-field
+                        name="website"
+                        label="Website"
+                        title="Website"
+                        autocomplete="disabled"
+                        v-model="model.website"    
+                        :error-messages="errors.collect('website')"                    
+                        v-validate="'url:true'"
+                        :append-icon="model.website ? 'link' : ''"
+                        :append-icon-cb="() => ShowWebsite(model.website)">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                    <v-text-field
+                        name="gitHubUsername"
+                        label="GitHub Username"
+                        title="GitHub Username"
+                        autocomplete="disabled"
+                        v-model="model.gitHubUsername"
+                        :append-icon="model.gitHubUsername ? 'link' : ''"
+                        :append-icon-cb="() => ShowWebsite('https://github.com/' + model.gitHubUsername)">
+                        <!-- 
+                            Currently broken in vuetify due to the label, see https://github.com/vuetifyjs/vuetify/issues/1620
+                            prefix="https://github.com/"
+                         -->
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                    <v-text-field
+                        name="twitterUsername"
+                        label="Twitter Username"
+                        title="Twitter Username"
+                        autocomplete="disabled"
+                        v-model="model.twitterUsername"
+                        :append-icon="model.twitterUsername ? 'link' : ''"
+                        :append-icon-cb="() => ShowWebsite('https://twitter.com/' + model.twitterUsername)">
+                    </v-text-field>
+                </v-flex>
+            </v-layout>
+        </v-container>
         <v-btn primary @click="OnSave">
             Save
         </v-btn>

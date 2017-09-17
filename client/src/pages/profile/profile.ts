@@ -46,6 +46,14 @@ export default class Profile extends AuthComponent {
     }
 
     public async OnSave(): Promise<void> {
+        let isValid = await this.$validator.validateAll();
+
+        if (!isValid) {
+            this.notify.showWarning("Oh no, there are some errors on the form. Please fix these and try again.");
+            
+            return;
+        }
+
         // Temporarily store the model to handle scenarios where the auth token has expired
         // We don't want the user to loose their changes with an auth refresh
         store.set("profile", this.model);
@@ -77,6 +85,10 @@ export default class Profile extends AuthComponent {
         }
         
         return false;
+    }
+
+    public ShowWebsite(uri: string): void {
+        window.open(uri, '_blank');
     }
 
     public configure(profileService: IProfileService, listsService: IListsService, notify: INotify) {
@@ -132,6 +144,18 @@ export default class Profile extends AuthComponent {
 
             if (!this.model.timeZone) {
                 this.model.timeZone = <string><any>null;
+            }
+            
+            if (!this.model.website) {
+                this.model.website = <string><any>null;
+            }
+            
+            if (!this.model.gitHubUsername) {
+                this.model.gitHubUsername = <string><any>null;
+            }
+            
+            if (!this.model.twitterUsername) {
+                this.model.twitterUsername = <string><any>null;
             }
         }
         catch (failure) {

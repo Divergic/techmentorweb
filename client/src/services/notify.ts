@@ -6,6 +6,7 @@ export interface INotify {
     showFailure(failure: Failure): void;
     showInformation(message: string): void;
     showSuccess(message: string): void;
+    showWarning(message: string): void;
 }
 
 export class Notify implements INotify {
@@ -40,6 +41,13 @@ export class Notify implements INotify {
             "title": "Success",
             message: message,
             icon: "notifySuccessIcon"
+        });
+    }
+
+    public showWarning(message: string): void {
+        this.toast.warning({
+            "title": "Warning",
+            message: message
         });
     }
 }

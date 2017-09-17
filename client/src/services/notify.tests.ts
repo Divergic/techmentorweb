@@ -9,6 +9,8 @@ describe("notify.ts", () => {
         success: function(options) {
         },
         info: function(options) {
+        },
+        warning: function(options) {
         }
     };
 
@@ -67,6 +69,19 @@ describe("notify.ts", () => {
             let sut = new Notify(toast);
 
             sut.showSuccess(message);    
+            
+            expect(spy.calls.argsFor(0)[0].message).toEqual(message);
+        });
+    });
+    
+    describe("showWarning", () => {
+        it("displays warning message", () => {
+            let message = "This is my warning message";
+
+            let spy = spyOn(toast, "warning");
+            let sut = new Notify(toast);
+
+            sut.showWarning(message);    
             
             expect(spy.calls.argsFor(0)[0].message).toEqual(message);
         });
