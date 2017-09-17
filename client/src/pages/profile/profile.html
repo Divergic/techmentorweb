@@ -103,15 +103,22 @@
                         v-model="model.timeZone">
                     </v-select>
                 </v-flex>
-                <v-flex xs12>
+                <v-flex xs6>
+                </v-flex>
+                <v-flex xs6>
                     <v-text-field
                         name="about"
                         label="About"
                         title="About"
                         autocomplete="disabled"
                         v-model="model.about"
+                        @input="CompileMarkdown"
                         multi-line>
                     </v-text-field>
+                </v-flex>
+                <v-flex xs6 class="text-xs-left">
+                    <div class="subheader">About preview</div>
+                    <div v-html="compiledMarkdown" class="ml-3"></div>
                 </v-flex>
             </v-layout>
         </v-container>

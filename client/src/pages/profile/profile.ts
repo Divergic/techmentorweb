@@ -5,6 +5,7 @@ import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { IListsService, ListsService, ListItem } from "../../services/lists"
 import store from "store";
+import marked from "marked";
 
 @Component
 export default class Profile extends AuthComponent {
@@ -14,6 +15,7 @@ export default class Profile extends AuthComponent {
 
     // Properties for view binding
     private loading: boolean = true;
+    private compiledMarkdown: string = "";
     private model: UserProfile = new UserProfile();
     private timezones: Array<ListItem<string>> = new Array<ListItem<string>>();
     private birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
@@ -89,6 +91,19 @@ export default class Profile extends AuthComponent {
 
     public ShowWebsite(uri: string): void {
         window.open(uri, '_blank');
+    }
+
+    public CompileMarkdown(): void {
+        if (!this.model.about) {
+            this.compiledMarkdown = "";
+        }
+        else {
+            let options = {
+                sanitized: true
+            };
+    
+            this.compiledMarkdown = marked(this.model.about, options);
+        }
     }
 
     public configure(profileService: IProfileService, listsService: IListsService, notify: INotify) {
