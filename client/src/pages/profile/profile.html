@@ -4,10 +4,10 @@
         <p class="ma-3 subheading">Loading your profile, please wait...</p>
     </div>  
     <v-alert warning :value="model.status == 'hidden'">
-      Your account is currently hidden and will not be publically visible.
+      Your account is currently hidden and will not be publicly visible.
     </v-alert>
     <v-alert error :value="isBanned()">
-      Your account has been banned and will not be publically visible.
+      Your account has been banned and will not be publicly visible.
     </v-alert>
     <v-form v-if="!loading">
         <h6>Profile</h6>                
@@ -35,6 +35,7 @@
                         :error-messages="errors.collect('email')"
                         v-validate="'required|email'">
                     </v-text-field>
+                    <p xs6 class="text-xs-left"><strong>NOTE:</strong> Your email address will only be made available to administrators and will not be publicly displayed.</p>
                 </v-flex>
             </v-layout>
         </v-container>   
@@ -115,6 +116,7 @@
                         @input="CompileMarkdown"
                         multi-line>
                     </v-text-field>
+                    <p xs6 class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. Note that images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
                 </v-flex>
                 <v-flex xs6 class="text-xs-left">
                     <div class="subheader">About preview</div>
