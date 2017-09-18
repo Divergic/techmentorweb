@@ -1,13 +1,13 @@
 import { IHttp, Http } from "../http";
 
-export enum CategoryGroup {
-    Skill = 0,
-    Language,
-    Gender
+export class CategoryGroup {
+    public static Skill: string = "skill";
+    public static Language: string = "language";
+    public static Gender: string = "gender"
 }
 
 export class Category {
-    group: CategoryGroup;
+    group: string;
     linkCount: number;
     name: string;
 }

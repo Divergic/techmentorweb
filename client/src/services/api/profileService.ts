@@ -15,11 +15,11 @@ export class Skill {
         yearStarted?: number;
 };
 
-export enum ProfileStatus
+export class ProfileStatus
 {
-    Hidden = 0,
-    Unavailable,
-    Available
+    public static Hidden: string = "hidden";
+    public static Unavailable: string = "unavailable";
+    public static Available: string = "available";
 };
 
 export class UserProfile {
@@ -35,7 +35,7 @@ export class UserProfile {
     public lastName: string;
     public timeZone?: string;
     public skills?: Array<Skill>;
-    public status: ProfileStatus;
+    public status: string;
     public twitterUsername?: string;
     public website?: string;
     public yearStartedInTech?: number;

@@ -1,9 +1,10 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
-import { IProfileService, ProfileService, UserProfile } from "../../services/api/profileService";
+import { IProfileService, ProfileService, UserProfile, ProfileStatus } from "../../services/api/profileService";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
-import { IListsService, ListsService, ListItem } from "../../services/lists"
+import { IListsService, ListsService, ListItem } from "../../services/lists";
+import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 import store from "store";
 import marked from "marked";
 
@@ -11,6 +12,7 @@ import marked from "marked";
 export default class Profile extends AuthComponent {
     private profileService: IProfileService;
     private listsService: IListsService;
+    private categoriesService: ICategoriesService
     private notify: INotify;
 
     // Properties for view binding
@@ -22,27 +24,33 @@ export default class Profile extends AuthComponent {
     private genders: Array<ListItem<string>> = new Array<ListItem<string>>();
     private statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
     private startedInTechYears: Array<ListItem<number>> = new Array<ListItem<number>>();
+    private languages: Array<string> = new Array<string>();
 
     public constructor() {
         super();
         
         this.profileService = new ProfileService();
         this.listsService = new ListsService();
+        this.categoriesService = new CategoriesService();
         this.notify = new Notify();
     }
     
+    public configure(profileService: IProfileService, listsService: IListsService, categoriesService: ICategoriesService, notify: INotify) {
+        this.profileService = profileService;
+        this.listsService = listsService;
+        this.categoriesService = categoriesService;
+        this.notify = notify;
+    }
+
     public mounted(): Promise<void> {
         return this.OnLoad();
     }
 
     public async OnLoad(): Promise<void> {
-        this.timezones = this.listsService.getTimezones();
-        this.birthYears = this.listsService.getBirthYears();
-        this.startedInTechYears = this.listsService.getTechYears();
-        this.statuses = this.listsService.getProfileStatuses();
-        this.genders = this.listsService.getGenders();
+        let listsTask = this.loadLists();
+        let profileTask = this.loadProfile();
 
-        await this.loadProfile();
+        await Promise.all([listsTask, profileTask]);
 
         this.loading = false;
     }
@@ -89,8 +97,26 @@ export default class Profile extends AuthComponent {
         return false;
     }
 
+    public isHidden(): boolean {
+        if (this.loading) {
+            return false;
+        }
+
+        if (this.model.status == ProfileStatus.Hidden) {
+            return true;
+        }
+        
+        return false;
+    }
+
     public ShowWebsite(uri: string): void {
         window.open(uri, '_blank');
+    }
+
+    public CheckLanguages(languages: Array<string>): void {
+        this.model.languages = languages.map((language) => {
+            return this.toTitleCase(language)
+        });
     }
 
     public CompileMarkdown(): void {
@@ -105,11 +131,28 @@ export default class Profile extends AuthComponent {
             this.compiledMarkdown = marked(this.model.about, options);
         }
     }
+    
+    private toTitleCase(value: string): string {
+        return value.toLowerCase().split(' ').map((word) => {
+            return word.replace(word[0], word[0].toUpperCase());
+        }).join(' ');
+    }
 
-    public configure(profileService: IProfileService, listsService: IListsService, notify: INotify) {
-        this.profileService = profileService;
-        this.listsService = listsService;
-        this.notify = notify;
+    private async loadLists(): Promise<void> {
+        this.timezones = this.listsService.getTimezones();
+        this.birthYears = this.listsService.getBirthYears();
+        this.startedInTechYears = this.listsService.getTechYears();
+        this.statuses = this.listsService.getProfileStatuses();
+        this.genders = this.listsService.getGenders();
+
+        let categories = await this.categoriesService.getCategories();
+
+        this.languages = categories
+            .filter((item: Category) => {
+                return item.group === CategoryGroup.Language;
+            }).map((item: Category) => {
+                return item.name
+            });
     }
 
     private async loadProfile(): Promise<void> {
