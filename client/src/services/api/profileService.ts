@@ -1,15 +1,15 @@
 import { IHttp, Http } from "../http";
 
-export enum SkillLevel {
-    Hobbyist = 0,
-    Beginner,
-    Intermediate,
-    Expert,
-    Master
+export class SkillLevel {
+    public static Hobbyist = "hobbyist";
+    public static Beginner = "beginner";
+    public static Intermediate = "intermediate";
+    public static Expert = "expert";
+    public static Master = "master";
 };
 
 export class Skill {
-        level: SkillLevel;
+        level: string;
         name: string;
         yearLastUsed?: number;
         yearStarted?: number;

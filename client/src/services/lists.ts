@@ -9,6 +9,7 @@ export interface IListsService {
     getBirthYears(): Array<ListItem<number>>;
     getGenders(): Array<ListItem<string>>;
     getProfileStatuses(): Array<ListItem<string>>;
+    getSkillLevels(): Array<ListItem<string>>;
     getTechYears(): Array<ListItem<number>>;
     getTimezones(): Array<ListItem<string>>;
 }
@@ -27,14 +28,13 @@ export class ListsService implements IListsService {
             years.push(index);
         }
 
-        return this.prepareItemList(years);
+        return this.prepareList(years);
     }
 
     public getGenders(): Array<ListItem<string>> {
-        // TODO: Convert this into a call to the categories on the API to return the available genders
         let availableGenders = <Array<string>>["Male", "Female", "Non-binary"];
         
-        return this.prepareItemList(availableGenders);
+        return this.prepareList(availableGenders);
     }
 
     public getProfileStatuses(): Array<ListItem<string>> {
@@ -43,6 +43,18 @@ export class ListsService implements IListsService {
             <ListItem<string>> {name: "Unavailable", value: "unavailable"}, 
             <ListItem<string>> {name: "Available", value: "available"}
         ];
+    }
+
+    public getSkillLevels(): Array<ListItem<string>> {
+        let availableSkills = <Array<ListItem<string>>>[
+            <ListItem<string>> {name: "Hobbyist", value: "hobbyist"}, 
+            <ListItem<string>> {name: "Beginner", value: "beginner"}, 
+            <ListItem<string>> {name: "Intermediate", value: "intermediate"}, 
+            <ListItem<string>> {name: "Expert", value: "expert"}, 
+            <ListItem<string>> {name: "Master", value: "master"}
+        ];
+
+        return this.prepareItemList(availableSkills);
     }
 
     public getTechYears(): Array<ListItem<number>> {
@@ -54,14 +66,20 @@ export class ListsService implements IListsService {
             years.push(index);
         }
         
-        return this.prepareItemList(years);
+        return this.prepareList(years);
     }
     
     public getTimezones(): Array<ListItem<string>> {
-        return this.prepareItemList(Timezones);
+        return this.prepareList(Timezones);
     }
     
-    private prepareItemList<T>(values: Array<T>, defaultValue?: T | undefined): Array<ListItem<T>> {
+    private prepareItemList<T>(values: Array<ListItem<T>>): Array<ListItem<T>> {
+        values.unshift(<ListItem<T>>{name: "Unspecified", value: <T><any>null});
+
+        return values;
+    }
+    
+    private prepareList<T>(values: Array<T>): Array<ListItem<T>> {
         let items = new Array<ListItem<T>>();
 
         items.push(<ListItem<T>>{name: "Unspecified", value: <T><any>null});

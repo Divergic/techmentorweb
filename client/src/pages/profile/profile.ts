@@ -1,6 +1,6 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
-import { IProfileService, ProfileService, UserProfile, ProfileStatus } from "../../services/api/profileService";
+import { IProfileService, ProfileService, UserProfile, ProfileStatus, Skill } from "../../services/api/profileService";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { IListsService, ListsService, ListItem } from "../../services/lists";
@@ -23,8 +23,12 @@ export default class Profile extends AuthComponent {
     private birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
     private genders: Array<ListItem<string>> = new Array<ListItem<string>>();
     private statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
-    private startedInTechYears: Array<ListItem<number>> = new Array<ListItem<number>>();
+    private techYears: Array<ListItem<number>> = new Array<ListItem<number>>();
+    private skillLevels: Array<ListItem<string>> = new Array<ListItem<string>>();
     private languages: Array<string> = new Array<string>();
+    private skills: Array<string> = new Array<string>();
+    private skillModel: Skill = new Skill();
+    private showDialog: boolean = false;
 
     public constructor() {
         super();
@@ -56,7 +60,7 @@ export default class Profile extends AuthComponent {
     }
 
     public async OnSave(): Promise<void> {
-        let isValid = await this.$validator.validateAll();
+        let isValid = await this.$validator.validateAll("profileForm");
 
         if (!isValid) {
             this.notify.showWarning("Oh no, there are some errors on the form. Please fix these and try again.");
@@ -80,9 +84,43 @@ export default class Profile extends AuthComponent {
             if (failure.visibleToUser) {
                 this.notify.showFailure(<Failure>failure);
             } else {
+                this.notify.showError("Uh oh. Someting went wrong. We will look into it.");
+                
                 throw failure;
             }
         }
+    }
+
+    public OnAddSkill(): void {
+        this.skillModel = new Skill();
+
+        // Add default values when missing to fields that should be bound to lists that provide an unspecified value
+        // The reason for this is that the model from the API will have these fields missing from the JSON
+        // but we want the select lists to default to the Unspecified value. We need to trigger this binding
+        // by pushing a value onto the properties that match the Unspecified value in the select.
+        this.skillModel.level = <string><any>null;
+        this.skillModel.yearLastUsed = <number><any>null;
+        this.skillModel.yearStarted = <number><any>null;
+        
+        // Ensure any previous validation triggers have been removed
+        this.$validator.reset();
+
+        this.showDialog = true;
+    }
+
+    public async OnSaveSkill(): Promise<void> {        
+        let isValid = await this.$validator.validateAll("skillForm");
+
+        if (!isValid) {
+            this.notify.showWarning("Oh no, there are some errors on the form. Please fix these and try again.");
+            
+            return;
+        }
+        
+        this.model.skills = this.model.skills || new Array<Skill>();
+        this.model.skills.push(this.skillModel);
+
+        this.showDialog = false;
     }
 
     public isBanned(): boolean {
@@ -141,15 +179,23 @@ export default class Profile extends AuthComponent {
     private async loadLists(): Promise<void> {
         this.timezones = this.listsService.getTimezones();
         this.birthYears = this.listsService.getBirthYears();
-        this.startedInTechYears = this.listsService.getTechYears();
+        this.techYears = this.listsService.getTechYears();
         this.statuses = this.listsService.getProfileStatuses();
         this.genders = this.listsService.getGenders();
+        this.skillLevels = this.listsService.getSkillLevels();
 
         let categories = await this.categoriesService.getCategories();
 
         this.languages = categories
             .filter((item: Category) => {
                 return item.group === CategoryGroup.Language;
+            }).map((item: Category) => {
+                return item.name
+            });
+
+        this.skills = categories
+            .filter((item: Category) => {
+                return item.group === CategoryGroup.Skill;
             }).map((item: Category) => {
                 return item.name
             });
