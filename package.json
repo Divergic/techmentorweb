@@ -23,6 +23,7 @@
     "prestart": "npm run init",
     "start": "node compiler/index.js runServer",
     "buildAgent": "set compileTarget=hosted&& node compiler/index.js rebuild",
+    "buildAgentTest": "set compileTarget=hosted&& node ./node_modules/karma/bin/karma start",
     "localDebug": "set compileTarget=local&& npm run start"
   },
   "repository": {
@@ -71,6 +72,7 @@
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.0",
+    "karma-junit-reporter": "^1.2.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-verbose-reporter": "^0.0.6",
     "karma-webpack": "^2.0.4",

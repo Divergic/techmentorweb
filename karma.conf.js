@@ -1,4 +1,8 @@
 const webpackConfig = require("./client/config/karma.webpack.config");
+const config = require("./config");
+
+const watchChanges = (config.compileTarget !== "hosted");
+const singleRun = (config.compileTarget === "hosted");
 
 module.exports = function (config) {
   
@@ -18,7 +22,7 @@ module.exports = function (config) {
     mime: {
       "text/x-typescript": ["ts"]
     },
-    autoWatch: true,
+    autoWatch: watchChanges,
     exclude: [
     ],
     preprocessors: {
@@ -31,10 +35,21 @@ module.exports = function (config) {
             colors: true
         }
     },
-    reporters: ["progress"], //, "verbose"
+    reporters: ["progress", "junit"], //, "verbose"
     colors: true,
     logLevel: config.LOG_INFO,
-    singleRun: false,
-    concurrency: Infinity
+    singleRun: singleRun,
+    concurrency: Infinity,
+
+    junitReporter: {
+      outputDir: './TestResults', // results will be saved as $outputDir/$browserName.xml
+      outputFile: undefined, // if included, results will be saved as $outputDir/$browserName/$outputFile
+      suite: '', // suite will become the package name attribute in xml testsuite element
+      useBrowserName: true, // add browser name to report and classes names
+      nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
+      classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
+      properties: {}, // key value pair of properties to add to the <properties> section of the report
+      xmlVersion: null // use '1' if reporting to be per SonarQube 6.2 XML format
+    }
   });
 }

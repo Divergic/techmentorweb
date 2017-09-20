@@ -22,5 +22,9 @@ module.exports = function() {
 
     deleteFolderRecursive(outputPath);
 
+    let testResultsPath = path.join(__dirname, "../TestResults");
+  
+    deleteFolderRecursive(testResultsPath);
+    
     console.log("Cleaned build");
 };

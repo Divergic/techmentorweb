@@ -30,7 +30,7 @@
                         label="Email Address"
                         title="Email Address"
                         required
-                        autocomplete="disabled"
+                        autocomplete="off"
                         v-model="model.email"
                         :error-messages="errors.collect('email')"
                         data-vv-scope="profileForm"
@@ -50,7 +50,7 @@
                         title="First Name"
                         maxlength="50"
                         required
-                        autocomplete="disabled"
+                        autocomplete="off"
                         :autofocus="true"
                         v-model="model.firstName"
                         :error-messages="errors.collect('firstName')"
@@ -65,7 +65,7 @@
                         title="Last Name"
                         maxlength="50"
                         required
-                        autocomplete="disabled"
+                        autocomplete="off"
                         v-model="model.lastName"
                         :error-messages="errors.collect('lastName')"
                         data-vv-scope="profileForm"
@@ -124,12 +124,12 @@
                         name="about"
                         label="About"
                         title="About"
-                        autocomplete="disabled"
+                        autocomplete="off"
                         v-model="model.about"
                         @input="CompileMarkdown"
                         multi-line>
                     </v-text-field>
-                    <p xs6 class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. Note that images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
+                    <p xs6 class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. <strong>NOTE:</strong> Images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
                 </v-flex>
                 <v-flex xs6 class="text-xs-left">
                     <div class="subheader">About preview</div>
@@ -157,7 +157,7 @@
                         name="website"
                         label="Website"
                         title="Website"
-                        autocomplete="disabled"
+                        autocomplete="off"
                         v-model="model.website"    
                         :error-messages="errors.collect('profileForm.website')"
                         data-vv-scope="profileForm"                
@@ -171,7 +171,7 @@
                         name="gitHubUsername"
                         label="GitHub Username"
                         title="GitHub Username"
-                        autocomplete="disabled"
+                        autocomplete="off"
                         v-model="model.gitHubUsername"
                         :append-icon="model.gitHubUsername ? 'link' : ''"
                         :append-icon-cb="() => ShowWebsite('https://github.com/' + model.gitHubUsername)">
@@ -186,7 +186,7 @@
                         name="twitterUsername"
                         label="Twitter Username"
                         title="Twitter Username"
-                        autocomplete="disabled"
+                        autocomplete="off"
                         v-model="model.twitterUsername"
                         :append-icon="model.twitterUsername ? 'link' : ''"
                         :append-icon-cb="() => ShowWebsite('https://twitter.com/' + model.twitterUsername)">
@@ -236,7 +236,7 @@
                                     label="Name"
                                     title="Name"
                                     required
-                                    autocomplete="disabled"
+                                    autocomplete="off"
                                     :autofocus="true"
                                     v-model="skillModel.name"
                                     :error-messages="errors.collect('name')"
@@ -246,11 +246,16 @@
                             </v-flex>
                             <v-flex xs12 sm6>
                                 <v-select
+                                    name="level"
                                     label="Level"
+                                    required
                                     item-text="name"
                                     item-value="value"
                                     :items="skillLevels"
-                                    v-model="skillModel.level">
+                                    v-model="skillModel.level"
+                                    :error-messages="errors.collect('level')"
+                                    data-vv-scope="skillForm"
+                                    v-validate="'required'">
                                 </v-select>
                             </v-flex>
                             <v-flex xs12 sm6>
