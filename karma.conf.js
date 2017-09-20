@@ -1,6 +1,8 @@
 const webpackConfig = require("./client/config/karma.webpack.config");
 const config = require("./config");
 
+console.log("Running tests for compileTarget " + config.compileTarget);
+
 const watchChanges = (config.compileTarget !== "hosted");
 const singleRun = (config.compileTarget === "hosted");
 
