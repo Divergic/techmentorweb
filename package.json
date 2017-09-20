@@ -22,7 +22,7 @@
     "test": "node ./node_modules/karma/bin/karma start",
     "prestart": "npm run init",
     "start": "node compiler/index.js runServer",
-    "buildAgent": "set compileTarget=hosted&& node compiler/index.js rebuild",
+    "buildAgent": "set compileTarget=hosted&& node compiler/index.js build",
     "buildAgentTest": "set compileTarget=hosted&& node ./node_modules/karma/bin/karma start",
     "localDebug": "set compileTarget=local&& npm run start"
   },
