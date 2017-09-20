@@ -11,7 +11,7 @@
             "taskName": "start",
             "isBuildCommand": true,
             "args": ["start"],
-            "isWatching": false
+            "isBackground": true
         },
         {
             "taskName": "build",
