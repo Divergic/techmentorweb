@@ -1,10 +1,13 @@
 const webpackConfig = require("./client/config/karma.webpack.config");
 const config = require("./config");
-
-console.log("Running tests for compileTarget " + config.compileTarget);
+const path = require("path");
 
 const watchChanges = (config.compileTarget !== "hosted");
 const singleRun = (config.compileTarget === "hosted");
+const resultsPath = path.join(__dirname, "/TestResults");
+
+console.log("Running tests for compileTarget " + config.compileTarget);
+console.log("Writing test results to " + resultsPath);
 
 module.exports = function (config) {
   
@@ -44,7 +47,7 @@ module.exports = function (config) {
     concurrency: Infinity,
 
     junitReporter: {
-      outputDir: 'testresults', // results will be saved as $outputDir/$browserName.xml
+      outputDir: resultsPath, // results will be saved as $outputDir/$browserName.xml
       outputFile: undefined, // if included, results will be saved as $outputDir/$browserName/$outputFile
       suite: '', // suite will become the package name attribute in xml testsuite element
       useBrowserName: true, // add browser name to report and classes names
