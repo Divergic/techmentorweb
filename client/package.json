@@ -1,0 +1,35 @@
+{
+  "name": "techmentorclient",
+  "version": "1.0.0",
+  "description": "The client website for TechMentor",
+  "main": "index.js",
+  "scripts": {
+    "install": "yarn install --ignore-scripts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Divergic/techmentorweb.git"
+  },
+  "author": "roryprimrose",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Divergic/techmentorweb/issues"
+  },
+  "homepage": "https://github.com/Divergic/techmentorweb#readme",
+  "dependencies": {
+    "auth0-js": "^8.9.3",
+    "axios": "^0.16.2",
+    "es6-promise": "^4.1.1",
+    "izitoast": "^1.1.5",
+    "marked": "^0.3.6",
+    "store": "^2.0.12",
+    "tz-ids": "^1.0.0",
+    "vee-validate": "^2.0.0-rc.14",
+    "vue": "^2.4.2",
+    "vue-class-component": "^5.0.2",
+    "vue-router": "^2.7.0",
+    "vuetify": "^0.15.2",
+    "vuex": "^2.3.1",
+    "vuex-persistedstate": "^2.0.0"
+  }
+}
