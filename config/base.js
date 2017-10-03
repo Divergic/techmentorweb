@@ -20,6 +20,5 @@ module.exports = {
     clientSentryUri: "",
 
     // Server configuration
-    port: process.env.port || process.env.npm_package_config_port || "8043",
     serverSentryUri: "",
 };

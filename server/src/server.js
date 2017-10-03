@@ -1,4 +1,4 @@
-﻿const express = require("express");
+const express = require("express");
 const compression = require("compression");
 const headers = require("./headers");
 const routes = require("./routes");

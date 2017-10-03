@@ -14,5 +14,6 @@ module.exports = {
     authClientId: "#{AUTH_CLIENTID}",
     
     // Server configuration
-    port: process.env.PORT,
+    // NOTE: Port needs to be the string representation here so that the string value is written to the bundle rather than the bundle time value in node
+    port: "process.env.PORT",
 };
