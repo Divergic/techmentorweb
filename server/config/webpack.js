@@ -32,7 +32,7 @@ module.exports = {
             "webpackDefine": {
                 "environment": JSON.stringify(config.environment),
                 "configuration": JSON.stringify(config.configuration),
-                "port": JSON.stringify(config.port),
+                "port": config.port,
                 "apiUri": JSON.stringify(config.apiUri),
                 "sentryUri": JSON.stringify(config.serverSentryUri)
             } 
