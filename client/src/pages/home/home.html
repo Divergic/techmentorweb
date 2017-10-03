@@ -69,9 +69,9 @@
             <v-flex xs12 v-if="searchRun && profiles.length === 0" class="text-xs-center">
                 <p class="ma-3 subheading">No matching profiles found</p>
             </v-flex>
-            <v-container fluid grid-list-md>
+            <v-container fluid grid-list-md v-if="profiles.length > 0">
                 <v-layout row wrap>
-                    <v-flex v-for="profile in profiles" :key="profile.id" xs12 sm6 md4 lg3 v-if="profiles.length > 0">
+                    <v-flex v-for="profile in profiles" :key="profile.id" xs12 sm6 md4 lg3>
                         <ProfilePreview :profile="profile"></ProfilePreview>
                     </v-flex>
                 </v-layout>
