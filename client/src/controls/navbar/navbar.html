@@ -1,5 +1,9 @@
 <v-toolbar dark class="primary">
-    <v-toolbar-title class="white--text">Tech Mentors</v-toolbar-title>
+    <router-link :to="{ name: 'home' }">
+        <v-toolbar-title class="white--text">
+            Tech Mentors
+        </v-toolbar-title>
+    </router-link>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
         <v-btn :to="{ name: 'home' }" title="Home" flat exact>
