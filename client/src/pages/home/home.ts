@@ -12,6 +12,18 @@ import ProfilePreview from "../../controls/profilePreview/profilePreview.vue";
     }
   })
 export default class Home extends Vue {
+
+    public temp: ProfileResult = <ProfileResult> {
+        id: "id",
+        birthYear: 1976,
+        firstName: "First",
+        gender: "Male",
+        lastName: "Last",
+        status: "Available",
+        timeZone: "Australia/Canberra",
+        yearStartedInTech: 1999
+    };
+
     private categoriesService: ICategoriesService;
     private profileService: IProfileService;
     private notify: INotify;
