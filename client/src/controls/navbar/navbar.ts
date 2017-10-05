@@ -1,10 +1,12 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
-import AuthButton from "../../controls/AuthButton/authButton.vue";
+import AuthButton from "../../controls/authButton/authButton.vue";
+import AuthListTile from "../../controls/authListTile/authListTile.vue";
 
 @Component({
   components: {
-      AuthButton
+      AuthButton,
+      AuthListTile
   }
 })
 export default class NavBar extends AuthComponent {
