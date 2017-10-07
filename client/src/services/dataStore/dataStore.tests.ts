@@ -186,7 +186,7 @@ describe("store.ts", () => {
             store.set("vuex", vuex);
 
             let actual = sut.tokenExpires;
-            console.log(typeof actual);
+            
             expect(actual).toEqual(vuex.tokenExpires);
         });
     });

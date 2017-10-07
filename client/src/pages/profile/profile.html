@@ -1,0 +1,24 @@
+<v-card>
+    <v-card-title primary-title class="blue darken-4">
+        <div class="headline white--text">{{ model.firstName }} {{ model.lastName }}</div>
+    </v-card-title>
+    <v-card-text>
+        <v-layout row wrap>
+            <v-flex xs12 v-if="model.status">
+                Status: {{ model.DisplayStatus }}
+            </v-flex>
+            <v-flex xs12 v-if="model.yearStartedInTech">
+                Years in Tech: {{ model.DisplayYearsInTech }}
+            </v-flex>
+            <v-flex xs12 v-if="model.gender">
+                Gender: {{ model.DisplayGender }}
+            </v-flex>
+            <v-flex xs12 v-if="model.birthYear">
+                Age: {{ model.DisplayAge }}
+            </v-flex>
+            <v-flex xs12 v-if="model.timeZone">
+                Time zone: {{ model.timeZone }}
+            </v-flex>
+        </v-layout>
+    </v-card-text>
+</v-card>

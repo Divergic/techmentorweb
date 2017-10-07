@@ -4,17 +4,17 @@
     </v-card-title>
     <v-card-text>
         <v-layout row wrap>
-            <v-flex xs12 v-if="profile.gender">
-                Gender: {{ Gender }}
-            </v-flex>
-            <v-flex xs12 v-if="profile.birthYear">
-                Age: {{ Age }}
+            <v-flex xs12 v-if="profile.status">
+                Status: {{ profile.DisplayStatus }}
             </v-flex>
             <v-flex xs12 v-if="profile.yearStartedInTech">
-                Years in Tech: {{ YearsInTech }}
+                Years in Tech: {{ profile.DisplayYearsInTech }}
             </v-flex>
-            <v-flex xs12 v-if="profile.status">
-                Status: {{ Status }}
+            <v-flex xs12 v-if="profile.gender">
+                Gender: {{ profile.DisplayGender }}
+            </v-flex>
+            <v-flex xs12 v-if="profile.birthYear">
+                Age: {{ profile.DisplayAge }}
             </v-flex>
             <v-flex xs12 v-if="profile.timeZone">
                 Time zone: {{ profile.timeZone }}
@@ -23,6 +23,6 @@
     </v-card-text>
     <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn :to="{ name: 'profile' }" title="View Profile" flat>View</v-btn>
+        <v-btn :to="{ name: 'profile', params: { id: profile.id } }" target="_blank" title="View Profile" flat>View</v-btn>
     </v-card-actions>
 </v-card>

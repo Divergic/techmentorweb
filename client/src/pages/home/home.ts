@@ -3,7 +3,8 @@ import Vue from "vue";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
-import { IProfileService, ProfileService, CategoryFilter, ProfileResult } from "../../services/api/profileService";
+import { IProfileService, ProfileService, CategoryFilter } from "../../services/api/profileService";
+import ProfileResult from "../../services/api/profileResult";
 import ProfilePreview from "../../controls/profilePreview/profilePreview.vue";
 
 @Component({

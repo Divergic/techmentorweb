@@ -1,5 +1,6 @@
 import homeComponent from "../../pages/home/home.vue";
 import conductComponent from "../../pages/conduct/conduct.vue";
+import profileComponent from "../../pages/profile/profile.vue";
 import accountProfileComponent from "../../pages/accountProfile/accountProfile.vue";
 import notFoundComponent from "../../pages/notfound/notfound.vue";
 import signInComponent from "../../pages/signin/signin.vue";
@@ -32,7 +33,8 @@ import categoriesComponent from "../../pages/categories/categories.vue";
 // }
 let routes = [
     { name: "home", path: "/", component: homeComponent, meta: { signInTarget: "accountProfile" } },
-    { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "accountProfile" } },,
+    { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "accountProfile" } },
+    { name: "profile", path: "/profiles/:id", component: profileComponent, meta: { signInTarget: "accountProfile" } },
     { name: "unauthorized", path: "/unauthorized/", component: unauthorizedComponent, meta: { signOutToHome: true } },
     { name: "signin", path: "/signin/", component: signInComponent },
     { name: "accountProfile", path: "/profile/", component: accountProfileComponent, meta: { requiresAuth: true } },
