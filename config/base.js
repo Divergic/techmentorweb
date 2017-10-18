@@ -17,8 +17,8 @@ module.exports = {
     authResponseType: "token id_token",
     authScope: "openid profile email",
     apiUri: "https://techmentorapidev.azurewebsites.net/",
-    clientSentryUri: "",
+    clientApplicationInsightsKey: "",
 
     // Server configuration
-    serverSentryUri: "",
+    serverApplicationInsightsKey: ""
 };

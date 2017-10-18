@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Divergic/techmentorweb#readme",
   "dependencies": {
+    "applicationinsights": "^1.0.0",
     "compression": "^1.7.0",
     "express": "^4.15.4",
     "helmet": "^3.8.1",

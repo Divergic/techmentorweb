@@ -25,7 +25,7 @@ let plugins = [
             "clientId": JSON.stringify(config.authClientId),
             "responseType": JSON.stringify(config.authResponseType),
             "scope": JSON.stringify(config.authScope),
-            "sentryUri": JSON.stringify(config.clientSentryUri)
+            "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
         } 
     }),
     new webpack.optimize.CommonsChunkPlugin({

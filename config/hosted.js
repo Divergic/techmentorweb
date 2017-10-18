@@ -16,4 +16,5 @@ module.exports = {
     // Server configuration
     // NOTE: Port needs to be the string representation here so that the string value is written to the bundle rather than the bundle time value in node
     port: "process.env.PORT",
+    serverApplicationInsightsKey: "#{APPLICATIONINSIGHTS_SERVERKEY}"
 };

@@ -34,7 +34,7 @@ module.exports = {
                 "configuration": JSON.stringify(config.configuration),
                 "port": config.port,
                 "apiUri": JSON.stringify(config.apiUri),
-                "sentryUri": JSON.stringify(config.serverSentryUri)
+                "applicationInsightsKey": JSON.stringify(config.serverApplicationInsightsKey)
             } 
         }),
         new webpack.IgnorePlugin(/\.(css|less)$/),

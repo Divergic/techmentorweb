@@ -6,7 +6,7 @@ export interface IConfig {
     clientId: string;
     responseType: string;
     scope: string;
-    sentryUri: string;
+    applicationInsightsKey: string;
 }
 
 declare var webpackDefine: any;
@@ -19,5 +19,5 @@ export class Config implements IConfig {
     public clientId: string = webpackDefine.clientId;
     public responseType: string = webpackDefine.responseType;
     public scope: string = webpackDefine.scope;
-    public sentryUri: string = webpackDefine.sentryUri;
+    public applicationInsightsKey: string = webpackDefine.applicationInsightsKey;
 }
