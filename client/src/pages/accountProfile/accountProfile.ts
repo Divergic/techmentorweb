@@ -173,6 +173,30 @@ export default class Profile extends AuthComponent {
         return false;
     }
 
+    public isSearchable(): boolean {
+        if (this.loading) {
+            return true;
+        }
+
+        if (this.model.status == ProfileStatus.Hidden) {
+            return false;
+        }
+        
+        if (this.model.gender) {
+            return true;
+        }
+        
+        if (this.model.languages && this.model.languages.length > 0) {
+            return true;
+        }
+        
+        if (this.model.skills && this.model.skills.length > 0) {
+            return true;
+        }
+        
+        return false;
+    }
+
     public ShowWebsite(uri: string): void {
         window.open(uri, '_blank');
     }

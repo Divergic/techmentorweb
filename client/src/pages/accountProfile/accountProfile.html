@@ -4,10 +4,13 @@
         <p class="ma-3 subheading">Loading your profile, please wait...</p>
     </div>  
     <v-alert warning :value="isHidden()">
-      Your account is currently hidden and will not be publicly visible.
+      Your profile is currently hidden and will not be publicly visible.
     </v-alert>
     <v-alert error :value="isBanned()">
       Your account has been banned and will not be publicly visible.
+    </v-alert>
+    <v-alert warning :value="!isHidden() && !isSearchable()">
+      Your profile is currently not searchable. You must provide at least one value in either Gender, Languages or Skills.
     </v-alert>
     <v-form v-if="!loading" data-vv-scope="profileForm">
         <h6>Profile</h6>                

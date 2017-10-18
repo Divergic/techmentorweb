@@ -61,6 +61,34 @@ export default class Profile extends Vue {
             this.compiledMarkdown = marked(this.model.about, options);
         }
     }
+
+    public HasTechnicalData(): boolean {
+        if (!this.model) {
+            return false;
+        }
+
+        if (this.model.yearStartedInTech) {
+            return true;
+        }
+
+        if (this.model.website) {
+            return true;
+        }
+
+        if (this.model.gitHubUsername) {
+            return true;
+        }
+
+        if (this.model.twitterUsername) {
+            return true;
+        }
+
+        if (this.model.skills && this.model.skills.length > 0) {
+            return true;
+        }
+
+        return false;
+    }
     
     private async loadProfile(id: string): Promise<UserProfile> {
         try {
