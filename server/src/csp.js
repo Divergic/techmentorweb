@@ -10,7 +10,8 @@ function buildConfiguration(apiUri) {
                 "https://fonts.gstatic.com/s/roboto/"
             ],
             scriptSrc: [
-                "'self'"
+                "'self'",
+                "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"
             ],
             styleSrc: [
                 "'self'",
@@ -18,6 +19,7 @@ function buildConfiguration(apiUri) {
             ],
             connectSrc: [
                 "'self'",
+                "https://dc.services.visualstudio.com/v2/track",
                 "https://techmentor.auth0.com/",
                 apiUri
             ],

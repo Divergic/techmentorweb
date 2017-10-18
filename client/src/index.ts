@@ -4,14 +4,15 @@ import Vuex from "vuex";
 import Vuetify from "vuetify";
 import * as VeeValidate from "vee-validate";
 import StoreDataOptions from "./services/dataStore/storeDataOptions";
+import Router from "./components/router/router";
+import App from "./components/app/app.vue";
+import VueAppInsights from "vue-application-insights";
+import { Config } from "./services/config/config";
+require("./styles/theme.scss");
 
 Vue.use(Vuex);
 Vue.use(Vuetify);
 Vue.use(VeeValidate);
-
-import Router from "./components/router/router";
-import App from "./components/app/app.vue";
-require("./styles/theme.scss");
  
 class Application {
 
@@ -22,6 +23,15 @@ class Application {
         
         const router = new Router().compile();
 
+        const config = new Config();
+
+        if (config.applicationInsightsKey) {
+            Vue.use(VueAppInsights, {
+                id: config.applicationInsightsKey,
+                router
+              });
+        }
+        
         new Vue({
             router: router,
             store: store,
