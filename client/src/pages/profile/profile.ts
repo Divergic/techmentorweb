@@ -40,6 +40,8 @@ export default class Profile extends Vue {
     public async OnLoad(): Promise<void> {
         this.model = await this.loadProfile(this.$route.params.id);
 
+        this.CompileMarkdown();
+        
         this.loading = false;
     }
 
@@ -68,6 +70,8 @@ export default class Profile extends Vue {
             // Check Failure.visibleToUser
             if (failure.visibleToUser) {
                 this.notify.showFailure(<Failure>failure);
+            } else if(failure.message && failure.message.indexOf("Not Found") > -1) {                
+                this.$router.push({ name: "notfound"});
             } else {
                 throw failure;
             }

@@ -1,24 +1,75 @@
-<v-card>
-    <v-card-title primary-title class="blue darken-4">
-        <div class="headline white--text">{{ model.firstName }} {{ model.lastName }}</div>
-    </v-card-title>
-    <v-card-text>
-        <v-layout row wrap>
-            <v-flex xs12 v-if="model.status">
-                Status: {{ model.DisplayStatus }}
-            </v-flex>
-            <v-flex xs12 v-if="model.yearStartedInTech">
-                Years in Tech: {{ model.DisplayYearsInTech }}
-            </v-flex>
-            <v-flex xs12 v-if="model.gender">
-                Gender: {{ model.DisplayGender }}
-            </v-flex>
-            <v-flex xs12 v-if="model.birthYear">
-                Age: {{ model.DisplayAge }}
-            </v-flex>
-            <v-flex xs12 v-if="model.timeZone">
-                Time zone: {{ model.timeZone }}
-            </v-flex>
-        </v-layout>
-    </v-card-text>
-</v-card>
+<div>    
+    <div v-if="loading" class="text-xs-center">
+        <v-progress-circular indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
+        <p class="ma-3 subheading">Loading the profile, please wait...</p>
+    </div>  
+    <v-card v-if="!loading">
+        <v-card-title primary-title class="blue darken-4">
+            <div class="headline white--text">{{ model.firstName }} {{ model.lastName }}</div>
+        </v-card-title>
+        <v-card-text>
+            <v-layout row wrap>
+                <v-flex xs12 sm6 lg3 class="mb-4">
+                    <div class="mb-2 subheading">
+                        Personal
+                    </div>
+                    <div v-if="model.status" class="mb-2">
+                        <div class="body-2">Status</div>
+                        <div>{{ model.DisplayStatus }}</div>
+                    </div>
+                    <div v-if="model.gender" class="mb-2">
+                        <div class="body-2">Gender</div>
+                        <div>{{ model.DisplayGender }}</div>
+                    </div>
+                    <div v-if="model.birthYear" class="mb-2">
+                        <div class="body-2">Age</div>
+                        <div>{{ model.DisplayAge }}</div>
+                    </div>
+                    <div v-if="model.timeZone" class="mb-2">
+                        <div class="body-2">Time zone</div>
+                        <div>{{ model.timeZone }}</div>
+                    </div>
+                    <div v-if="model.languages && model.languages.length > 0" class="mb-2">
+                        <div class="body-2">Languages</div>
+                        <div v-for="language in model.languages">
+                            {{ language }}
+                        </div>
+                    </div>
+                </v-flex>
+                <v-flex xs12 sm6 lg3 class="mb-4">
+                    <div class="mb-2 subheading">
+                        Technical
+                    </div>
+                    <div v-if="model.yearStartedInTech" class="mb-2">
+                        <div class="body-2">Years in Tech</div>
+                        <div>{{ model.DisplayYearsInTech }}</div>
+                    </div>
+                    <div v-if="model.website" class="mb-2">
+                        <div class="body-2">Website</div>
+                        <div><a v-bind:href="model.website" target="_blank">{{ model.website }}</a></div>
+                    </div>
+                    <div v-if="model.gitHubUsername" class="mb-2">
+                        <div class="body-2">GitHub</div>
+                        <div><a v-bind:href="'https://github.com/' + model.gitHubUsername" target="_blank">{{ model.gitHubUsername }}</a></div>
+                    </div>
+                    <div v-if="model.twitterUsername" class="mb-2">
+                        <div class="body-2">Twitter</div>
+                        <div><a v-bind:href="'https://twitter.com/' + model.twitterUsername" target="_blank">{{ model.twitterUsername }}</a></div>
+                    </div>
+                    <div v-if="model.skills && model.skills.length > 0" class="mb-2">
+                        <div class="body-2">Skills</div>
+                        <div v-for="skill in model.skills" :key="skill.name">
+                            <SkillDetails :skill="skill" />
+                        </div>
+                    </div>
+                </v-flex>
+                <v-flex xs12 sm12 lg6 v-if="model.about" class="mb-4">
+                    <div class="mb-2 subheading">
+                        About
+                    </div>
+                    <div v-html="compiledMarkdown" class="mb-2"></div>
+                </v-flex>
+            </v-layout>
+        </v-card-text>
+    </v-card>
+</div>
