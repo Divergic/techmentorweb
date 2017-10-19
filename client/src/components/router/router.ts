@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
+import VueRouter, { RouterOptions } from "vue-router";
 import { IUserService, UserService } from "../../services/authentication/userService";
 import Routes from "./routes";
 
@@ -12,7 +12,7 @@ export default class Router {
 
     Vue.use(VueRouter);
 
-    let router = new VueRouter(<VueRouter.RouterOptions>{
+    let router = new VueRouter(<RouterOptions>{
       mode: "history",
       routes: Routes,
       scrollBehavior(to, from, savedPosition) {

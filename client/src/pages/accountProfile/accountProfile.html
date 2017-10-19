@@ -3,13 +3,13 @@
         <v-progress-circular indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
         <p class="ma-3 subheading">Loading your profile, please wait...</p>
     </div>  
-    <v-alert warning :value="isHidden()">
+    <v-alert color="warning" icon="priority_high" :value="isHidden()">
       Your profile is currently hidden and will not be publicly visible.
     </v-alert>
     <v-alert error :value="isBanned()">
       Your account has been banned and will not be publicly visible.
     </v-alert>
-    <v-alert warning :value="!isHidden() && !isSearchable()">
+    <v-alert color="warning" icon="priority_high" :value="!isHidden() && !isSearchable()">
       Your profile is currently not searchable. You must provide at least one value in either Gender, Languages or Skills.
     </v-alert>
     <v-form v-if="!loading" data-vv-scope="profileForm">
@@ -228,7 +228,7 @@
                     <small>* indicates required field</small>
                 </v-flex>
                 <v-flex xs12 class="text-xs-right">
-                    <v-btn primary @click="OnSave">
+                    <v-btn color="primary" @click="OnSave">
                         Save
                     </v-btn>
                 </v-flex>

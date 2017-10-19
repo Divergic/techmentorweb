@@ -53,12 +53,12 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12>
-                <v-alert warning :value="!FiltersSelected">
+                <v-alert color="warning" icon="priority_high" :value="!FiltersSelected">
                   Please select at least one filter.
                 </v-alert>
             </v-flex>
             <v-flex xs12 class="text-xs-right">
-                <v-btn primary @click="OnSearch" :disabled="!FiltersSelected">
+                <v-btn color="primary" @click="OnSearch" :disabled="!FiltersSelected">
                     Search
                 </v-btn>
             </v-flex>
