@@ -16,6 +16,7 @@
                     title="Skills"
                     chips
                     multiple
+                    clearable
                     item-text="displayName"
                     item-value="name"
                     v-bind:items="skills"
@@ -30,6 +31,7 @@
                     title="Spoken Languages"
                     chips
                     multiple
+                    clearable
                     item-text="displayName"
                     item-value="name"
                     v-bind:items="languages"
@@ -44,6 +46,7 @@
                     title="Genders"
                     chips
                     multiple
+                    clearable
                     item-text="displayName"
                     item-value="name"
                     v-bind:items="genders"
@@ -52,10 +55,8 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12>
-                <v-alert color="warning" icon="priority_high" :value="!FiltersSelected">
+            <v-flex xs12 v-if="!FiltersSelected" class="text-xs-right">
                   Please select at least one filter.
-                </v-alert>
             </v-flex>
             <v-flex xs12 class="text-xs-right">
                 <v-btn color="primary" @click="OnSearch" :disabled="!FiltersSelected">
