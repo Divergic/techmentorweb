@@ -312,6 +312,8 @@ export default class Profile extends AuthComponent {
             if (!this.model.twitterUsername) {
                 this.model.twitterUsername = <string><any>null;
             }
+            
+            this.CompileMarkdown();
         }
         catch (failure) {
             // Check Failure.visibleToUser
