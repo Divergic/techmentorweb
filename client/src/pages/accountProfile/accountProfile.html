@@ -80,8 +80,8 @@
                         name="birthYear"
                         label="Birth Year"
                         title="Birth Year"
-                        autocomplete
-                        browserAutocomplete="off"
+                        auto
+                        clearable
                         item-text="name"
                         item-value="value"
                         v-bind:items="birthYears"
@@ -93,6 +93,7 @@
                         name="gender"
                         label="Gender"
                         title="Gender"
+                        clearable
                         item-text="name"
                         item-value="value"
                         v-bind:items="genders"
@@ -105,6 +106,7 @@
                         label="Time Zone"
                         title="Time Zone"
                         autocomplete
+                        clearable
                         browserAutocomplete="off"
                         item-text="name"
                         item-value="value"
@@ -117,6 +119,7 @@
                         name="languages"
                         label="Spoken Languages"
                         title="Spoken Languages"
+                        clearable
                         chips
                         tags
                         @change="CheckLanguages"
@@ -150,7 +153,8 @@
                         name="yearStartedInTech"
                         label="Year Started In Tech"
                         title="Year Started In Tech"
-                        autocomplete
+                        auto
+                        clearable
                         browserAutocomplete="off"
                         item-text="name"
                         item-value="value"
@@ -284,8 +288,8 @@
                                     name="yearStarted"
                                     label="Year Started"
                                     title="Year Started"
-                                    autocomplete
-                                    browserAutocomplete="off"
+                                    auto
+                                    clearable
                                     item-text="name"
                                     item-value="value"
                                     v-bind:items="techYears"
@@ -297,8 +301,8 @@
                                     name="yearLastUsed"
                                     label="Year Last Used"
                                     title="Year Last Used"
-                                    autocomplete
-                                    browserAutocomplete="off"
+                                    auto
+                                    clearable
                                     item-text="name"
                                     item-value="value"
                                     v-bind:items="techYears"
