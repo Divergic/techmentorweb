@@ -1,14 +1,8 @@
 const express = require("express");
 const server = require("./server");
-const appInsights = require('applicationinsights');
+const monitor = require("./monitor");
 
-const appInsightsKey = webpackDefine.applicationInsightsKey;
-
-if (appInsightsKey) {
-    console.log("Configuring Application Insights using key " + appInsightsKey + " for environment " + webpackDefine.environment);
-    
-    appInsights.setup(appInsightsKey).start();
-}
+monitor.initialize();
 
 var app = express();
 

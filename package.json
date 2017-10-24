@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "install": "yarn install --ignore-scripts",
-    "postinstall": "subpkg install",
+    "postinstall": "npm rebuild node-sass && subpkg install",
     "prebuild": "npm run install",
     "build": "node compiler/index.js build",
     "preclean": "npm run install",
@@ -88,6 +88,7 @@
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
     "webpack-merge": "^4.1.0",
+    "webpack-node-externals": "^1.6.0",
     "webpack-vendor-chunk-plugin": "^1.0.0"
   }
 }

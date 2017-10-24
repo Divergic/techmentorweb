@@ -1,18 +1,16 @@
-var webpack = require("webpack");
-var path = require("path");
-var fs = require("fs");
+const webpack = require("webpack");
+const path = require("path");
+const fs = require("fs");
+const nodeExternals = require('webpack-node-externals');
 const config = require("../../config");
 
-var nodeModules = {};
+const modulesPath = path.join(__dirname, "../node_modules");
 
-// Filer out node_modules for debug builds
-fs.readdirSync("node_modules")
-    .filter(function(x) {
-        return [".bin"].indexOf(x) === -1;
-    })
-    .forEach(function(mod) {
-        nodeModules[mod] = "commonjs " + mod;
-    });
+console.log("Building server using " + modulesPath);
+
+let externalModules = [nodeExternals({
+    modulesDir: modulesPath
+})];
 
 module.exports = {
     name: "server",
@@ -45,6 +43,6 @@ module.exports = {
                 entryOnly: false 
             })
     ],
-    externals: nodeModules,
+    externals: externalModules,
     devtool: "sourcemap"
 };

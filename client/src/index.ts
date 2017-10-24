@@ -25,7 +25,8 @@ class Application {
 
         const config = new Config();
 
-        if (config.applicationInsightsKey) {
+        if (config.applicationInsightsKey
+            && config.applicationInsightsKey.length > 0) {
             Vue.use(VueAppInsights, {
                 id: config.applicationInsightsKey,
                 router
