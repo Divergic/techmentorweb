@@ -37,7 +37,7 @@
   "homepage": "https://github.com/Divergic/techmentorweb#readme",
   "dependencies": {
     "auth0-js": "^8.9.3",
-    "axios": "^0.16.2",
+    "axios": "^0.17.0",
     "es6-promise": "^4.1.1",
     "izitoast": "^1.1.5",
     "marked": "^0.3.6",

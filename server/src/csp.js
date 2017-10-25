@@ -27,7 +27,8 @@ function buildConfiguration(apiUri) {
                 "'self'",
                 "data:"
             ],
-            objectSrc: ["'none'"]
+            objectSrc: ["'none'"],
+            reportUri: "https://techmentors.report-uri.io/r/default/csp/enforce"
         },
         
         // Set to true if you only want browsers to report errors, not block them 
