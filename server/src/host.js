@@ -2,7 +2,7 @@ const express = require("express");
 const server = require("./server");
 const monitor = require("./monitor");
 
-monitor.initialize();
+monitor();
 
 var app = express();
 
