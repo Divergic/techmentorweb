@@ -44,11 +44,16 @@ if (config.configuration === "release") {
     let uglify = new webpack.optimize.UglifyJsPlugin({
         compress: {
             warnings: false
-        }
+        },
+        sourceMap: true
     });
 
     plugins.push(uglify);
 }
+
+const devtool = config.configuration === "release" ? "hidden-source-map" : "eval-source-map";
+
+console.log("Compiling with devtool " + devtool + " for the client");
 
 module.exports = {
     name: "client",
@@ -82,7 +87,7 @@ module.exports = {
         publicPath: "/",
         filename: "scripts/[name].js"
     },
-    devtool: "source-map",
+    devtool: devtool,
     resolve: {
         extensions: [".ts", ".vue", ".js"]
     },
