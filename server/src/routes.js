@@ -8,6 +8,23 @@ router.head("/", function (req, res) {
     res.send("Success");
 });
 
+router.get("*.map", function (req, res) {
+    res.status(403);
+    
+    if (req.accepts("html")) {
+        // respond with html page
+        res.send("403: Forbidden");
+    }
+    else if (req.accepts("json")) {
+        // respond with json
+        res.send({ error: "Forbidden" });
+    }
+    else {
+        // default to plain-text. send()
+        res.type("txt").send("Forbidden");
+    }
+});
+
 const staticConfig = {
     setHeaders: function(res, path, stat) {
         var contentType = mime.lookup(path);
@@ -35,26 +52,23 @@ router.use(function (req, res, next) {
     {
         res.status(404);
         
-        // respond with html page
         if (req.accepts("html")) {
+            // respond with html page
             res.send("404: Page not Found");
-            
-            return;
         }
-
-        // respond with json
-        if (req.accepts("json")) {
+        else if (req.accepts("json")) {
+            // respond with json
             res.send({ error: "Not found" });
-            
-            return;
         }
-
-        // default to plain-text. send()
-        res.type("txt").send("Not found");
+        else {
+            // default to plain-text. send()
+            res.type("txt").send("Not found");
+        }
     }
-    
-    // Just send the index.html for other files to support HTML5Mode
-    res.sendFile("index.html", { root: __dirname });
+    else {
+        // Just send the index.html for other files to support HTML5Mode
+        res.sendFile("index.html", { root: __dirname });
+    }
 });
 
 module.exports = router;

@@ -3,11 +3,6 @@ const helmet = require("helmet");
 
 const router = express.Router();
 
-const hidePoweredBy = function (req, res, next) {
-    res.removeHeader("X-Powered-By");
-    next();
-};
-
 router.use(helmet.xssFilter());
 router.use(helmet.frameguard({ action: "deny" }));
 router.use(helmet.hsts({
@@ -15,8 +10,8 @@ router.use(helmet.hsts({
     // includeSubdomains: true, // Must be enabled to be approved by Google 
     preload: true
 }));
+router.use(helmet.referrerPolicy({ policy: 'same-origin' }))
 router.use(helmet.hidePoweredBy());
 router.use(helmet.noSniff());
-router.use(hidePoweredBy);
 
 module.exports = router;
