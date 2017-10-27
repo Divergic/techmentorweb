@@ -1,10 +1,12 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
 import { IAuthenticationService, AuthenticationService } from "../../services/authentication/authenticationService";
+import Failure from "../../services/failure";
 
 @Component
 export default class SignIn extends AuthComponent {
     private authenticationService: IAuthenticationService;
+    private model: Failure | null = null;
 
     public constructor() {
         super();
@@ -22,13 +24,23 @@ export default class SignIn extends AuthComponent {
     }
 
     public async OnLoad(): Promise<void> {
-        let authenticated = await this.Authenticate();
-
-        if (!authenticated) {
-            return;
+        try {
+            let authenticated = await this.Authenticate();
+    
+            if (!authenticated) {
+                return;
+            }
+    
+            this.redirect();   
         }
-
-        this.redirect();        
+        catch (failure) {
+            // Check Failure.visibleToUser
+            if (failure.visibleToUser) {
+                this.model = <Failure>failure;
+            } else {
+                throw failure;
+            }
+        }     
     }
 
     private redirect(): void {
@@ -76,7 +88,7 @@ export default class SignIn extends AuthComponent {
             // We are redirecting to authenticate
             return false;
         }
-    };
+    }
 
     private getRedirectUri (): string {
         let uri = this.$route.query.redirectUri;
@@ -97,4 +109,4 @@ export default class SignIn extends AuthComponent {
 
         return targetRoute.href;
     }
-};
+}

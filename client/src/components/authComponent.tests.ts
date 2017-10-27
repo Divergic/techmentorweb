@@ -228,6 +228,27 @@ describe("authComponent.ts", () => {
         });
     });
     
+    describe("EvaluateDisabled", () => {
+        it("sets disabled to true if on the sign in page", () => {
+            router.currentRoute.name = "signin";
+            
+            sut.EvaluateDisabled();
+
+            let actual = sut.disabled;
+
+            expect(actual).toBeTruthy();
+        });
+        it("sets disabled to false when not on sign in page", () => {
+            router.currentRoute.name = "home";
+
+            sut.EvaluateDisabled();
+            
+            let actual = sut.disabled;
+
+            expect(actual).toBeFalsy();
+        });
+    });
+    
     describe("text", () => {
         it("returns correct message when authenticated", () => {
             let actual = sut.text;

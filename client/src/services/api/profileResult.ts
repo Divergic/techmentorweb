@@ -42,15 +42,15 @@ export default class ProfileResult {
         return value.toLocaleString();
     }
 
-    public get DisplayGender() : string {
+    public get DisplayGender(): string {
         return this.ToProperCase(this.gender);
     }
 
-    public get DisplayStatus() : string {
+    public get DisplayStatus(): string {
         return this.ToProperCase(this.status);
     }
 
-    public get DisplayYearsInTech() : string {
+    public get DisplayYearsInTech(): string {
         if (!this.yearStartedInTech) {
             return "";
         }
@@ -65,7 +65,7 @@ export default class ProfileResult {
         return value.toLocaleString();
     }
 
-    private ToProperCase(value: string | null) : string {
+    private ToProperCase(value: string | null): string {
         if (!value) {
             return "";
         }
@@ -75,4 +75,4 @@ export default class ProfileResult {
 
         return first + remainder;
     }
-};
+}

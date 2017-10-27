@@ -51,7 +51,7 @@ if (config.configuration === "release") {
     plugins.push(uglify);
 }
 
-const devtool = config.configuration === "release" ? "hidden-source-map" : "eval-source-map";
+const devtool = config.configuration === "release" ? "hidden-source-map" : "source-map";
 
 console.log("Compiling with devtool " + devtool + " for the client");
 

@@ -5,6 +5,8 @@ import { Location as RouterLocation } from "vue-router";
 export default class AuthComponent extends Vue {
     private location: ILocation;
 
+    public disabled: boolean = false;
+
     public constructor() {
         super();
 
@@ -126,11 +128,22 @@ export default class AuthComponent extends Vue {
         return targetRoute.href;
     }
 
+    public EvaluateDisabled(): void {
+        let currentRoute = this.$router.currentRoute;
+        
+        if (currentRoute.name === "signin") {
+            this.disabled = true;
+        }
+        else {
+            this.disabled = false;
+        }
+    }
+
     public get text(): string {
         if (this.isAuthenticated()) {
             return "Sign out";
         }
 
         return "Sign in";
-    };
+    }
 }
