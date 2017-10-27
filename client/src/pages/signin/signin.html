@@ -4,7 +4,8 @@
         <p class="ma-3 subheading">Signing in, please wait...</p>
     </div>
     <div v-if="model">
-        <v-alert color="error" icon="warning" value="true">Sign in has failed. Please refresh the page to try again.</v-alert>
+        <v-alert color="error" icon="warning" value="true">Sign in has failed.</v-alert>
         <p class="body-2 mt-4">{{ model.message }}</p>
+        <p><v-btn :to="{name: 'accountProfile'}">Retry</v-btn></p>
     </div>
 </div>

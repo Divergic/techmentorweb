@@ -1,4 +1,4 @@
-import Component from "vue-class-component";
+import { Component, Watch } from "vue-property-decorator";
 import AuthComponent from "../../components/authComponent";
 import { IAuthenticationService, AuthenticationService } from "../../services/authentication/authenticationService";
 import Failure from "../../services/failure";
@@ -21,6 +21,11 @@ export default class SignIn extends AuthComponent {
 
     public mounted(): Promise<void> {
         return this.OnLoad();
+    }
+
+    @Watch("$route")
+    public OnRouteChanged(): void {
+        this.OnLoad();
     }
 
     public async OnLoad(): Promise<void> {
