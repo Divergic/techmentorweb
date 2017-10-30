@@ -53,66 +53,66 @@ describe("authComponent.ts", () => {
         sut.init(location);
     });
 
-    describe("isAuthenticated", () => {
+    describe("IsAuthenticated", () => {
         it("returns true when store has token", () => {
-            let actual = sut.isAuthenticated();
+            let actual = sut.IsAuthenticated;
 
             expect(actual).toBeTruthy();
         });
         it("returns false when store token is null", () => {
             store.getters.idToken = null;
 
-            let actual = sut.isAuthenticated();
+            let actual = sut.IsAuthenticated;
 
             expect(actual).toBeFalsy();
         });
         it("returns false when store token is undefined", () => {
             store.getters.idToken = undefined;
 
-            let actual = sut.isAuthenticated();
+            let actual = sut.IsAuthenticated;
 
             expect(actual).toBeFalsy();
         });
         it("returns false when store token is empty", () => {
             store.getters.idToken = "";
 
-            let actual = sut.isAuthenticated();
+            let actual = sut.IsAuthenticated;
 
             expect(actual).toBeFalsy();
         });
     });
 
-    describe("sessionExpired", () => {
+    describe("SessionExpired", () => {
         it("returns true when not authenticated", () => {
             store.getters.idToken = null;
 
-            let actual = sut.sessionExpired();
+            let actual = sut.SessionExpired;
 
             expect(actual).toBeTruthy();
         });
         it("returns true when authenticated but tokenExpires is null", () => {
             store.getters.tokenExpires = null;
 
-            let actual = sut.sessionExpired();
+            let actual = sut.SessionExpired;
 
             expect(actual).toBeTruthy();
         });
         it("returns true when authenticated but tokenExpires is undefined", () => {
             store.getters.tokenExpires = undefined;
 
-            let actual = sut.sessionExpired();
+            let actual = sut.SessionExpired;
 
             expect(actual).toBeTruthy();
         });
         it("returns true when tokenExpires is in the past", () => {
             store.getters.tokenExpires = store.getters.tokenExpires - 60000;
 
-            let actual = sut.sessionExpired();
+            let actual = sut.SessionExpired;
 
             expect(actual).toBeTruthy();
         });
         it("returns false when tokenExpires is in the future", () => {
-            let actual = sut.sessionExpired();
+            let actual = sut.SessionExpired;
 
             expect(actual).toBeFalsy();
         });
@@ -178,13 +178,13 @@ describe("authComponent.ts", () => {
             
             sut.signOut();
 
-            expect(store.commit).toHaveBeenCalledWith("accessToken", "");
-            expect(store.commit).toHaveBeenCalledWith("email", "");
-            expect(store.commit).toHaveBeenCalledWith("firstName", "");
-            expect(store.commit).toHaveBeenCalledWith("idToken", "");
-            expect(store.commit).toHaveBeenCalledWith("isAdministrator", "");
-            expect(store.commit).toHaveBeenCalledWith("lastName", "");
-            expect(store.commit).toHaveBeenCalledWith("tokenExpires", "");
+            expect(store.commit).toHaveBeenCalledWith("accessToken", null);
+            expect(store.commit).toHaveBeenCalledWith("email", null);
+            expect(store.commit).toHaveBeenCalledWith("firstName", null);
+            expect(store.commit).toHaveBeenCalledWith("idToken", null);
+            expect(store.commit).toHaveBeenCalledWith("isAdministrator", false);
+            expect(store.commit).toHaveBeenCalledWith("lastName", null);
+            expect(store.commit).toHaveBeenCalledWith("tokenExpires", null);
         });
         it("does not redirect if current route lacks meta", () => {
             spyOn(router, "push");

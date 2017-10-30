@@ -64,8 +64,8 @@ export default class SignIn extends AuthComponent {
     }
 
     public async Authenticate(): Promise<Boolean> {
-        if (this.isAuthenticated()
-            && !this.sessionExpired()) {
+        if (this.IsAuthenticated
+            && !this.SessionExpired) {
             // The user already has an auth session
             return true;
         }
@@ -81,7 +81,7 @@ export default class SignIn extends AuthComponent {
             this.$store.commit("isAdministrator", response.isAdministrator);
             this.$store.commit("lastName", response.lastName);
             this.$store.commit("tokenExpires", response.tokenExpires);
-
+            
             return true;
         }
         else {

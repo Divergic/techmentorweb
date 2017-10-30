@@ -26,8 +26,8 @@ export default class Router {
 
     router.beforeEach((to, from, next) => {
       if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!this.userService.isAuthenticated
-          || this.userService.sessionExpired) {
+        if (!this.userService.IsAuthenticated
+          || this.userService.SessionExpired) {
           next({ name: "signin", query: { redirectUri: to.fullPath } });
 
           return;
@@ -36,7 +36,7 @@ export default class Router {
 
       // At this point we either don't require authentication or the user is authenticated
       if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresAdmin)) {
-        if (!this.userService.isAdministrator) {
+        if (!this.userService.IsAdministrator) {
           next({ name: "unauthorized" });
 
           return;

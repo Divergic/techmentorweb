@@ -2,43 +2,43 @@ import store from "store";
 import StoreData from "../dataStore/storeData";
 
 export interface IDataStore {
-    accessToken: string;
-    email: string;
-    firstName: string;
-    idToken: string;
+    accessToken: string | null;
+    email: string | null;
+    firstName: string | null;
+    idToken: string | null;
     isAdministrator: boolean;
-    lastName: string;
-    tokenExpires: number;
+    lastName: string | null;
+    tokenExpires: number | null;
 }
 
 export class DataStore implements IDataStore {
     
     // This cannot be a setter because changes to vuex data must be done via Component.$state.commit()    
-    public get accessToken(): string {
+    public get accessToken(): string | null {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {
-            return "";
+            return null;
         }
 
         return options.accessToken;
     }
     
-    public get email(): string {
+    public get email(): string | null {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {
-            return "";
+            return null;
         }
 
         return options.email;
     }
     
-    public get firstName(): string {
+    public get firstName(): string | null {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {
-            return "";
+            return null;
         }
 
         return options.firstName;
@@ -54,21 +54,21 @@ export class DataStore implements IDataStore {
         return options.isAdministrator;
     }
     
-    public get idToken(): string {
+    public get idToken(): string | null {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {
-            return "";
+            return null;
         }
 
         return options.idToken;
     }
     
-    public get lastName(): string {
+    public get lastName(): string | null {
         let options = <StoreData>store.get("vuex");
 
         if (!options) {
-            return "";
+            return null;
         }
 
         return options.lastName;

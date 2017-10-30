@@ -24,19 +24,19 @@ describe("store.ts", () => {
     });
 
     describe("accessToken", () => {
-        it("returns empty when vuex data is null", () => {
+        it("returns null when vuex data is null", () => {
             store.set("vuex", null);
 
             let actual = sut.accessToken;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
-        it("returns empty when vuex data is undefined", () => {
+        it("returns null when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
             let actual = sut.accessToken;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
         it("returns token from storage", () => {
             store.set("vuex", vuex);
@@ -48,19 +48,19 @@ describe("store.ts", () => {
     });
 
     describe("email", () => {
-        it("returns empty when vuex data is null", () => {
+        it("returns null when vuex data is null", () => {
             store.set("vuex", null);
 
             let actual = sut.email;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
-        it("returns empty when vuex data is undefined", () => {
+        it("returns null when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
             let actual = sut.email;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
         it("returns token from storage", () => {
             store.set("vuex", vuex);
@@ -72,19 +72,19 @@ describe("store.ts", () => {
     });
 
     describe("firstName", () => {
-        it("returns empty when vuex data is null", () => {
+        it("returns null when vuex data is null", () => {
             store.set("vuex", null);
 
             let actual = sut.firstName;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
-        it("returns empty when vuex data is undefined", () => {
+        it("returns null when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
             let actual = sut.firstName;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
         it("returns token from storage", () => {
             store.set("vuex", vuex);
@@ -120,19 +120,19 @@ describe("store.ts", () => {
     });
 
     describe("idToken", () => {
-        it("returns empty when vuex data is null", () => {
+        it("returns null when vuex data is null", () => {
             store.set("vuex", null);
 
             let actual = sut.idToken;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
-        it("returns empty when vuex data is undefined", () => {
+        it("returns null when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
             let actual = sut.idToken;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
         it("returns token from storage", () => {
             store.set("vuex", vuex);
@@ -144,19 +144,19 @@ describe("store.ts", () => {
     });
     
     describe("lastName", () => {
-        it("returns empty when vuex data is null", () => {
+        it("returns null when vuex data is null", () => {
             store.set("vuex", null);
 
             let actual = sut.lastName;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
-        it("returns empty when vuex data is undefined", () => {
+        it("returns null when vuex data is undefined", () => {
             store.set("vuex", undefined);
 
             let actual = sut.lastName;
 
-            expect(actual).toEqual("");
+            expect(actual).toBeNull();
         });
         it("returns token from storage", () => {
             store.set("vuex", vuex);
@@ -187,7 +187,7 @@ describe("store.ts", () => {
 
             let actual = sut.tokenExpires;
             
-            expect(actual).toEqual(vuex.tokenExpires);
+            expect(actual).toEqual(<number>vuex.tokenExpires);
         });
     });
 });

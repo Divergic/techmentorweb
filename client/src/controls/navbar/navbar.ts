@@ -10,8 +10,8 @@ import AuthListTile from "../../controls/authListTile/authListTile.vue";
   }
 })
 export default class NavBar extends AuthComponent {
-  public isAdministrator(): boolean {
-      if (!this.isAuthenticated()) {
+  public get IsAdministrator(): boolean {
+      if (!this.IsAuthenticated) {
         return false;
       }
       
@@ -21,4 +21,4 @@ export default class NavBar extends AuthComponent {
 
       return false;
   }
-};
+}

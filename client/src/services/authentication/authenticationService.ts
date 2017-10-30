@@ -93,9 +93,7 @@ export class AuthenticationService implements IAuthenticationService {
 
                 let roles = authResult.idTokenPayload["http://techmentor/roles"] || [];
                 
-                if (roles.indexOf("Administrator") > -1) {
-                    response.isAdministrator = true;
-                }
+                response.isAdministrator = (roles.indexOf("Administrator") > -1);
 
                 resolve(response);
             });

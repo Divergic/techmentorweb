@@ -1,9 +1,9 @@
 import { IDataStore, DataStore } from "../dataStore/dataStore";
 
 export interface IUserService {
-    isAuthenticated: boolean;
-    isAdministrator: boolean;
-    sessionExpired: boolean;
+    IsAuthenticated: boolean;
+    IsAdministrator: boolean;
+    SessionExpired: boolean;
 }
 
 export class UserService implements IUserService {
@@ -11,8 +11,8 @@ export class UserService implements IUserService {
     public constructor(private store: IDataStore = new DataStore()) {
     }
 
-    public get isAuthenticated(): boolean {
-        let token = this.store.idToken;
+    public get IsAuthenticated(): boolean {
+        let token = this.store.accessToken;
 
         if (token) {
             return true;
@@ -21,18 +21,18 @@ export class UserService implements IUserService {
         return false;
     }
 
-    public get isAdministrator(): boolean {
+    public get IsAdministrator(): boolean {
         return this.store.isAdministrator;
     }
 
-    public get sessionExpired(): boolean {
-        if (this.isAuthenticated == false) {
+    public get SessionExpired(): boolean {
+        if (this.IsAuthenticated === false) {
             // There is no authentication token
             return true;
         }
 
         // vuex seems to store values as strings so we need to convert it again even though TypeScript thinks the type is correct
-        let storedValue = this.store.tokenExpires;
+        let storedValue = <number>this.store.tokenExpires | 0;
 
         let secondsSinceEpoch = Date.now() / 1000;
 

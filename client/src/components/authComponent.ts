@@ -17,16 +17,18 @@ export default class AuthComponent extends Vue {
         this.location = location;
     }
 
-    public isAuthenticated(): boolean {
-        if (this.$store.getters["idToken"]) {
+    public get IsAuthenticated(): boolean {
+        let token = this.$store.getters["idToken"];
+
+        if (token) {
             return true;
         }
 
         return false;
     }
 
-    public sessionExpired(): boolean {
-        if (!this.isAuthenticated()) {
+    public get SessionExpired(): boolean {
+        if (!this.IsAuthenticated) {
             // The user isn't authenticated
             return true;
         }
@@ -56,7 +58,7 @@ export default class AuthComponent extends Vue {
     }
 
     public click(): void {
-        if (this.isAuthenticated()) {
+        if (this.IsAuthenticated) {
             this.signOut();
         }
         else {
@@ -75,13 +77,13 @@ export default class AuthComponent extends Vue {
     public signOut(): void {
         let requiresRedirect = this.signOutRequiresRedirect();
 
-        this.$store.commit("accessToken", "");
-        this.$store.commit("email", "");
-        this.$store.commit("firstName", "");
-        this.$store.commit("idToken", "");
-        this.$store.commit("isAdministrator", "");
-        this.$store.commit("lastName", "");
-        this.$store.commit("tokenExpires", "");
+        this.$store.commit("accessToken", null);
+        this.$store.commit("email", null);
+        this.$store.commit("firstName", null);
+        this.$store.commit("idToken", null);
+        this.$store.commit("isAdministrator", false);
+        this.$store.commit("lastName", null);
+        this.$store.commit("tokenExpires", null);
 
         if (requiresRedirect) {
             this.$router.push({ name: "home"});
@@ -140,7 +142,7 @@ export default class AuthComponent extends Vue {
     }
 
     public get text(): string {
-        if (this.isAuthenticated()) {
+        if (this.IsAuthenticated) {
             return "Sign out";
         }
 
