@@ -18,7 +18,7 @@ import marked from "marked";
 export default class Profile extends AuthComponent {
     private profileService: IAccountProfileService;
     private listsService: IListsService;
-    private categoriesService: ICategoriesService
+    private categoriesService: ICategoriesService;
     private notify: INotify;
 
     // Properties for view binding
@@ -166,7 +166,7 @@ export default class Profile extends AuthComponent {
             return false;
         }
 
-        if (this.model.status == ProfileStatus.Hidden) {
+        if (this.model.status === ProfileStatus.Hidden) {
             return true;
         }
         
@@ -178,7 +178,7 @@ export default class Profile extends AuthComponent {
             return true;
         }
 
-        if (this.model.status == ProfileStatus.Hidden) {
+        if (this.model.status === ProfileStatus.Hidden) {
             return false;
         }
         
@@ -198,12 +198,12 @@ export default class Profile extends AuthComponent {
     }
 
     public ShowWebsite(uri: string): void {
-        window.open(uri, '_blank');
+        window.open(uri, "_blank");
     }
 
     public CheckLanguages(languages: Array<string>): void {
         this.model.languages = languages.map((language) => {
-            return this.toTitleCase(language)
+            return this.toTitleCase(language);
         });
     }
 
@@ -221,9 +221,9 @@ export default class Profile extends AuthComponent {
     }
     
     private toTitleCase(value: string): string {
-        return value.toLowerCase().split(' ').map((word) => {
+        return value.toLowerCase().split(" ").map((word) => {
             return word.replace(word[0], word[0].toUpperCase());
-        }).join(' ');
+        }).join(" ");
     }
 
     private async loadLists(): Promise<void> {
@@ -240,14 +240,14 @@ export default class Profile extends AuthComponent {
             .filter((item: Category) => {
                 return item.group === CategoryGroup.Language;
             }).map((item: Category) => {
-                return item.name
+                return item.name;
             });
 
         this.skills = categories
             .filter((item: Category) => {
                 return item.group === CategoryGroup.Skill;
             }).map((item: Category) => {
-                return item.name
+                return item.name;
             });
     }
 

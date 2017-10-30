@@ -32,7 +32,7 @@ export class ListsService implements IListsService {
     }
 
     public getGenders(): Array<ListItem<string>> {
-        let availableGenders = <Array<string>>["Male", "Female", "Non-binary"];
+        let availableGenders = <Array<string>>["Female", "Male", "Non-binary"];
         
         return this.prepareList(availableGenders);
     }
