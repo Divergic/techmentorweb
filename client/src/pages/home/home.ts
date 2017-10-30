@@ -145,4 +145,4 @@ export default class Home extends Vue {
 
         return availableCategories;
     }
-};
+}

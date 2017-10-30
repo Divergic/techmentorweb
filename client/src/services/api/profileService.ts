@@ -5,12 +5,12 @@ import UserProfile from "./userProfile";
 export class CategoryFilter {
     group: string;
     name: string;
-};
+}
 
 export interface IProfileService {
     getProfile(id: string): Promise<UserProfile>;
     searchProfiles(filters: Array<CategoryFilter>): Promise<Array<ProfileResult>>;
-};
+}
 
 export class ProfileService implements IProfileService {
     public constructor(private http: IHttp = new Http()) {
@@ -29,7 +29,7 @@ export class ProfileService implements IProfileService {
         let uri: string = "profiles/?";
 
         filters.forEach(element => {
-            uri+= encodeURIComponent(element.group) + "=" + encodeURIComponent(element.name) + "&";
+            uri += encodeURIComponent(element.group) + "=" + encodeURIComponent(element.name) + "&";
         });
 
         // Remove the trailing &

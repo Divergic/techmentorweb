@@ -4,4 +4,4 @@ import Vue from "vue";
 
 @Component
 export default class Bottom extends Vue {
-};
+}

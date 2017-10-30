@@ -6,5 +6,5 @@ import ProfileResult from "../../services/api/profileResult";
 export default class ProfilePreview extends Vue {
     
     @Prop()
-    profile: ProfileResult
-};
+    profile: ProfileResult;
+}

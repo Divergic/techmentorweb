@@ -156,7 +156,7 @@ export class Comparer implements IComparer {
         }
 
         if (!first) {
-            message += "{no value}"
+            message += "{no value}";
         }
         else if (this.IsPrimitiveType(first)) {
             message += "{" + typeof(first) + "} " + first;

@@ -9,4 +9,4 @@ export function runAsync(fn) {
             done.fail(err);
         }
     };
-};
+}

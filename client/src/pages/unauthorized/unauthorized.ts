@@ -3,4 +3,4 @@ import Vue from "vue";
 
 @Component
 export default class Unauthorized extends Vue {
-};
+}

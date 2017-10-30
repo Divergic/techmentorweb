@@ -20,7 +20,7 @@ export default class SkillDetails extends Vue {
         return this.skill.name;
     }
 
-    public get DisplayLevel() : string {
+    public get DisplayLevel(): string {
         if (!this.skill) {
             return "";
         }

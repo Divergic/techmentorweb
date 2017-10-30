@@ -29,4 +29,4 @@ export default class UserProfile extends ProfileResult {
     public skills: Array<Skill>;
     public twitterUsername: string | null;
     public website: string | null;
-};
+}

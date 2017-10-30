@@ -3,7 +3,7 @@ import { IHttp, Http } from "../http";
 export class CategoryGroup {
     public static Skill: string = "skill";
     public static Language: string = "language";
-    public static Gender: string = "gender"
+    public static Gender: string = "gender";
 }
 
 export class Category {

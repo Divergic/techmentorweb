@@ -5,7 +5,7 @@ export class SkillLevel {
     public static Intermediate = "intermediate";
     public static Expert = "expert";
     public static Master = "master";
-};
+}
 
 export class Skill {
     level: string;
@@ -28,4 +28,4 @@ export class Skill {
             this.yearStarted = null;
         }
     }
-};
+}

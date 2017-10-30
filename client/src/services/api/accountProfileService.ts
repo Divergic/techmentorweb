@@ -1,12 +1,11 @@
 import { IHttp, Http } from "../http";
 import { Skill } from "./skill";
 
-export class ProfileStatus
-{
+export class ProfileStatus {
     public static Hidden: string = "hidden";
     public static Unavailable: string = "unavailable";
     public static Available: string = "available";
-};
+}
 
 export class AccountProfile {    
     public bannedAt: Date | null;
@@ -64,7 +63,7 @@ export class AccountProfile {
             this.skills = new Array<Skill>();
         }
     }
-};
+}
 
 export interface IAccountProfileService {
     getAccountProfile(): Promise<AccountProfile>;
@@ -86,4 +85,4 @@ export class AccountProfileService implements IAccountProfileService {
 
         return this.http.put<AccountProfile, void>(uri, profile);
     }
-};
+}

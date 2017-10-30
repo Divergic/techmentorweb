@@ -12,7 +12,7 @@ describe("SkillDetails", () => {
             level: "expert",
             yearLastUsed: 2011,
             yearStarted: 2006
-        }
+        };
 
         sut.skill = model;
     });

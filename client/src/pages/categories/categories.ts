@@ -82,4 +82,4 @@ export default class Categories extends Vue {
         
         return sets;
     }
-}; 
+} 

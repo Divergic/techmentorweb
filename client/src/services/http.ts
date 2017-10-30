@@ -60,7 +60,7 @@ export class Http implements IHttp {
                 return Promise.resolve(error);
             }
 
-            const failure = new Failure("Your authentication session has expired.")
+            const failure = new Failure("Your authentication session has expired.");
 
             // We will redirect the user to authenticate again because their session has expired
             let returnUri = location.getHref();

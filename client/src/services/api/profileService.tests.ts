@@ -43,7 +43,7 @@ describe("ProfileService", () => {
                 get: async (uri) => {
                     return profile;
                 }
-            }
+            };
             sut = new ProfileService(http);
         });
         
@@ -106,7 +106,7 @@ describe("ProfileService", () => {
                 get: async (uri) => {
                     return results;
                 }
-            }
+            };
             sut = new ProfileService(http);
         });
         

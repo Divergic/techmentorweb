@@ -26,8 +26,8 @@ describe("AdminUpdateCategory", () => {
             expect(sut.group).toEqual(source.group);
             expect(sut.name).toEqual(source.name);
             expect(sut.visible).toEqual(source.visible);
-        })
-    })
+        });
+    });
 });
 
 describe("AdminCategoriesService", () => {
@@ -90,7 +90,7 @@ describe("AdminCategoriesService", () => {
             let category = new AdminUpdateCategory();
 
             category.group = "Skill";
-            category.name = "somename"
+            category.name = "somename";
             category.visible = true;
 
             let spy = spyOn(http, "put");
@@ -105,7 +105,7 @@ describe("AdminCategoriesService", () => {
             let category = new AdminUpdateCategory();
 
             category.group = "Skill";
-            category.name = "some name"
+            category.name = "some name";
             category.visible = true;
 
             let spy = spyOn(http, "put");
