@@ -18,16 +18,16 @@ export default class Home extends Vue {
     private notify: INotify;
     
     // Properties for view binding
-    private loadingLists: boolean = true;
-    private genders: Array<Category> = new Array<Category>();
-    private languages: Array<Category> = new Array<Category>();
-    private skills: Array<Category> = new Array<Category>();
-    private selectedGenders: Array<string> = new Array<string>();
-    private selectedLanguages: Array<string> = new Array<string>();
-    private selectedSkills: Array<string> = new Array<string>();
-    private searching: boolean = false;
-    private searchRun: boolean = false;
-    private profiles: Array<ProfileResult> = new Array<ProfileResult>();
+    public loadingLists: boolean = true;
+    public genders: Array<Category> = new Array<Category>();
+    public languages: Array<Category> = new Array<Category>();
+    public skills: Array<Category> = new Array<Category>();
+    public selectedGenders: Array<string> = new Array<string>();
+    public selectedLanguages: Array<string> = new Array<string>();
+    public selectedSkills: Array<string> = new Array<string>();
+    public searching: boolean = false;
+    public searchRun: boolean = false;
+    public profiles: Array<ProfileResult> = new Array<ProfileResult>();
 
     public constructor() {
         super();

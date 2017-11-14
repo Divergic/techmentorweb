@@ -15,7 +15,9 @@ function buildConfiguration(apiUri) {
             ],
             styleSrc: [
                 "'self'",
-                "https://fonts.googleapis.com/css"
+                "https://fonts.googleapis.com/css",
+                "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",    // vue-upload-component
+                "'sha256-+onguRe7LDXTfXKGrhm7p/a/6xGSbwMMINhJL2d65YI='"     // vue-upload-component
             ],
             connectSrc: [
                 "'self'",
@@ -25,7 +27,8 @@ function buildConfiguration(apiUri) {
             ],
             imgSrc: [
                 "'self'",
-                "data:"
+                "data:",
+                apiUri
             ],
             objectSrc: ["'none'"],
             reportUri: "https://techmentors.report-uri.io/r/default/csp/enforce"

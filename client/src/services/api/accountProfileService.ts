@@ -7,7 +7,9 @@ export class ProfileStatus {
     public static Available: string = "available";
 }
 
-export class AccountProfile {    
+export class AccountProfile {
+    public avatarId: string | null;
+    public avatarETag: string | null;
     public bannedAt: Date | null;
     public id: string;
     public about: string | null;
@@ -28,6 +30,8 @@ export class AccountProfile {
     public constructor(profile: AccountProfile | null = null) {
         if (profile) {
             // This is a copy constructor
+            this.avatarETag = profile.avatarETag;
+            this.avatarId = profile.avatarId;
             this.bannedAt = profile.bannedAt;
             this.id = profile.id;
             this.about = profile.about;

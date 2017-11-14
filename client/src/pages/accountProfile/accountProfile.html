@@ -16,7 +16,7 @@
         <h6>Profile</h6>                
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-select
                         name="status"
                         label="Status"
@@ -27,7 +27,7 @@
                         v-model="model.status">
                     </v-select>
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-text-field
                         name="email"
                         label="Email Address"
@@ -37,97 +37,135 @@
                         v-model="model.email"
                         :error-messages="errors.collect('email')"
                         data-vv-scope="profileForm"
+                        hint="<strong>NOTE:</strong> Your email address will only be made available to administrators and will not be publicly displayed."
+                        persistent-hint
                         v-validate="'required|email'">
                     </v-text-field>
-                    <p xs6 class="text-xs-left"><strong>NOTE:</strong> Your email address will only be made available to administrators and will not be publicly displayed.</p>
                 </v-flex>
             </v-layout>
         </v-container>   
         <h6>Personal</h6> 
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
-                <v-flex xs6>
-                    <v-text-field
-                        name="firstName"
-                        label="First Name"
-                        title="First Name"
-                        maxlength="50"
-                        required
-                        autocomplete="off"
-                        :autofocus="true"
-                        v-model="model.firstName"
-                        :error-messages="errors.collect('firstName')"
-                        data-vv-scope="profileForm"
-                        v-validate="'required'">
-                    </v-text-field>
+                <v-flex xs12 sm6>
+                    <v-layout row wrap>
+                        <v-flex xs12>
+                            <v-text-field
+                                name="firstName"
+                                label="First Name"
+                                title="First Name"
+                                maxlength="50"
+                                required
+                                autocomplete="off"
+                                :autofocus="true"
+                                v-model="model.firstName"
+                                :error-messages="errors.collect('firstName')"
+                                data-vv-scope="profileForm"
+                                v-validate="'required'">
+                            </v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-text-field
+                                name="lastName"
+                                label="Last Name"
+                                title="Last Name"
+                                maxlength="50"
+                                required
+                                autocomplete="off"
+                                v-model="model.lastName"
+                                :error-messages="errors.collect('lastName')"
+                                data-vv-scope="profileForm"
+                                v-validate="'required'">
+                            </v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-select
+                                name="birthYear"
+                                label="Birth Year"
+                                title="Birth Year"
+                                auto
+                                clearable
+                                item-text="name"
+                                item-value="value"
+                                v-bind:items="birthYears"
+                                v-model="model.birthYear">
+                            </v-select>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-select
+                                name="gender"
+                                label="Gender"
+                                title="Gender"
+                                clearable
+                                item-text="name"
+                                item-value="value"
+                                v-bind:items="genders"
+                                v-model="model.gender">
+                            </v-select>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-select
+                                name="timeZone"
+                                label="Time Zone"
+                                title="Time Zone"
+                                autocomplete
+                                clearable
+                                browserAutocomplete="off"
+                                item-text="name"
+                                item-value="value"
+                                v-bind:items="timezones"
+                                v-model="model.timeZone">
+                            </v-select>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-select
+                                name="languages"
+                                label="Spoken Languages"
+                                title="Spoken Languages"
+                                clearable
+                                chips
+                                tags
+                                @change="CheckLanguages"
+                                v-bind:items="languages"
+                                v-model="model.languages">
+                            </v-select>
+                        </v-flex>
+                    </v-layout> 
                 </v-flex>
-                <v-flex xs6>
-                    <v-text-field
-                        name="lastName"
-                        label="Last Name"
-                        title="Last Name"
-                        maxlength="50"
-                        required
-                        autocomplete="off"
-                        v-model="model.lastName"
-                        :error-messages="errors.collect('lastName')"
-                        data-vv-scope="profileForm"
-                        v-validate="'required'">
-                    </v-text-field>
+                <v-flex xs12 sm6>
+                    <v-flex xs12>
+                        <div class="body-2 ml-3 text-xs-left">Avatar</div>
+                        <p v-if="avatarUri">
+                            <img :src="avatarUri" />
+                        </p>
+                        <p v-if="avatarUploadProgress">
+                            Uploading
+                            <v-progress-linear v-model="avatarUploadProgress"></v-progress-linear>
+                        </p>
+                    </v-flex>
+                    <v-layout row wrap>
+                        <v-flex xs6 class="text-xs-right">
+                            <file-upload
+                                extensions="jpg,jpeg,png"
+                                accept="image/png,image/jpeg"
+                                name="file"
+                                input-id="avatarfile"
+                                :headers="avatarConfig.Headers"
+                                :post-action="avatarConfig.PostAction"
+                                :drop="true"
+                                :drop-directory="false"
+                                :size="256 * 1024"
+                                @input-file="OnAvatarUploaded"
+                                ref="upload">
+                                <v-btn class="blue--text darken-1" flat @click="OnAvatarSelect">Upload avatar</v-btn>                            
+                            </file-upload>
+                        </v-flex>
+                        <v-flex xs6 class="text-xs-left">
+                            <v-btn class="blue--text darken-1" flat @click="OnRemoveAvatar">Remove Avatar</v-btn>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
-                <v-flex xs6>
-                    <v-select
-                        name="birthYear"
-                        label="Birth Year"
-                        title="Birth Year"
-                        auto
-                        clearable
-                        item-text="name"
-                        item-value="value"
-                        v-bind:items="birthYears"
-                        v-model="model.birthYear">
-                    </v-select>
-                </v-flex>
-                <v-flex xs6>
-                    <v-select
-                        name="gender"
-                        label="Gender"
-                        title="Gender"
-                        clearable
-                        item-text="name"
-                        item-value="value"
-                        v-bind:items="genders"
-                        v-model="model.gender">
-                    </v-select>
-                </v-flex>
-                <v-flex xs6>
-                    <v-select
-                        name="timeZone"
-                        label="Time Zone"
-                        title="Time Zone"
-                        autocomplete
-                        clearable
-                        browserAutocomplete="off"
-                        item-text="name"
-                        item-value="value"
-                        v-bind:items="timezones"
-                        v-model="model.timeZone">
-                    </v-select>
-                </v-flex>
-                <v-flex xs6>
-                    <v-select
-                        name="languages"
-                        label="Spoken Languages"
-                        title="Spoken Languages"
-                        clearable
-                        chips
-                        tags
-                        @change="CheckLanguages"
-                        v-bind:items="languages"
-                        v-model="model.languages">
-                    </v-select>
-                </v-flex>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-text-field
                         name="about"
                         label="About"
@@ -137,10 +175,10 @@
                         @input="CompileMarkdown"
                         multi-line>
                     </v-text-field>
-                    <p xs6 class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. <strong>NOTE:</strong> Images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
+                    <p class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. <strong>NOTE:</strong> Images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
                 </v-flex>
-                <v-flex xs6 class="text-xs-left">
-                    <div class="subheader">About preview</div>
+                <v-flex xs12 sm6 class="text-xs-left mb-3">
+                    <div class="body-2 ml-3 mb-2">About preview</div>
                     <div v-html="compiledMarkdown" class="ml-3"></div>
                 </v-flex>
             </v-layout>
@@ -148,7 +186,7 @@
         <h6>Technical</h6>
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-select
                         name="yearStartedInTech"
                         label="Year Started In Tech"
@@ -162,7 +200,7 @@
                         v-model="model.yearStartedInTech">
                     </v-select>
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-text-field
                         name="website"
                         label="Website"
@@ -176,7 +214,7 @@
                         :append-icon-cb="() => ShowWebsite(model.website)">
                     </v-text-field>
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-text-field
                         name="gitHubUsername"
                         label="GitHub Username"
@@ -191,7 +229,7 @@
                          -->
                     </v-text-field>
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs12 sm6>
                     <v-text-field
                         name="twitterUsername"
                         label="Twitter Username"
@@ -246,7 +284,7 @@
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex xs12 sm6>
+                            <v-flex xs12 md6>
                                 <v-text-field
                                     name="name"
                                     label="Name"
@@ -267,7 +305,7 @@
                                     v-if="!isSkillAdd">
                                 </v-text-field>
                             </v-flex>
-                            <v-flex xs12 sm6>
+                            <v-flex xs12 md6>
                                 <v-select
                                     name="level"
                                     label="Level"
@@ -281,7 +319,7 @@
                                     v-validate="'required'">
                                 </v-select>
                             </v-flex>
-                            <v-flex xs12 sm6>
+                            <v-flex xs12 md6>
                                 <v-select
                                     name="yearStarted"
                                     label="Year Started"
@@ -294,7 +332,7 @@
                                     v-model="skillModel.yearStarted">
                                 </v-select>
                             </v-flex>
-                            <v-flex xs12 sm6>
+                            <v-flex xs12 md6>
                                 <v-select
                                     name="yearLastUsed"
                                     label="Year Last Used"

@@ -15,7 +15,9 @@ export class CategorySet {
 @Component
 export default class Categories extends Vue {
     private adminCategoriesService: IAdminCategoriesService;
-    private categorySets: Array<CategorySet> = new Array<CategorySet>();
+    
+    // Fields used for view binding
+    public categorySets: Array<CategorySet> = new Array<CategorySet>();
 
     public constructor() {
         super();

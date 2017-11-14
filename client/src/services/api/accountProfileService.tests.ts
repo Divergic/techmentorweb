@@ -10,6 +10,8 @@ describe("UserProfile", () => {
     
     beforeEach(function () {
         source = <AccountProfile>{
+            avatarETag: "0x8D52834540295D4",
+            avatarId: "15ca4c24-7118-404a-a054-01ddd1a36a94",
             bannedAt: new Date(),
             id: "someid",
             about: "My profile about information",

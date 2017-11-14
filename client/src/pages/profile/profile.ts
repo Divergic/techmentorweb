@@ -17,9 +17,9 @@ export default class Profile extends Vue {
     private notify: INotify;
 
     // Properties for view binding
-    private loading: boolean = true;
-    private compiledMarkdown: string = "";
-    private model: UserProfile = new UserProfile();
+    public loading: boolean = true;
+    public compiledMarkdown: string = "";
+    public model: UserProfile = new UserProfile();
 
     public constructor() {
         super();

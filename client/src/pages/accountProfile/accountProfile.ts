@@ -1,6 +1,8 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
 import SkillDetails from "../../controls/skillDetails/skillDetails.vue";
+import FileUpload from "vue-upload-component";
+import { IAvatarConfig, AvatarConfig } from "./avatarConfig";
 import { Skill } from "../../services/api/skill";
 import { IAccountProfileService, AccountProfileService, AccountProfile, ProfileStatus } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
@@ -12,7 +14,8 @@ import marked from "marked";
 
 @Component({
     components: {
-      SkillDetails
+      SkillDetails,
+      FileUpload
     }
   })
 export default class Profile extends AuthComponent {
@@ -22,20 +25,23 @@ export default class Profile extends AuthComponent {
     private notify: INotify;
 
     // Properties for view binding
-    private loading: boolean = true;
-    private compiledMarkdown: string = "";
-    private model: AccountProfile = new AccountProfile();
-    private timezones: Array<ListItem<string>> = new Array<ListItem<string>>();
-    private birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
-    private genders: Array<ListItem<string>> = new Array<ListItem<string>>();
-    private statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
-    private techYears: Array<ListItem<number>> = new Array<ListItem<number>>();
-    private skillLevels: Array<ListItem<string>> = new Array<ListItem<string>>();
-    private languages: Array<string> = new Array<string>();
-    private skills: Array<string> = new Array<string>();
-    private skillModel: Skill = new Skill();
-    private isSkillAdd: boolean = false;
-    private showDialog: boolean = false;
+    public loading: boolean = true;
+    public compiledMarkdown: string = "";
+    public model: AccountProfile = new AccountProfile();
+    public timezones: Array<ListItem<string>> = new Array<ListItem<string>>();
+    public birthYears: Array<ListItem<number>> = new Array<ListItem<number>>();
+    public genders: Array<ListItem<string>> = new Array<ListItem<string>>();
+    public statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
+    public techYears: Array<ListItem<number>> = new Array<ListItem<number>>();
+    public skillLevels: Array<ListItem<string>> = new Array<ListItem<string>>();
+    public languages: Array<string> = new Array<string>();
+    public skills: Array<string> = new Array<string>();
+    public skillModel: Skill = new Skill();
+    public isSkillAdd: boolean = false;
+    public showDialog: boolean = false;
+    public avatarConfig: IAvatarConfig;
+    public avatarUploadProgress: number | null = null;
+    public avatarUri: string | null = null;
 
     public constructor() {
         super();
@@ -44,9 +50,11 @@ export default class Profile extends AuthComponent {
         this.listsService = new ListsService();
         this.categoriesService = new CategoriesService();
         this.notify = new Notify();
+        this.avatarConfig = new AvatarConfig();
     }
     
-    public configure(profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, notify: INotify) {
+    public configure(avatarConfig: IAvatarConfig, profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, notify: INotify) {
+        this.avatarConfig = avatarConfig;
         this.profileService = profileService;
         this.listsService = listsService;
         this.categoriesService = categoriesService;
@@ -149,6 +157,57 @@ export default class Profile extends AuthComponent {
         this.showDialog = false;
     }
 
+    public OnAvatarUploaded(newFile, oldFile): void {
+        if (!newFile) {
+            return;
+        }
+        
+        if (!newFile.active) {
+            console.debug("Uploading the avatar");
+            newFile.active = true;
+            this.avatarUploadProgress = 0;
+        }
+        else {
+            this.avatarUploadProgress = parseInt(newFile.progress);
+        }
+
+        console.debug("Avatar upload progress at " + this.avatarUploadProgress);
+
+        if (this.avatarUploadProgress === 100 && newFile.response) {
+
+            // The upload has completed
+            this.avatarUploadProgress = null;
+
+            // Get response data
+            this.model.avatarId = newFile.response.id;
+            this.model.avatarETag = newFile.response.eTag;
+
+            this.BuildAvatarUri();
+            
+            console.log("response", newFile.response);
+
+            if (newFile.xhr) {
+                //  Get the response status code
+                console.log("status", newFile.xhr.status);
+            }
+        }
+    }
+
+    public BuildAvatarUri(): void {
+        console.log("Building avatar uri from " + this.model.avatarId);
+        if (!this.model.avatarId) {
+            this.avatarUri = null;
+
+            return;
+        }
+
+        let uri = this.avatarConfig.GetAvatarUri(this.model.id, this.model.avatarId, this.model.avatarETag);
+
+        console.log("Avatar uri is " + uri);
+
+        this.avatarUri = uri;
+    }
+
     public isBanned(): boolean {
         if (this.loading) {
             return false;
@@ -199,6 +258,22 @@ export default class Profile extends AuthComponent {
 
     public ShowWebsite(uri: string): void {
         window.open(uri, "_blank");
+    }
+
+    public OnAvatarSelect(): void {
+        let file = document.getElementById("avatarfile");
+        
+        if (!file) {
+            return;
+        }
+        
+        file.click();
+    }
+
+    public OnRemoveAvatar(): void {
+        this.model.avatarETag = null;
+        this.model.avatarId = null;
+        this.avatarUri = null;
     }
 
     public CheckLanguages(languages: Array<string>): void {
@@ -268,6 +343,8 @@ export default class Profile extends AuthComponent {
             // Use a copy constructor to ensure that the type has all fields initialised
             this.model = new AccountProfile(profile);
 
+            this.BuildAvatarUri();
+            
             // Populate first name, last name and email from data store if the values are not found
             if (!this.model.email) {
                 this.model.email = this.$store.getters["email"];

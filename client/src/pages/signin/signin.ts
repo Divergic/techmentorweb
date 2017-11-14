@@ -6,7 +6,9 @@ import Failure from "../../services/failure";
 @Component
 export default class SignIn extends AuthComponent {
     private authenticationService: IAuthenticationService;
-    private model: Failure | null = null;
+    
+    // Fields used for view binding
+    public model: Failure | null = null;
 
     public constructor() {
         super();
