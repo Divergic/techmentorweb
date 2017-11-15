@@ -163,7 +163,6 @@ export default class Profile extends AuthComponent {
         }
         
         if (!newFile.active) {
-            console.debug("Uploading the avatar");
             newFile.active = true;
             this.avatarUploadProgress = 0;
         }
@@ -173,28 +172,37 @@ export default class Profile extends AuthComponent {
 
         console.debug("Avatar upload progress at " + this.avatarUploadProgress);
 
-        if (this.avatarUploadProgress === 100 && newFile.response) {
+        // Check if the upload has hit a 401
+        if (newFile.xhr
+            && newFile.xhr.status) {
+             if (newFile.xhr.status === 401) {
+                // Looks like the users authentication session has expired
 
-            // The upload has completed
-            this.avatarUploadProgress = null;
+                // Temporarily store the model to handle scenarios where the auth token has expired
+                // We don't want the user to loose their changes with an auth refresh
+                store.set("profile", this.model);
+                
+                // Sign in again
+                this.signIn();
+            } else if (this.avatarUploadProgress === 100 && newFile.xhr.status === 201) {
+                // The upload has completed successfully
+                this.avatarUploadProgress = null;
+    
+                // Get response data
+                this.model.avatarId = newFile.response.id;
+                this.model.avatarETag = newFile.response.eTag;
+    
+                this.BuildAvatarUri();
 
-            // Get response data
-            this.model.avatarId = newFile.response.id;
-            this.model.avatarETag = newFile.response.eTag;
-
-            this.BuildAvatarUri();
-            
-            console.log("response", newFile.response);
-
-            if (newFile.xhr) {
-                //  Get the response status code
-                console.log("status", newFile.xhr.status);
+                this.notify.showSuccess("Successfully uploaded your avatar. Don't forget to save your profile.");
+            } else if (newFile.xhr.status !== 201) {
+                // If this is 201 here then it is an event fired that we don't want to respond to
+                this.notify.showError("Failed to upload your avatar. Please try again.");
             }
         }
     }
 
     public BuildAvatarUri(): void {
-        console.log("Building avatar uri from " + this.model.avatarId);
         if (!this.model.avatarId) {
             this.avatarUri = null;
 
@@ -202,8 +210,6 @@ export default class Profile extends AuthComponent {
         }
 
         let uri = this.avatarConfig.GetAvatarUri(this.model.id, this.model.avatarId, this.model.avatarETag);
-
-        console.log("Avatar uri is " + uri);
 
         this.avatarUri = uri;
     }
