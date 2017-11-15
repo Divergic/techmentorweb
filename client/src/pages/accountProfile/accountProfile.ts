@@ -2,7 +2,7 @@ import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
 import SkillDetails from "../../controls/skillDetails/skillDetails.vue";
 import FileUpload from "vue-upload-component";
-import { IAvatarConfig, AvatarConfig } from "./avatarConfig";
+import { IPhotoConfig, PhotoConfig } from "./photoConfig";
 import { Skill } from "../../services/api/skill";
 import { IAccountProfileService, AccountProfileService, AccountProfile, ProfileStatus } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
@@ -39,9 +39,9 @@ export default class Profile extends AuthComponent {
     public skillModel: Skill = new Skill();
     public isSkillAdd: boolean = false;
     public showDialog: boolean = false;
-    public avatarConfig: IAvatarConfig;
-    public avatarUploadProgress: number | null = null;
-    public avatarUri: string | null = null;
+    public photoConfig: IPhotoConfig;
+    public photoUploadProgress: number | null = null;
+    public photoUri: string | null = null;
 
     public constructor() {
         super();
@@ -50,11 +50,11 @@ export default class Profile extends AuthComponent {
         this.listsService = new ListsService();
         this.categoriesService = new CategoriesService();
         this.notify = new Notify();
-        this.avatarConfig = new AvatarConfig();
+        this.photoConfig = new PhotoConfig();
     }
     
-    public configure(avatarConfig: IAvatarConfig, profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, notify: INotify) {
-        this.avatarConfig = avatarConfig;
+    public configure(photoConfig: IPhotoConfig, profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, notify: INotify) {
+        this.photoConfig = photoConfig;
         this.profileService = profileService;
         this.listsService = listsService;
         this.categoriesService = categoriesService;
@@ -157,20 +157,20 @@ export default class Profile extends AuthComponent {
         this.showDialog = false;
     }
 
-    public OnAvatarUploaded(newFile, oldFile): void {
+    public OnPhotoUploaded(newFile, oldFile): void {
         if (!newFile) {
             return;
         }
         
         if (!newFile.active) {
             newFile.active = true;
-            this.avatarUploadProgress = 0;
+            this.photoUploadProgress = 0;
         }
         else {
-            this.avatarUploadProgress = parseInt(newFile.progress);
+            this.photoUploadProgress = parseInt(newFile.progress);
         }
 
-        console.debug("Avatar upload progress at " + this.avatarUploadProgress);
+        console.debug("Photo upload progress at " + this.photoUploadProgress);
 
         // Check if the upload has hit a 401
         if (newFile.xhr
@@ -184,34 +184,34 @@ export default class Profile extends AuthComponent {
                 
                 // Sign in again
                 this.signIn();
-            } else if (this.avatarUploadProgress === 100 && newFile.xhr.status === 201) {
+            } else if (this.photoUploadProgress === 100 && newFile.xhr.status === 201) {
                 // The upload has completed successfully
-                this.avatarUploadProgress = null;
+                this.photoUploadProgress = null;
     
                 // Get response data
-                this.model.avatarId = newFile.response.id;
-                this.model.avatarETag = newFile.response.eTag;
+                this.model.photoId = newFile.response.id;
+                this.model.photoHash = newFile.response.hash;
     
-                this.BuildAvatarUri();
+                this.BuildPhotoUri();
 
-                this.notify.showSuccess("Successfully uploaded your avatar. Don't forget to save your profile.");
+                this.notify.showSuccess("Successfully uploaded your photo. Don't forget to save your profile.");
             } else if (newFile.xhr.status !== 201) {
                 // If this is 201 here then it is an event fired that we don't want to respond to
-                this.notify.showError("Failed to upload your avatar. Please try again.");
+                this.notify.showError("Failed to upload your photo. Please try again.");
             }
         }
     }
 
-    public BuildAvatarUri(): void {
-        if (!this.model.avatarId) {
-            this.avatarUri = null;
+    public BuildPhotoUri(): void {
+        if (!this.model.photoId) {
+            this.photoUri = null;
 
             return;
         }
 
-        let uri = this.avatarConfig.GetAvatarUri(this.model.id, this.model.avatarId, this.model.avatarETag);
+        let uri = this.photoConfig.GetPhotoUri(this.model.id, this.model.photoId, this.model.photoHash);
 
-        this.avatarUri = uri;
+        this.photoUri = uri;
     }
 
     public isBanned(): boolean {
@@ -266,8 +266,8 @@ export default class Profile extends AuthComponent {
         window.open(uri, "_blank");
     }
 
-    public OnAvatarSelect(): void {
-        let file = document.getElementById("avatarfile");
+    public OnPhotoSelect(): void {
+        let file = document.getElementById("photofile");
         
         if (!file) {
             return;
@@ -276,10 +276,10 @@ export default class Profile extends AuthComponent {
         file.click();
     }
 
-    public OnRemoveAvatar(): void {
-        this.model.avatarETag = null;
-        this.model.avatarId = null;
-        this.avatarUri = null;
+    public OnRemovePhoto(): void {
+        this.model.photoHash = null;
+        this.model.photoId = null;
+        this.photoUri = null;
     }
 
     public CheckLanguages(languages: Array<string>): void {
@@ -349,7 +349,7 @@ export default class Profile extends AuthComponent {
             // Use a copy constructor to ensure that the type has all fields initialised
             this.model = new AccountProfile(profile);
 
-            this.BuildAvatarUri();
+            this.BuildPhotoUri();
             
             // Populate first name, last name and email from data store if the values are not found
             if (!this.model.email) {

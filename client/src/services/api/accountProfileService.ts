@@ -8,8 +8,8 @@ export class ProfileStatus {
 }
 
 export class AccountProfile {
-    public avatarId: string | null;
-    public avatarETag: string | null;
+    public photoId: string | null;
+    public photoHash: string | null;
     public bannedAt: Date | null;
     public id: string;
     public about: string | null;
@@ -30,8 +30,8 @@ export class AccountProfile {
     public constructor(profile: AccountProfile | null = null) {
         if (profile) {
             // This is a copy constructor
-            this.avatarETag = profile.avatarETag;
-            this.avatarId = profile.avatarId;
+            this.photoHash = profile.photoHash;
+            this.photoId = profile.photoId;
             this.bannedAt = profile.bannedAt;
             this.id = profile.id;
             this.about = profile.about;

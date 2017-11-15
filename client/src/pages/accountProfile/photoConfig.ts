@@ -5,13 +5,13 @@ export class Headers {
     Authorization: string;
 }
 
-export interface IAvatarConfig {
+export interface IPhotoConfig {
     readonly PostAction: string;
     readonly Headers: Headers;
-    GetAvatarUri(profileId: string, avatarId: string, eTag: string | null): string;
+    GetPhotoUri(profileId: string, photoId: string, hash: string | null): string;
 }
 
-export class AvatarConfig implements IAvatarConfig {
+export class PhotoConfig implements IPhotoConfig {
     private _headers;
     private _postAction;
 
@@ -21,7 +21,7 @@ export class AvatarConfig implements IAvatarConfig {
 
         let apiUri = this.BaseUri;
 
-        apiUri += "profile/avatars/";
+        apiUri += "profile/photos/";
 
         this._postAction = apiUri;
 
@@ -42,16 +42,16 @@ export class AvatarConfig implements IAvatarConfig {
         return this._headers;
     }
 
-    public GetAvatarUri(profileId: string, avatarId: string, eTag: string | null): string {
+    public GetPhotoUri(profileId: string, photoId: string, hash: string | null): string {
         let apiUri = this.BaseUri;
 
         let query = "";
 
-        if (eTag) {
-            query = "?etag=" + encodeURIComponent(eTag);
+        if (hash) {
+            query = "?hash=" + encodeURIComponent(hash);
         }
 
-        apiUri += "profiles/" + encodeURI(profileId) + "/avatars/" + encodeURI(avatarId) + query;
+        apiUri += "profiles/" + encodeURI(profileId) + "/photos/" + encodeURI(photoId) + query;
 
         return apiUri;
     }

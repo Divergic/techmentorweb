@@ -134,13 +134,13 @@
                 </v-flex>
                 <v-flex xs12 sm6>
                     <v-flex xs12>
-                        <div class="body-2 ml-3 text-xs-left">Avatar</div>
-                        <p v-if="avatarUri">
-                            <img :src="avatarUri" />
+                        <div class="body-2 ml-3 text-xs-left">Photo</div>
+                        <p v-if="photoUri">
+                            <img :src="photoUri" />
                         </p>
-                        <p v-if="avatarUploadProgress">
+                        <p v-if="photoUploadProgress">
                             Uploading
-                            <v-progress-linear v-model="avatarUploadProgress"></v-progress-linear>
+                            <v-progress-linear v-model="photoUploadProgress"></v-progress-linear>
                         </p>
                     </v-flex>
                     <v-layout row wrap>
@@ -149,19 +149,19 @@
                                 extensions="jpg,jpeg,png"
                                 accept="image/png,image/jpeg"
                                 name="file"
-                                input-id="avatarfile"
-                                :headers="avatarConfig.Headers"
-                                :post-action="avatarConfig.PostAction"
+                                input-id="photofile"
+                                :headers="photoConfig.Headers"
+                                :post-action="photoConfig.PostAction"
                                 :drop="true"
                                 :drop-directory="false"
                                 :size="256 * 1024"
-                                @input-file="OnAvatarUploaded"
+                                @input-file="OnPhotoUploaded"
                                 ref="upload">
-                                <v-btn class="blue--text darken-1" flat @click="OnAvatarSelect">Upload avatar</v-btn>                            
+                                <v-btn class="blue--text darken-1" flat @click="OnPhotoSelect">Upload avatar</v-btn>                            
                             </file-upload>
                         </v-flex>
                         <v-flex xs6 class="text-xs-left">
-                            <v-btn class="blue--text darken-1" flat @click="OnRemoveAvatar">Remove Avatar</v-btn>
+                            <v-btn class="blue--text darken-1" :disabled="!photoUri" flat @click="OnRemovePhoto">Remove Photo</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-flex>
