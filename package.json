@@ -42,6 +42,7 @@
     "izitoast": "^1.1.5",
     "marked": "^0.3.6",
     "store": "^2.0.12",
+    "svg-inline-loader": "^0.8.0",
     "tz-ids": "^1.0.0",
     "vee-validate": "^2.0.0-rc.14",
     "vue": "^2.4.2",

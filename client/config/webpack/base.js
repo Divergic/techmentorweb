@@ -130,7 +130,16 @@ module.exports = {
                 })
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.svg$/,
+                loader: 'svg-inline-loader',
+                options: {
+                    classPrefix: true,
+                    idPrefix: true,
+                    removeSVGTagAttrs: true
+                }
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
                 loader: "url-loader",
                 options: {
                     limit: 10000,

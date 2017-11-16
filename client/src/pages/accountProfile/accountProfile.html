@@ -135,6 +135,9 @@
                 <v-flex xs12 sm6>
                     <v-flex xs12>
                         <div class="body-2 ml-3 text-xs-left">Photo</div>
+                        <p v-if="!photoUri">
+                            <img :src="noPhoto" height="300" width="300" border="0" />
+                        </p>
                         <p v-if="photoUri">
                             <img :src="photoUri" />
                         </p>

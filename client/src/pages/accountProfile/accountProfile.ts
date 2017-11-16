@@ -12,6 +12,8 @@ import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "
 import store from "store";
 import marked from "marked";
 
+const noPhotoModule = require("../../images/no_avatar.svg");
+
 @Component({
     components: {
       SkillDetails,
@@ -42,6 +44,7 @@ export default class Profile extends AuthComponent {
     public photoConfig: IPhotoConfig;
     public photoUploadProgress: number | null = null;
     public photoUri: string | null = null;
+    public noPhoto = noPhotoModule;
 
     public constructor() {
         super();
