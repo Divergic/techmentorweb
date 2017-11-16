@@ -157,7 +157,7 @@
                                 :post-action="photoConfig.PostAction"
                                 :drop="true"
                                 :drop-directory="false"
-                                :size="256 * 1024"
+                                @input-filter="OnPhotoFilter"
                                 @input-file="OnPhotoUploaded"
                                 ref="upload">
                                 <v-btn class="blue--text darken-1" flat @click="OnPhotoSelect">Upload avatar</v-btn>                            

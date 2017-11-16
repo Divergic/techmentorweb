@@ -160,6 +160,35 @@ export default class Profile extends AuthComponent {
         this.showDialog = false;
     }
 
+    public OnPhotoFilter(newFile, oldFile, prevent): void {        
+        if (newFile && !oldFile) {
+            const maxKb = 256;
+            const failureMessage = "Please select a jpg/jpeg or png that is less than " + maxKb + "kb.";
+
+            if (newFile.size > (maxKb * 1024)) {
+                this.notify.showError(failureMessage);
+
+                return prevent();
+            }
+
+            if (!/\.(jpg|jpeg|png)$/i.test(newFile.name)) {
+                this.notify.showError(failureMessage);
+
+                return prevent();
+            }
+        }
+
+        if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
+            newFile.url = "";
+            
+            let URL = window.URL || (<any>window).webkitURL;
+
+            if (URL && URL.createObjectURL) {
+                newFile.url = URL.createObjectURL(newFile.file);
+            }
+        }
+    }
+
     public OnPhotoUploaded(newFile, oldFile): void {
         if (!newFile) {
             return;
