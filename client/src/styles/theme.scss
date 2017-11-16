@@ -2,6 +2,11 @@
 @import "../../../node_modules/izitoast/dist/css/iziToast.css";
 @import "notify.scss";
 
+#noPhoto > svg {
+    height: 300px; 
+    width: 300px;
+}
+
 .auth0-lock.auth0-lock {
     height: auto !important;
 }

@@ -135,16 +135,14 @@
                 <v-flex xs12 sm6>
                     <v-flex xs12>
                         <div class="body-2 ml-3 text-xs-left">Photo</div>
-                        <p v-if="!photoUri">
-                            <img :src="noPhoto" height="300" width="300" border="0" />
-                        </p>
-                        <p v-if="photoUri">
+                        <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
+                        <div v-if="photoUri">
                             <img :src="photoUri" />
-                        </p>
-                        <p v-if="photoUploadProgress">
+                        </div>
+                        <div v-if="photoUploadProgress">
                             Uploading
                             <v-progress-linear v-model="photoUploadProgress"></v-progress-linear>
-                        </p>
+                        </div>
                     </v-flex>
                     <v-layout row wrap>
                         <v-flex xs6 class="text-xs-right">

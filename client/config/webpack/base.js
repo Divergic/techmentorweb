@@ -71,12 +71,14 @@ module.exports = {
             "vuex-persistedstate", 
             "vee-validate", 
             "vuetify", 
+            "vue-upload-component",
             "vue-application-insights",
             "store", 
             "iziToast", 
             "axios", 
             "es6-promise/auto", 
             "vue-class-component", 
+            "vue-property-decorator",
             "tz-ids/index.jsnext.js", 
             "marked"
         ]

@@ -12,7 +12,7 @@ import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "
 import store from "store";
 import marked from "marked";
 
-const noPhotoModule = require("../../images/no_avatar.svg");
+const noPhotoModule = require("../../images/no_photo.svg");
 
 @Component({
     components: {
