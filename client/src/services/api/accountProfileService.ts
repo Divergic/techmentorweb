@@ -8,8 +8,6 @@ export class ProfileStatus {
 }
 
 export class AccountProfile {
-    public photoId: string | null;
-    public photoHash: string | null;
     public bannedAt: Date | null;
     public id: string;
     public about: string | null;
@@ -21,6 +19,8 @@ export class AccountProfile {
     public languages: Array<string>;
     public lastName: string;
     public timeZone: string | null;
+    public photoId: string | null;
+    public photoHash: string | null;
     public skills: Array<Skill>;
     public status: string;
     public twitterUsername: string | null;
@@ -30,8 +30,6 @@ export class AccountProfile {
     public constructor(profile: AccountProfile | null = null) {
         if (profile) {
             // This is a copy constructor
-            this.photoHash = profile.photoHash;
-            this.photoId = profile.photoId;
             this.bannedAt = profile.bannedAt;
             this.id = profile.id;
             this.about = profile.about;
@@ -42,6 +40,8 @@ export class AccountProfile {
             this.gitHubUsername = profile.gitHubUsername;
             this.languages = profile.languages || new Array<string>();
             this.lastName = profile.lastName;
+            this.photoHash = profile.photoHash;
+            this.photoId = profile.photoId;
             this.timeZone = profile.timeZone;
 
             this.skills = new Array<Skill>();

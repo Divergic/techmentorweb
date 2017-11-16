@@ -1,5 +1,5 @@
-import { IConfig } from "../../services/config/config";
-import { IDataStore } from "../../services/dataStore/dataStore";
+import { IConfig } from "../config/config";
+import { IDataStore } from "../dataStore/dataStore";
 import { PhotoConfig } from "./photoConfig";
 
 describe("PhotoConfig", () => {

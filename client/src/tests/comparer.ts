@@ -16,6 +16,12 @@ export class Comparer implements IComparer {
 
             return false;
         }
+        else if (!second) {
+            // First has a value but second doesn't
+            this.LogDifference(logger, first, second, propertyName);
+            
+            return false;
+        }        
 
         if (this.IsPrimitiveType(first)) {
             if (first === second) {

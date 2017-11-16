@@ -1,63 +1,89 @@
 import ProfileResult from "./profileResult";
-import { Comparer } from "../../tests/comparer";
+import { IPhotoConfig } from "../config/photoConfig";
 
 describe("ProfileResult", () => {
     let sut: ProfileResult;
+    let config: IPhotoConfig;
+    let photoUri: string;
 
     beforeEach(() => {
-        sut = new ProfileResult();
+        photoUri = "https://www.test.com/profiles/profileIdHere/photos/photoIdHere?hash=photoHashHere";
+        
+        config = <IPhotoConfig>{
+            GetPhotoUri: (profileId: string, photoId: string, photoHash: string): string => {
+                return photoUri;
+            }
+        };
+
+        sut = new ProfileResult(null, config);
         sut.birthYear = 1974;
-        sut.gender = "male";
-        sut.status = "available";
-        sut.yearStartedInTech = 1990;
         sut.firstName = "Barry";
+        sut.gender = "male";
+        sut.id = "profileIdValue";
         sut.lastName = "Goods";
+        sut.photoHash = "photoHashValue";
+        sut.photoId = "photoIdValue";
+        sut.status = "available";
         sut.timeZone = "Australia/Canberra";
+        sut.yearStartedInTech = 1990;
     });
 
     describe("constructor", () => {
         it("initialises with default values when source is not specified", () => {
             let actual = new ProfileResult();
 
-            expect(actual.id).toBeNull();
             expect(actual.birthYear).toBeNull();
-            expect(actual.gender).toBeNull();
-            expect(actual.status).toBeNull();
-            expect(actual.yearStartedInTech).toBeNull();
             expect(actual.firstName).toBeNull();
+            expect(actual.gender).toBeNull();
+            expect(actual.id).toBeNull();
             expect(actual.lastName).toBeNull();
+            expect(actual.photoHash).toBeNull();
+            expect(actual.photoId).toBeNull();
+            expect(actual.status).toBeNull();
             expect(actual.timeZone).toBeNull();
+            expect(actual.yearStartedInTech).toBeNull();
         });
         it("initialises with default values when source is null", () => {
             let actual = new ProfileResult(null);
 
-            expect(actual.id).toBeNull();
             expect(actual.birthYear).toBeNull();
-            expect(actual.gender).toBeNull();
-            expect(actual.status).toBeNull();
-            expect(actual.yearStartedInTech).toBeNull();
             expect(actual.firstName).toBeNull();
+            expect(actual.gender).toBeNull();
+            expect(actual.id).toBeNull();
             expect(actual.lastName).toBeNull();
+            expect(actual.photoHash).toBeNull();
+            expect(actual.photoId).toBeNull();
+            expect(actual.status).toBeNull();
             expect(actual.timeZone).toBeNull();
+            expect(actual.yearStartedInTech).toBeNull();
         });
         it("initialises with default values when source is undefined", () => {
             let actual = new ProfileResult(undefined);
 
-            expect(actual.id).toBeNull();
             expect(actual.birthYear).toBeNull();
-            expect(actual.gender).toBeNull();
-            expect(actual.status).toBeNull();
-            expect(actual.yearStartedInTech).toBeNull();
             expect(actual.firstName).toBeNull();
+            expect(actual.gender).toBeNull();
+            expect(actual.id).toBeNull();
             expect(actual.lastName).toBeNull();
+            expect(actual.photoHash).toBeNull();
+            expect(actual.photoId).toBeNull();
+            expect(actual.status).toBeNull();
             expect(actual.timeZone).toBeNull();
+            expect(actual.yearStartedInTech).toBeNull();
         });
         it("initialises with source values", () => {
-            let actual = new ProfileResult(sut);
+            let actual = new ProfileResult(sut, config);
 
-            let comparer = new Comparer();
-
-            expect(comparer.IsEquivalent(sut, actual)).toBeTruthy();
+            expect(actual.birthYear).toEqual(sut.birthYear);
+            expect(actual.firstName).toEqual(sut.firstName);
+            expect(actual.gender).toEqual(sut.gender);
+            expect(actual.id).toEqual(sut.id);
+            expect(actual.lastName).toEqual(sut.lastName);
+            expect(actual.photoHash).toEqual(sut.photoHash);
+            expect(actual.photoId).toEqual(sut.photoId);
+            expect(actual.status).toEqual(sut.status);
+            expect(actual.timeZone).toEqual(sut.timeZone);
+            expect(actual.yearStartedInTech).toEqual(sut.yearStartedInTech);
         });
     });
 
@@ -184,6 +210,33 @@ describe("ProfileResult", () => {
             const actual = sut.DisplayYearsInTech;
 
             expect(actual).toEqual("1");
+        });
+    });
+
+    describe("PhotoUri", () => {
+        it("returns null when photoId is null", () => {
+            sut.photoId = null;
+
+            const actual = sut.PhotoUri;
+
+            expect(actual).toBeNull();
+        });
+        it("returns null when photoId is undefined", () => {
+            sut.photoId = <string><any>undefined;
+
+            const actual = sut.PhotoUri;
+
+            expect(actual).toBeNull();
+        });
+        it("returns url from config", () => {
+            spyOn(config, "GetPhotoUri").and.callThrough();
+
+            const actual = sut.PhotoUri;
+
+            expect(actual).toEqual(photoUri);
+            expect((<any>config.GetPhotoUri).calls.argsFor(0)[0]).toEqual(sut.id);
+            expect((<any>config.GetPhotoUri).calls.argsFor(0)[1]).toEqual(sut.photoId);
+            expect((<any>config.GetPhotoUri).calls.argsFor(0)[2]).toEqual(sut.photoHash);
         });
     });
 });

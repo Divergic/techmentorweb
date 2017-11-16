@@ -15,7 +15,7 @@ describe("ProfileService", () => {
         let profile: UserProfile;
 
         beforeEach(() => {
-            profile = <UserProfile><any>{
+            let template = <UserProfile><any>{
                 id: "someid",
                 about: "My profile about information",
                 birthYear: 1974,
@@ -39,6 +39,8 @@ describe("ProfileService", () => {
                 yearStartedInTech: 1990
             };
 
+            profile = new UserProfile(template);
+
             http = <IHttp>{
                 get: async (uri) => {
                     return profile;
@@ -53,7 +55,7 @@ describe("ProfileService", () => {
 
             let actual = await sut.getProfile(id);
 
-            expect(comparer.IsEquivalent(profile, actual)).toBeTruthy();         
+            expect(comparer.IsEquivalent(profile, actual, console.log)).toBeTruthy();         
         }));
 
         it("returns initialized UserProfile object", core.runAsync(async () => {
@@ -90,7 +92,7 @@ describe("ProfileService", () => {
 
         beforeEach(() => {
             results = <Array<ProfileResult>>[
-                <ProfileResult>{
+                new ProfileResult(<ProfileResult>{
                     id: "first",
                     birthYear: 1970,
                     firstName: "Fred",
@@ -99,7 +101,7 @@ describe("ProfileService", () => {
                     status: "available",
                     timeZone: "Australia/Sydney",
                     yearStartedInTech: 1999
-                }
+                })
             ];
 
             http = <IHttp>{

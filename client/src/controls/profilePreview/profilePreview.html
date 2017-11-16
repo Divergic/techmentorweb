@@ -4,6 +4,9 @@
     </v-card-title>
     <v-card-text>
         <v-layout row wrap>
+            <v-flex xs12 v-if="profile.photoId">
+                <img :src="profile.PhotoUri" />
+            </v-flex>
             <v-flex xs12 v-if="profile.status">
                 Status: {{ profile.DisplayStatus }}
             </v-flex>

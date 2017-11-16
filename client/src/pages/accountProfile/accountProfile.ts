@@ -2,7 +2,7 @@ import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
 import SkillDetails from "../../controls/skillDetails/skillDetails.vue";
 import FileUpload from "vue-upload-component";
-import { IPhotoConfig, PhotoConfig } from "./photoConfig";
+import { IPhotoConfig, PhotoConfig } from "../../services/config/photoConfig";
 import { Skill } from "../../services/api/skill";
 import { IAccountProfileService, AccountProfileService, AccountProfile, ProfileStatus } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
@@ -280,6 +280,8 @@ export default class Profile extends AuthComponent {
         this.model.photoHash = null;
         this.model.photoId = null;
         this.photoUri = null;
+
+        this.notify.showInformation("Your photo has been removed. Don't forget to save your profile.");
     }
 
     public CheckLanguages(languages: Array<string>): void {

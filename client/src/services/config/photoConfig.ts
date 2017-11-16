@@ -1,5 +1,5 @@
-import { IConfig, Config } from "../../services/config/config";
-import { IDataStore, DataStore } from "../../services/dataStore/dataStore";
+import { IConfig, Config } from "../config/config";
+import { IDataStore, DataStore } from "../dataStore/dataStore";
 
 export class Headers {
     Authorization: string;

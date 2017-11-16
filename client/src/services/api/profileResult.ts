@@ -1,11 +1,15 @@
+import { IPhotoConfig, PhotoConfig } from "../config/photoConfig";
+
 export default class ProfileResult {
-    public constructor(source: ProfileResult | null = null) {
+    public constructor(source: ProfileResult | null = null, private config: IPhotoConfig = new PhotoConfig()) {
         if (source) {
             this.id = source.id;
             this.birthYear = source.birthYear;
             this.firstName = source.firstName;
             this.gender = source.gender;
             this.lastName = source.lastName;
+            this.photoId = source.photoId;
+            this.photoHash = source.photoHash;
             this.status = source.status;
             this.timeZone = source.timeZone;
             this.yearStartedInTech = source.yearStartedInTech;
@@ -16,6 +20,8 @@ export default class ProfileResult {
             this.firstName = <string><any>null;
             this.gender = null;
             this.lastName = <string><any>null;
+            this.photoId = null;
+            this.photoHash = null;
             this.status = <string><any>null;
             this.timeZone = null;
             this.yearStartedInTech = null;
@@ -27,6 +33,8 @@ export default class ProfileResult {
     public firstName: string;
     public gender: string | null;
     public lastName: string;
+    public photoId: string | null;
+    public photoHash: string | null;
     public status: string;
     public timeZone: string | null;
     public yearStartedInTech: number | null;    
@@ -63,6 +71,16 @@ export default class ProfileResult {
         }
 
         return value.toLocaleString();
+    }
+
+    public get PhotoUri(): string | null {
+        if (!this.photoId) {
+            return null;
+        }
+
+        let uri = this.config.GetPhotoUri(this.id, this.photoId, this.photoHash);
+
+        return uri;
     }
 
     private ToProperCase(value: string | null): string {
