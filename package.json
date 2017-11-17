@@ -51,7 +51,7 @@
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.1",
     "vue-upload-component": "^2.6.3",
-    "vuetify": "^0.16.7",
+    "vuetify": "^0.17.1",
     "vuex": "^3.0.0",
     "vuex-persistedstate": "^2.0.0"
   },

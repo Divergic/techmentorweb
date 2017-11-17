@@ -13,7 +13,7 @@
       Your profile is currently not searchable. You must provide at least one value in either Gender, Languages or Skills.
     </v-alert>
     <v-form v-if="!loading" data-vv-scope="profileForm">
-        <h6>Profile</h6>                
+        <h3>Profile</h3>                
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
                 <v-flex xs12 sm6>
@@ -37,14 +37,14 @@
                         v-model="model.email"
                         :error-messages="errors.collect('email')"
                         data-vv-scope="profileForm"
-                        hint="<strong>NOTE:</strong> Your email address will only be made available to administrators and will not be publicly displayed."
+                        hint="Your email address will only be made available to administrators and will not be publicly displayed."
                         persistent-hint
                         v-validate="'required|email'">
                     </v-text-field>
                 </v-flex>
             </v-layout>
         </v-container>   
-        <h6>Personal</h6> 
+        <h3>Personal</h3> 
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
                 <v-flex xs12 sm6>
@@ -134,7 +134,8 @@
                 </v-flex>
                 <v-flex xs12 sm6>
                     <v-flex xs12>
-                        <div class="body-2 ml-3 text-xs-left">Photo</div>
+                        <h4 class="text-xs-left">Photo</h4>
+                        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized to that size.</div>
                         <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
                         <div v-if="photoUri">
                             <img :src="photoUri" />
@@ -179,12 +180,12 @@
                     <p class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. <strong>NOTE:</strong> Images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
                 </v-flex>
                 <v-flex xs12 sm6 class="text-xs-left mb-3">
-                    <div class="body-2 ml-3 mb-2">About preview</div>
-                    <div v-html="compiledMarkdown" class="ml-3"></div>
+                    <h4 class="text-xs-left mb-2">About preview</h4>
+                    <div v-html="compiledMarkdown" class="ml-2 markdown"></div>
                 </v-flex>
             </v-layout>
         </v-container>
-        <h6>Technical</h6>
+        <h3>Technical</h3>
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
                 <v-flex xs12 sm6>
@@ -243,7 +244,7 @@
                 </v-flex>
             </v-layout>
         </v-container>
-        <h6>Skills</h6>
+        <h3>Skills</h3>
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
                 <v-flex v-for="skill in model.skills" :key="skill.name" xs12 class="text-xs-left">

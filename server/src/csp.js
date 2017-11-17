@@ -16,6 +16,7 @@ function buildConfiguration(apiUri) {
             styleSrc: [
                 "'self'",
                 "https://fonts.googleapis.com/css",
+                "'sha256-LBq1aw1vi6Sd77HzxrVokiXaYo5fPpcQ8BdMtXVIdz0='",    // vuetify
                 "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",    // vue-upload-component
                 "'sha256-+onguRe7LDXTfXKGrhm7p/a/6xGSbwMMINhJL2d65YI='"     // vue-upload-component
             ],
