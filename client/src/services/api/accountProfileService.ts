@@ -30,19 +30,18 @@ export class AccountProfile {
     public constructor(profile: AccountProfile | null = null) {
         if (profile) {
             // This is a copy constructor
-            this.bannedAt = profile.bannedAt;
-            this.id = profile.id;
             this.about = profile.about;
+            this.bannedAt = profile.bannedAt;
             this.birthYear = profile.birthYear;
             this.email = profile.email;
             this.firstName = profile.firstName;
             this.gender = profile.gender;
             this.gitHubUsername = profile.gitHubUsername;
+            this.id = profile.id;
             this.languages = profile.languages || new Array<string>();
             this.lastName = profile.lastName;
             this.photoHash = profile.photoHash;
             this.photoId = profile.photoId;
-            this.timeZone = profile.timeZone;
 
             this.skills = new Array<Skill>();
 
@@ -57,14 +56,30 @@ export class AccountProfile {
             }
 
             this.status = profile.status;
+            this.timeZone = profile.timeZone;
             this.twitterUsername = profile.twitterUsername;
             this.website = profile.website;
             this.yearStartedInTech = profile.yearStartedInTech;
         }
         else {
-            this.status = ProfileStatus.Hidden;
+            this.about = null;
+            this.bannedAt = null;
+            this.birthYear = null;
+            this.email = <string><any>null;
+            this.firstName = <string><any>null;
+            this.gender = null;
+            this.gitHubUsername = null;
+            this.id = <string><any>null;
             this.languages = new Array<string>();
+            this.lastName = <string><any>null;
+            this.photoHash = null;
+            this.photoId = null;
             this.skills = new Array<Skill>();
+            this.status = ProfileStatus.Hidden;
+            this.timeZone = null;
+            this.twitterUsername = null;
+            this.website = null;
+            this.yearStartedInTech = null;
         }
     }
 }

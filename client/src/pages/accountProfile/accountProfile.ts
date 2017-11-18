@@ -404,38 +404,6 @@ export default class Profile extends AuthComponent {
                 this.model.lastName = this.$store.getters["lastName"];
             }
 
-            // Add default values when missing to fields that should be bound to lists that provide an unspecified value
-            // The reason for this is that the model from the API will have these fields missing from the JSON
-            // but we want the select lists to default to the Unspecified value. We need to trigger this binding
-            // by pushing a value onto the properties that match the Unspecified value in the select.
-            if (!this.model.gender) {
-                this.model.gender = "";
-            }
-
-            if (!this.model.birthYear) {
-                this.model.birthYear = <number><any>null;
-            }
-
-            if (!this.model.yearStartedInTech) {
-                this.model.yearStartedInTech = <number><any>null;
-            }
-
-            if (!this.model.timeZone) {
-                this.model.timeZone = <string><any>null;
-            }
-            
-            if (!this.model.website) {
-                this.model.website = <string><any>null;
-            }
-            
-            if (!this.model.gitHubUsername) {
-                this.model.gitHubUsername = <string><any>null;
-            }
-            
-            if (!this.model.twitterUsername) {
-                this.model.twitterUsername = <string><any>null;
-            }
-            
             this.CompileMarkdown();
         }
         catch (failure) {

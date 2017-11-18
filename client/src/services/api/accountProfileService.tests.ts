@@ -10,19 +10,18 @@ describe("UserProfile", () => {
     
     beforeEach(function () {
         source = <AccountProfile>{
-            photoHash: "0x8D52834540295D4",
-            photoId: "15ca4c24-7118-404a-a054-01ddd1a36a94",
-            bannedAt: new Date(),
-            id: "someid",
             about: "My profile about information",
+            bannedAt: new Date(),
             birthYear: 1974,
             email: "here@test.com",
             firstName: "Barry",
             gender: "male",
             gitHubUsername: "barrygoods",
+            id: "someid",
             languages: <Array<string>>["English", "Spanish"],
             lastName: "Goods",
-            timeZone: "Australia/Canberra",
+            photoHash: "0x8D52834540295D4",
+            photoId: "15ca4c24-7118-404a-a054-01ddd1a36a94",
             skills: <Array<Skill>>[
                 <Skill>{
                     name: "C#",
@@ -32,6 +31,7 @@ describe("UserProfile", () => {
                 }
             ],
             status: "available",
+            timeZone: "Australia/Canberra",
             twitterUsername: "twitgoods",
             website: "https://www.goods.com",
             yearStartedInTech: 1990
@@ -39,32 +39,36 @@ describe("UserProfile", () => {
     });
 
     describe("constructor", () => {
-        it("sets status to hidden when no profile provided", () => {
+        it("sets default values when no profile provided", () => {
             let actual = new AccountProfile();
 
+            expect(actual.about).toBeNull();
+            expect(actual.bannedAt).toBeNull();
+            expect(actual.birthYear).toBeNull();
+            expect(actual.email).toBeNull();
+            expect(actual.firstName).toBeNull();
+            expect(actual.gender).toBeNull();
+            expect(actual.gitHubUsername).toBeNull();
+            expect(actual.id).toBeNull();
+            expect(actual.languages).toBeDefined();
+            expect((<any>actual.languages).length).toEqual(0);
+            expect(actual.lastName).toBeNull();
+            expect(actual.photoHash).toBeNull();
+            expect(actual.photoId).toBeNull();
+            expect(actual.email).toBeNull();
+            expect(actual.skills).toBeDefined();
+            expect((<any>actual.skills).length).toEqual(0);
             expect(actual.status).toEqual(ProfileStatus.Hidden);
+            expect(actual.timeZone).toBeNull();
+            expect(actual.twitterUsername).toBeNull();
+            expect(actual.website).toBeNull();
+            expect(actual.yearStartedInTech).toBeNull();
         });
         it("copies values from source profile", () => {
             let actual = new AccountProfile(source);
             let comparer = new Comparer();
 
             expect(comparer.IsEquivalent(source, actual)).toBeTruthy();
-        });
-        it("creates empty languages when not provided in source", () => {
-            source.languages = <Array<string>><any>null;
-
-            let actual = new AccountProfile(source);
-
-            expect(actual.languages).toBeDefined();
-            expect((<any>actual.languages).length).toEqual(0);
-        });
-        it("creates empty skills when not provided in source", () => {
-            source.skills = <Array<Skill>><any>null;
-
-            let actual = new AccountProfile(source);
-
-            expect(actual.skills).toBeDefined();
-            expect((<any>actual.skills).length).toEqual(0);
         });
     });
 });
