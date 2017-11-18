@@ -6,17 +6,16 @@ export class ListItem<T> {
 } 
 
 export interface IListsService {
-    getBirthYears(): Array<ListItem<number>>;
-    getGenders(): Array<ListItem<string>>;
+    getBirthYears(): Array<number>;
     getProfileStatuses(): Array<ListItem<string>>;
     getSkillLevels(): Array<ListItem<string>>;
-    getTechYears(): Array<ListItem<number>>;
-    getTimezones(): Array<ListItem<string>>;
+    getTechYears(): Array<number>;
+    getTimezones(): Array<string>;
 }
 
 export class ListsService implements IListsService {
 
-    public getBirthYears(): Array<ListItem<number>> {
+    public getBirthYears(): Array<number> {
         let years: Array<number> = new Array<number>();
         let currentYear = new Date().getFullYear();
         let minimumYear: number = currentYear - 100;
@@ -28,13 +27,7 @@ export class ListsService implements IListsService {
             years.push(index);
         }
 
-        return this.prepareList(years);
-    }
-
-    public getGenders(): Array<ListItem<string>> {
-        let availableGenders = <Array<string>>["Female", "Male", "Non-binary"];
-        
-        return this.prepareList(availableGenders);
+        return years;
     }
 
     public getProfileStatuses(): Array<ListItem<string>> {
@@ -57,7 +50,7 @@ export class ListsService implements IListsService {
         return this.prepareItemList(availableSkills);
     }
 
-    public getTechYears(): Array<ListItem<number>> {
+    public getTechYears(): Array<number> {
         let years: Array<number> = new Array<number>();
         let maximumYear = new Date().getFullYear();
         let minimumYear: number = 1989;
@@ -66,30 +59,16 @@ export class ListsService implements IListsService {
             years.push(index);
         }
         
-        return this.prepareList(years);
+        return years;
     }
     
-    public getTimezones(): Array<ListItem<string>> {
-        return this.prepareList(Timezones);
+    public getTimezones(): Array<string> {
+        return Timezones;
     }
     
     private prepareItemList<T>(values: Array<ListItem<T>>): Array<ListItem<T>> {
         values.unshift(<ListItem<T>>{name: "Unspecified", value: <T><any>null});
 
         return values;
-    }
-    
-    private prepareList<T>(values: Array<T>): Array<ListItem<T>> {
-        let items = new Array<ListItem<T>>();
-
-        items.push(<ListItem<T>>{name: "Unspecified", value: <T><any>null});
-
-        for (let index = 0; index < values.length; index++) {
-            let value = values[index];
-
-            items.push(<ListItem<T>>{name: value.toString(), value: value});
-        }
-
-        return items;
     }
 }

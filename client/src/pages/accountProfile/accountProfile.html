@@ -83,10 +83,8 @@
                                 name="birthYear"
                                 label="Birth Year"
                                 title="Birth Year"
-                                auto
                                 clearable
-                                item-text="name"
-                                item-value="value"
+                                auto
                                 v-bind:items="birthYears"
                                 v-model="model.birthYear">
                             </v-select>
@@ -97,8 +95,9 @@
                                 label="Gender"
                                 title="Gender"
                                 clearable
-                                item-text="name"
-                                item-value="value"
+                                combobox
+                                browser-autocomplete="off"
+                                hint="Select an existing gender or enter a new one."
                                 v-bind:items="genders"
                                 v-model="model.gender">
                             </v-select>
@@ -111,8 +110,6 @@
                                 autocomplete
                                 clearable
                                 browserAutocomplete="off"
-                                item-text="name"
-                                item-value="value"
                                 v-bind:items="timezones"
                                 v-model="model.timeZone">
                             </v-select>
@@ -135,7 +132,7 @@
                 <v-flex xs12 sm6>
                     <v-flex xs12>
                         <h4 class="text-xs-left">Photo</h4>
-                        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized to that size.</div>
+                        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized.</div>
                         <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
                         <div v-if="photoUri">
                             <img :src="photoUri" />
@@ -287,19 +284,22 @@
                     <v-container grid-list-md>
                         <v-layout wrap>
                             <v-flex xs12 md6>
-                                <v-text-field
+                                <v-select
                                     name="name"
                                     label="Name"
                                     title="Name"
-                                    required
-                                    autocomplete="off"
-                                    :autofocus="true"
+                                    clearable
+                                    combobox
+                                    browser-autocomplete="off"
+                                    hint="Select an existing skill or enter a new one."
+                                    v-bind:items="skills"
                                     v-model="skillModel.name"
+                                    required
                                     :error-messages="errors.collect('name')"
                                     data-vv-scope="skillForm"
                                     v-validate="'required'"
                                     v-if="isSkillAdd">
-                                </v-text-field>
+                                </v-select>
                                 <v-text-field
                                     label="Name"
                                     v-model="skillModel.name"
@@ -328,8 +328,6 @@
                                     title="Year Started"
                                     auto
                                     clearable
-                                    item-text="name"
-                                    item-value="value"
                                     v-bind:items="techYears"
                                     v-model="skillModel.yearStarted">
                                 </v-select>
@@ -341,8 +339,6 @@
                                     title="Year Last Used"
                                     auto
                                     clearable
-                                    item-text="name"
-                                    item-value="value"
                                     v-bind:items="techYears"
                                     v-model="skillModel.yearLastUsed">
                                 </v-select>
