@@ -140,7 +140,6 @@
                             <img :src="photoUri" />
                         </div>
                         <div v-if="photoUploadProgress">
-                            Uploading
                             <v-progress-linear v-model="photoUploadProgress"></v-progress-linear>
                         </div>
                     </v-flex>
@@ -158,11 +157,11 @@
                                 @input-filter="OnPhotoFilter"
                                 @input-file="OnPhotoUploaded"
                                 ref="upload">
-                                <v-btn class="blue--text darken-1" flat @click="OnPhotoSelect">Upload avatar</v-btn>                            
+                                <v-btn class="blue--text darken-1" title="Upload Photo" :loading="uploadingPhoto" :disabled="uploadingPhoto" flat @click="OnPhotoSelect">Upload Photo</v-btn>                            
                             </file-upload>
                         </v-flex>
                         <v-flex xs6 class="text-xs-left">
-                            <v-btn class="blue--text darken-1" :disabled="!photoUri" flat @click="OnRemovePhoto">Remove Photo</v-btn>
+                            <v-btn class="blue--text darken-1" title="Remove Photo" :disabled="!photoUri" flat @click="OnRemovePhoto">Remove Photo</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-flex>
@@ -274,7 +273,7 @@
                         :error-messages="errors.collect('acceptCoC')"
                         data-vv-scope="profileForm"
                         data-vv-as="accept Code of Conduct"
-                        v-validate="'required'"   
+                        v-validate="'required:true'"   
                         @click.native.prevent="OnAcceptCoCClick" 
                         >
                         <span slot="label">I accept and will abide by the Tech Mentors <router-link to="conduct" target="_blank" @click.native.prevent="OnViewCoCClick">Code of Conduct</router-link></span>
@@ -284,7 +283,7 @@
                     <small>* indicates required field</small>
                 </v-flex>
                 <v-flex xs12 class="text-xs-right">
-                    <v-btn color="primary" @click="OnSave">
+                    <v-btn title="Save" color="primary" :loading="savingModel" :disabled="savingModel" @click="OnSave">
                         Save
                     </v-btn>
                 </v-flex>

@@ -45,6 +45,8 @@ export default class Profile extends AuthComponent {
     public photoUploadProgress: number | null = null;
     public photoUri: string | null = null;
     public noPhoto = noPhotoModule;
+    public savingModel: boolean = false;
+    public uploadingPhoto: boolean = false;
 
     public constructor() {
         super();
@@ -91,6 +93,8 @@ export default class Profile extends AuthComponent {
         store.set("profile", this.model);
 
         try {
+            this.savingModel = true;
+
             await this.profileService.updateAccountProfile(this.model);
             
             store.remove("profile");
@@ -106,6 +110,9 @@ export default class Profile extends AuthComponent {
                 
                 throw failure;
             }
+        }
+        finally {
+            this.savingModel = false;
         }
     }
 
@@ -193,17 +200,21 @@ export default class Profile extends AuthComponent {
         if (!newFile) {
             return;
         }
-        
-        if (!newFile.active) {
+
+        let progress: number = 0;
+
+        if (newFile.progress) {
+            progress = parseInt(newFile.progress);
+        }
+
+        if (!newFile.active
+            && progress === 0) {
+            this.uploadingPhoto = true;
             newFile.active = true;
-            this.photoUploadProgress = 0;
-        }
-        else {
-            this.photoUploadProgress = parseInt(newFile.progress);
         }
 
-        console.debug("Photo upload progress at " + this.photoUploadProgress);
-
+        this.photoUploadProgress = progress;
+        
         // Check if the upload has hit a 401
         if (newFile.xhr
             && newFile.xhr.status) {
@@ -216,7 +227,7 @@ export default class Profile extends AuthComponent {
                 
                 // Sign in again
                 this.signIn();
-            } else if (this.photoUploadProgress === 100 && newFile.xhr.status === 201) {
+            } else if (this.photoUploadProgress === 100 && !newFile.active && newFile.xhr.status === 201) {
                 // The upload has completed successfully
                 this.photoUploadProgress = null;
     
@@ -225,10 +236,12 @@ export default class Profile extends AuthComponent {
                 this.model.photoHash = newFile.response.hash;
     
                 this.BuildPhotoUri();
-
+                
+                this.uploadingPhoto = false;
                 this.notify.showSuccess("Successfully uploaded your photo. Don't forget to save your profile.");
             } else if (newFile.xhr.status !== 201) {
                 // If this is 201 here then it is an event fired that we don't want to respond to
+                this.uploadingPhoto = false;
                 this.notify.showError("Failed to upload your photo. Please try again.");
             }
         }
