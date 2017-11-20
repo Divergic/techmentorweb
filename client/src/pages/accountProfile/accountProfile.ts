@@ -307,6 +307,19 @@ export default class Profile extends AuthComponent {
         
         file.click();
     }
+    
+    public OnAcceptCoCClick(event: Event): void {
+        console.log(this.model.acceptCoC);
+    }
+
+    public OnViewCoCClick(event: Event): void {
+        event.stopPropagation();
+        event.preventDefault();
+
+        let element: HTMLAnchorElement = <HTMLAnchorElement>event.srcElement;
+
+        window.open(element.href, element.target);
+    }
 
     public OnRemovePhoto(): void {
         this.model.photoHash = null;

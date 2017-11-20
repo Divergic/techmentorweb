@@ -5,12 +5,13 @@ import { Comparer } from "../../tests/comparer";
 
 const core = require("../../tests/core");
 
-describe("UserProfile", () => {
+describe("AccountProfile", () => {
     let source: AccountProfile;
     
     beforeEach(function () {
         source = <AccountProfile>{
             about: "My profile about information",
+            acceptCoC: true,
             bannedAt: new Date(),
             birthYear: 1974,
             email: "here@test.com",
@@ -43,6 +44,7 @@ describe("UserProfile", () => {
             let actual = new AccountProfile();
 
             expect(actual.about).toBeNull();
+            expect(actual.acceptCoC).toBeFalsy();
             expect(actual.bannedAt).toBeNull();
             expect(actual.birthYear).toBeNull();
             expect(actual.email).toBeNull();

@@ -8,14 +8,15 @@ export class ProfileStatus {
 }
 
 export class AccountProfile {
-    public bannedAt: Date | null;
-    public id: string;
     public about: string | null;
+    public acceptCoC: boolean;
+    public bannedAt: Date | null;
     public birthYear: number | null;
     public email: string;
     public firstName: string;
     public gender: string | null;
     public gitHubUsername: string | null;
+    public id: string;
     public languages: Array<string>;
     public lastName: string;
     public timeZone: string | null;
@@ -31,6 +32,7 @@ export class AccountProfile {
         if (profile) {
             // This is a copy constructor
             this.about = profile.about;
+            this.acceptCoC = profile.acceptCoC;
             this.bannedAt = profile.bannedAt;
             this.birthYear = profile.birthYear;
             this.email = profile.email;
@@ -63,6 +65,7 @@ export class AccountProfile {
         }
         else {
             this.about = null;
+            this.acceptCoC = false;
             this.bannedAt = null;
             this.birthYear = null;
             this.email = <string><any>null;

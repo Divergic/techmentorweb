@@ -61,6 +61,7 @@
                                 v-model="model.firstName"
                                 :error-messages="errors.collect('firstName')"
                                 data-vv-scope="profileForm"
+                                data-vv-as="first name"
                                 v-validate="'required'">
                             </v-text-field>
                         </v-flex>
@@ -75,6 +76,7 @@
                                 v-model="model.lastName"
                                 :error-messages="errors.collect('lastName')"
                                 data-vv-scope="profileForm"
+                                data-vv-as="last name"
                                 v-validate="'required'">
                             </v-text-field>
                         </v-flex>
@@ -263,6 +265,21 @@
         </v-container>
         <v-container>
             <v-layout row wrap>
+                <v-flex xs12 class="text-xs-right">
+                    <v-checkbox
+                        v-model="model.acceptCoC"
+                        name="acceptCoC"
+                        color="success"
+                        required
+                        :error-messages="errors.collect('acceptCoC')"
+                        data-vv-scope="profileForm"
+                        data-vv-as="accept Code of Conduct"
+                        v-validate="'required'"   
+                        @click.native.prevent="OnAcceptCoCClick" 
+                        >
+                        <span slot="label">I accept and will abide by the Tech Mentors <router-link to="conduct" target="_blank" @click.native.prevent="OnViewCoCClick">Code of Conduct</router-link></span>
+                    </v-checkbox>
+                </v-flex>
                 <v-flex xs12 class="text-xs-right">
                     <small>* indicates required field</small>
                 </v-flex>
