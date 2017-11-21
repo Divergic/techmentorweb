@@ -132,18 +132,18 @@
                     </v-layout> 
                 </v-flex>
                 <v-flex xs12 sm6>
-                    <v-flex xs12>
-                        <h4 class="text-xs-left">Photo</h4>
-                        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized.</div>
-                        <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
-                        <div v-if="photoUri">
-                            <img :src="photoUri" />
-                        </div>
-                        <div v-if="photoUploadProgress">
-                            <v-progress-linear v-model="photoUploadProgress"></v-progress-linear>
-                        </div>
-                    </v-flex>
                     <v-layout row wrap>
+                        <v-flex xs12>
+                            <h4 class="text-xs-left">Photo</h4>
+                            <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized.</div>
+                            <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
+                            <div v-if="photoUri">
+                                <img :src="photoUri" />
+                            </div>
+                            <div v-if="photoUploadProgress">
+                                <v-progress-linear v-model="photoUploadProgress"></v-progress-linear>
+                            </div>
+                        </v-flex>
                         <v-flex xs6 class="text-xs-right">
                             <file-upload
                                 extensions="jpg,jpeg,png"
@@ -264,7 +264,7 @@
         </v-container>
         <v-container>
             <v-layout row wrap>
-                <v-flex xs12 class="text-xs-right">
+                <v-flex xs12>
                     <v-checkbox
                         v-model="model.acceptCoC"
                         name="acceptCoC"
