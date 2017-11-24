@@ -321,10 +321,6 @@ export default class Profile extends AuthComponent {
         file.click();
     }
     
-    public OnAcceptCoCClick(event: Event): void {
-        console.log(this.model.acceptCoC);
-    }
-
     public OnViewCoCClick(event: Event): void {
         event.stopPropagation();
         event.preventDefault();
