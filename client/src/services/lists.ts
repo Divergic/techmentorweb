@@ -47,7 +47,7 @@ export class ListsService implements IListsService {
             <ListItem<string>> {name: "Master", value: "master"}
         ];
 
-        return this.prepareItemList(availableSkills);
+        return availableSkills;
     }
 
     public getTechYears(): Array<number> {
@@ -64,11 +64,5 @@ export class ListsService implements IListsService {
     
     public getTimezones(): Array<string> {
         return Timezones;
-    }
-    
-    private prepareItemList<T>(values: Array<ListItem<T>>): Array<ListItem<T>> {
-        values.unshift(<ListItem<T>>{name: "Unspecified", value: <T><any>null});
-
-        return values;
     }
 }

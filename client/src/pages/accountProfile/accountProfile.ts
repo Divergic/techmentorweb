@@ -118,12 +118,10 @@ export default class Profile extends AuthComponent {
 
     public OnAddSkill(): void {
         this.isSkillAdd = true;
-        this.skillModel = new Skill();
-
-        // Ensure any previous validation triggers have been removed
-        this.$validator.reset();
-
-        this.showDialog = true;
+        
+        let skill = new Skill();
+        
+        this.showSkillDialog(skill);
     }
 
     public OnDeleteSkill(skill: Skill): void {
@@ -140,12 +138,8 @@ export default class Profile extends AuthComponent {
 
     public OnEditSkill(skill: Skill): void {
         this.isSkillAdd = false;
-        this.skillModel = skill;
 
-        // Ensure any previous validation triggers have been removed
-        this.$validator.reset();
-        
-        this.showDialog = true;
+        this.showSkillDialog(skill);
     }
 
     public async OnSaveSkill(): Promise<void> {
@@ -357,6 +351,17 @@ export default class Profile extends AuthComponent {
         }
     }
     
+    private showSkillDialog(skill: Skill) {
+        this.skillModel = skill;
+
+        this.showDialog = true;
+        
+        this.$nextTick(function () {
+            // Ensure any previous validation triggers have been removed
+            this.$validator.errors.clear("skillForm");
+          });
+    }
+
     private toTitleCase(value: string): string {
         return value.toLowerCase().split(" ").map((word) => {
             return word.replace(word[0], word[0].toUpperCase());
