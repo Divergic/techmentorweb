@@ -306,7 +306,7 @@
                                     combobox
                                     browser-autocomplete="off"
                                     hint="Select an existing skill or enter a new one."
-                                    v-bind:items="skills"
+                                    v-bind:items="availableSkills"
                                     v-model="skillModel.name"
                                     required
                                     :error-messages="errors.collect('name')"

@@ -38,6 +38,7 @@ export default class Profile extends AuthComponent {
     public genders: Array<string> = new Array<string>();
     public languages: Array<string> = new Array<string>();
     public skills: Array<string> = new Array<string>();
+    public availableSkills: Array<string> = new Array<string>();
     public skillModel: Skill = new Skill();
     public isSkillAdd: boolean = false;
     public showDialog: boolean = false;
@@ -117,11 +118,9 @@ export default class Profile extends AuthComponent {
     }
 
     public OnAddSkill(): void {
-        this.isSkillAdd = true;
-        
         let skill = new Skill();
         
-        this.showSkillDialog(skill);
+        this.showSkillDialog(skill, true);
     }
 
     public OnDeleteSkill(skill: Skill): void {
@@ -137,9 +136,7 @@ export default class Profile extends AuthComponent {
     }
 
     public OnEditSkill(skill: Skill): void {
-        this.isSkillAdd = false;
-
-        this.showSkillDialog(skill);
+        this.showSkillDialog(skill, false);
     }
 
     public async OnSaveSkill(): Promise<void> {
@@ -351,8 +348,10 @@ export default class Profile extends AuthComponent {
         }
     }
     
-    private showSkillDialog(skill: Skill) {
+    private showSkillDialog(skill: Skill, isSkillAdd: boolean) {
         this.skillModel = skill;
+        this.isSkillAdd = isSkillAdd;
+        this.availableSkills = this.determineAvailableSkills();
 
         this.showDialog = true;
         
@@ -360,6 +359,34 @@ export default class Profile extends AuthComponent {
             // Ensure any previous validation triggers have been removed
             this.$validator.errors.clear("skillForm");
           });
+    }
+
+    private determineAvailableSkills(): Array<string> {
+        let availableSkills = new Array<string>();
+
+        if (!this.isSkillAdd) {
+            return availableSkills;
+        }
+
+        // Determine which skills are available
+        for (let index = 0; index < this.skills.length; index++) {
+            let skillUsed = false;
+            let skill = this.skills[index];
+
+            for (let usedIndex = 0; usedIndex < this.model.skills.length; usedIndex++) {
+                if (skill.toLocaleUpperCase() === this.model.skills[usedIndex].name.toLocaleUpperCase()) {
+                    skillUsed = true;
+
+                    break;
+                }
+            }
+
+            if (!skillUsed) {
+                availableSkills.push(skill);
+            }
+        } 
+
+        return availableSkills;    
     }
 
     private toTitleCase(value: string): string {
