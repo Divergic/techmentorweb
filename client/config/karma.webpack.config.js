@@ -36,19 +36,19 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin(
-            { 
-                "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-                "webpackDefine": {
-                    "environment": JSON.stringify(config.environment),
-                    "apiUri": JSON.stringify(config.apiUri),
-                    "audience": JSON.stringify(config.authAudience),
-                    "authDomain": JSON.stringify(config.authDomain),
-                    "authorizeUri": JSON.stringify(config.authAuthorizeUri),
-                    "clientId": JSON.stringify(config.authClientId),
-                    "responseType": JSON.stringify(config.authResponseType),
-                    "scope": JSON.stringify(config.authScope),
-                    "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
-                } 
-            }),
+        { 
+            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+            "webpackDefine": {
+                "environment": JSON.stringify(config.environment),
+                "apiUri": JSON.stringify(config.apiUri),
+                "audience": JSON.stringify(config.authAudience),
+                "authDomain": JSON.stringify(config.authDomain),
+                "authorizeUri": JSON.stringify(config.authAuthorizeUri),
+                "clientId": JSON.stringify(config.authClientId),
+                "responseType": JSON.stringify(config.authResponseType),
+                "scope": JSON.stringify(config.authScope),
+                "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
+            } 
+        })
     ]
 };

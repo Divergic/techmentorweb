@@ -12,7 +12,6 @@ export default class SkillDialog extends Vue {
     private notify: INotify;
 
     // View model properties
-    public loading: boolean = true;
     public techYears: Array<number> = new Array<number>();
     public techYearsStarted: Array<number> = new Array<number>();
     public techYearsLastUsed: Array<number> = new Array<number>();
@@ -50,9 +49,29 @@ export default class SkillDialog extends Vue {
         return this.OnLoad();
     }
 
+    public async OnLoad(): Promise<void> {
+        this.techYears = this.listsService.getTechYears();
+        this.skillLevels = this.listsService.getSkillLevels();
+
+        let categories = await this.categoriesService.getCategories();
+
+        this.skills = categories
+            .filter((item: Category) => {
+                return item.group === CategoryGroup.Skill;
+            }).map((item: Category) => {
+                return item.name;
+            });
+    }
+
     @Watch("usedSkills")
     public SkillsChanged(): void {
-        this.availableSkills = this.determineAvailableSkills();
+        this.availableSkills = this.skills.filter((skill: string) => {
+            let matchingSkills = this.usedSkills.filter((usedSkill: Skill) => {
+                return skill.toLocaleUpperCase() === usedSkill.name.toLocaleUpperCase();
+            });
+            
+            return (matchingSkills.length === 0);
+        });
     }
 
     @Watch("model.yearStarted")
@@ -64,8 +83,6 @@ export default class SkillDialog extends Vue {
         }
 
         let started: number = this.model.yearStarted;
-        
-        console.log("Finding tech years from " + this.model.yearStarted);
         
         this.techYearsLastUsed = this.techYears
             .filter((item: number) => {
@@ -83,18 +100,10 @@ export default class SkillDialog extends Vue {
 
         let lastUsed: number = this.model.yearLastUsed;
 
-        console.log("Finding tech years up to " + this.model.yearLastUsed);
-
         this.techYearsStarted = this.techYears
             .filter((item: number) => {
                 return item <= lastUsed;
             });
-    }
-
-    public async OnLoad(): Promise<void> {
-        await this.loadLists();
-
-        this.loading = false;
     }
 
     public OnClose(): void {
@@ -122,43 +131,5 @@ export default class SkillDialog extends Vue {
             // Ensure any previous validation triggers have been removed
             this.$validator.errors.clear("skillForm");
           });
-    }
-
-    private async loadLists(): Promise<void> {
-        this.techYears = this.listsService.getTechYears();
-        this.skillLevels = this.listsService.getSkillLevels();
-
-        let categories = await this.categoriesService.getCategories();
-
-        this.skills = categories
-            .filter((item: Category) => {
-                return item.group === CategoryGroup.Skill;
-            }).map((item: Category) => {
-                return item.name;
-            });
-    }
-    
-    private determineAvailableSkills(): Array<string> {
-        let availableSkills = new Array<string>();
-
-        // Determine which skills are available
-        for (let index = 0; index < this.skills.length; index++) {
-            let skillUsed = false;
-            let skill = this.skills[index];
-
-            for (let usedIndex = 0; usedIndex < this.usedSkills.length; usedIndex++) {
-                if (skill.toLocaleUpperCase() === this.usedSkills[usedIndex].name.toLocaleUpperCase()) {
-                    skillUsed = true;
-
-                    break;
-                }
-            }
-
-            if (!skillUsed) {
-                availableSkills.push(skill);
-            }
-        } 
-
-        return availableSkills;    
     }
 }
