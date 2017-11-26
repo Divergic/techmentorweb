@@ -33,6 +33,7 @@ export default class Profile extends AuthComponent {
     public compiledMarkdown: string = "";
     public model: AccountProfile = new AccountProfile();
     public timezones: Array<string> = new Array<string>();
+    public techYears: Array<number> = new Array<number>();
     public birthYears: Array<number> = new Array<number>();
     public statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
     public genders: Array<string> = new Array<string>();
@@ -356,6 +357,7 @@ export default class Profile extends AuthComponent {
     private async loadLists(): Promise<void> {
         this.timezones = this.listsService.getTimezones();
         this.birthYears = this.listsService.getBirthYears();
+        this.techYears = this.listsService.getTechYears();
         this.statuses = this.listsService.getProfileStatuses();
 
         let categories = await this.categoriesService.getCategories();

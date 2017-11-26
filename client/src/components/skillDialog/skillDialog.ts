@@ -14,12 +14,14 @@ export default class SkillDialog extends Vue {
     // View model properties
     public loading: boolean = true;
     public techYears: Array<number> = new Array<number>();
+    public techYearsStarted: Array<number> = new Array<number>();
+    public techYearsLastUsed: Array<number> = new Array<number>();
     public skills: Array<string> = new Array<string>();
     public skillLevels: Array<ListItem<string>> = new Array<ListItem<string>>();
     public availableSkills: Array<string> = new Array<string>();
     
     @Prop()
-    public usedSkills: Array<Skill> = new Array<Skill>();
+    public usedSkills: Array<Skill>;
 
     @Prop()
     public model: Skill;
@@ -51,6 +53,42 @@ export default class SkillDialog extends Vue {
     @Watch("usedSkills")
     public SkillsChanged(): void {
         this.availableSkills = this.determineAvailableSkills();
+    }
+
+    @Watch("model.yearStarted")
+    public YearStartedChanged(): void {
+        if (!this.model.yearStarted) {
+            this.techYearsLastUsed = this.techYears;
+
+            return;
+        }
+
+        let started: number = this.model.yearStarted;
+        
+        console.log("Finding tech years from " + this.model.yearStarted);
+        
+        this.techYearsLastUsed = this.techYears
+            .filter((item: number) => {
+                return item >= started;
+            });
+    }
+
+    @Watch("model.yearLastUsed")
+    public YearLastUsedChanged(): void {
+        if (!this.model.yearLastUsed) {
+            this.techYearsStarted = this.techYears;
+
+            return;
+        }
+
+        let lastUsed: number = this.model.yearLastUsed;
+
+        console.log("Finding tech years up to " + this.model.yearLastUsed);
+
+        this.techYearsStarted = this.techYears
+            .filter((item: number) => {
+                return item <= lastUsed;
+            });
     }
 
     public async OnLoad(): Promise<void> {
