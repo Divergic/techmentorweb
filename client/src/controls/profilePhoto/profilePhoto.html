@@ -1,0 +1,32 @@
+<v-layout row wrap>
+    <v-flex xs12>
+        <h4 class="text-xs-left">Photo</h4>
+        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized.</div>
+        <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
+        <div v-if="photoUri">
+            <img :src="photoUri" />
+        </div>
+        <div v-if="photoUploadProgress">
+            <v-progress-linear v-model="photoUploadProgress"></v-progress-linear>
+        </div>
+    </v-flex>
+    <v-flex xs6 class="text-xs-right">
+        <file-upload
+            extensions="jpg,jpeg,png"
+            accept="image/png,image/jpeg"
+            name="file"
+            input-id="photofile"
+            :headers="photoConfig.Headers"
+            :post-action="photoConfig.PostAction"
+            :drop="true"
+            :drop-directory="false"
+            @input-filter="OnPhotoFilter"
+            @input-file="OnPhotoUploaded"
+            ref="upload">
+            <v-btn class="blue--text darken-1" title="Upload Photo" :loading="uploadingPhoto" :disabled="uploadingPhoto" flat @click="OnPhotoSelect">Upload Photo</v-btn>                            
+        </file-upload>
+    </v-flex>
+    <v-flex xs6 class="text-xs-left">
+        <v-btn class="blue--text darken-1" title="Remove Photo" :disabled="!photoUri" flat @click="OnPhotoRemove">Remove Photo</v-btn>
+    </v-flex>
+</v-layout>

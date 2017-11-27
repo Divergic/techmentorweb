@@ -31,6 +31,15 @@ module.exports = {
               options: {
                 esModule: true
               }
+            },
+            {
+                test: /\.svg$/,
+                loader: 'svg-inline-loader',
+                options: {
+                    classPrefix: true,
+                    idPrefix: true,
+                    removeSVGTagAttrs: true
+                }
             }
         ]
     },
