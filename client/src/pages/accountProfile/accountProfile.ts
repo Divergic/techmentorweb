@@ -1,9 +1,7 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
-import SkillDetails from "../../controls/skillDetails/skillDetails";
-import SkillDialog from "../../components/skillDialog/skillDialog.vue";
 import ProfilePhoto from "../../controls/profilePhoto/profilePhoto.vue";
-import { Skill } from "../../services/api/skill";
+import SkillList from "../../controls/skillList/skillList.vue";
 import { IAccountProfileService, AccountProfileService, AccountProfile, ProfileStatus } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
@@ -14,9 +12,8 @@ import marked from "marked";
 
 @Component({
     components: {
-      SkillDetails,
-      SkillDialog,
-      ProfilePhoto
+      ProfilePhoto,
+      SkillList
     }
   })
 export default class Profile extends AuthComponent {
@@ -35,9 +32,6 @@ export default class Profile extends AuthComponent {
     public statuses: Array<ListItem<string>> = new Array<ListItem<string>>();
     public genders: Array<string> = new Array<string>();
     public languages: Array<string> = new Array<string>();
-    public skillModel: Skill = new Skill();
-    public isSkillAdd: boolean = false;
-    public showDialog: boolean = false;
     public savingModel: boolean = false;
 
     public constructor() {
@@ -104,41 +98,6 @@ export default class Profile extends AuthComponent {
         finally {
             this.savingModel = false;
         }
-    }
-
-    public OnAddSkill(): void {
-        let skill = new Skill();
-        
-        this.showSkillDialog(skill, true);
-    }
-
-    public OnEditSkill(skill: Skill): void {
-        this.showSkillDialog(skill, false);
-    }
-
-    public OnDeleteSkill(skill: Skill): void {
-        if (!this.model) {
-            return;
-        }
-
-        if (!this.model.skills) {
-            return;
-        }
-
-        this.model.skills = this.model.skills.filter(item => item.name !== skill.name);
-    }
-
-    public OnSkillClose(): void {
-        this.showDialog = false;
-    }
-
-    public OnSkillSave(skill: Skill): void {
-        if (this.isSkillAdd) {
-            // This is an add of a skill
-            this.model.skills.push(skill);
-        }
-
-        this.showDialog = false;
     }
 
     public isBanned(): boolean {
@@ -221,13 +180,6 @@ export default class Profile extends AuthComponent {
         }
     }
     
-    private showSkillDialog(skill: Skill, isSkillAdd: boolean) {
-        this.skillModel = skill;
-        this.isSkillAdd = isSkillAdd;
-
-        this.showDialog = true;
-    }
-
     private toTitleCase(value: string): string {
         return value.toLowerCase().split(" ").map((word) => {
             return word.replace(word[0], word[0].toUpperCase());

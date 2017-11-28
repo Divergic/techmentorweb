@@ -124,6 +124,25 @@ describe("SkillDialog", () => {
             expect(actual[0]).toEqual("C#");
             expect(actual[1]).toEqual("C++");
         });
+        it("populates lists", core.runAsync(async () => {  
+            let expectedTechYearsStarted = new Array<number>(2008, 2007, 2006, 2005, 2004);
+            let expectedTechYearsLastUsed = new Array<number>(2010, 2009, 2008, 2007);
+            
+            sut.usedSkills = <Array<Skill>>[
+                <Skill>{
+                    name: "C#"
+                }
+            ];
+            sut.model.yearStarted = 2007;
+            sut.model.yearLastUsed = 2008;
+
+            await sut.OnLoad();
+
+            expect(sut.techYearsStarted).toEqual(expectedTechYearsStarted);
+            expect(sut.techYearsLastUsed).toEqual(expectedTechYearsLastUsed);
+            expect(sut.availableSkills.length).toEqual(1);
+            expect(sut.availableSkills[0]).toEqual("C++");
+        }));
     });
 
     describe("SkillsChanged", () => {

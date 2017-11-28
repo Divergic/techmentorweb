@@ -1,0 +1,20 @@
+<v-container grid-list-md text-xs-center>
+    <v-layout row wrap>
+        <v-flex v-for="skill in model" :key="skill.name" xs12 class="text-xs-left">
+            <SkillDetails :skill="skill" />
+            <v-btn icon class="green--text" @click="OnEditSkill(skill)">
+                <v-icon>edit</v-icon>
+            </v-btn>
+            <v-btn icon class="red--text" @click="OnDeleteSkill(skill)">
+                <v-icon>delete</v-icon>
+            </v-btn>
+        </v-flex>
+        <v-flex xs12 class="text-xs-left">
+            <p v-if="model.length === 0" class="subheading">No skills added yet.</p>
+            <v-btn @click="OnAddSkill">
+                Add Skill
+            </v-btn>
+        </v-flex>
+        <SkillDialog :visible="showDialog" :model="skillModel" :usedSkills="model" :isAdd="isSkillAdd" @closeSkill="OnDialogClose" @saveSkill="OnDialogSave"></SkillDialog>
+    </v-layout>
+</v-container>
