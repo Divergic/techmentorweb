@@ -2,7 +2,8 @@ import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
 import ProfilePhoto from "../../controls/profilePhoto/profilePhoto.vue";
 import SkillList from "../../controls/skillList/skillList.vue";
-import { IAccountProfileService, AccountProfileService, AccountProfile, ProfileStatus } from "../../services/api/accountProfileService";
+import AccountProfileAlerts from "../../controls/accountProfileAlerts/accountProfileAlerts.vue";
+import { IAccountProfileService, AccountProfileService, AccountProfile } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { IListsService, ListsService, ListItem } from "../../services/lists";
@@ -13,7 +14,8 @@ import marked from "marked";
 @Component({
     components: {
       ProfilePhoto,
-      SkillList
+      SkillList,
+      AccountProfileAlerts
     }
   })
 export default class Profile extends AuthComponent {
@@ -98,54 +100,6 @@ export default class Profile extends AuthComponent {
         finally {
             this.savingModel = false;
         }
-    }
-
-    public isBanned(): boolean {
-        if (this.loading) {
-            return false;
-        }
-
-        if (this.model.bannedAt) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    public isHidden(): boolean {
-        if (this.loading) {
-            return false;
-        }
-
-        if (this.model.status === ProfileStatus.Hidden) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    public isSearchable(): boolean {
-        if (this.loading) {
-            return true;
-        }
-
-        if (this.model.status === ProfileStatus.Hidden) {
-            return false;
-        }
-        
-        if (this.model.gender) {
-            return true;
-        }
-        
-        if (this.model.languages && this.model.languages.length > 0) {
-            return true;
-        }
-        
-        if (this.model.skills && this.model.skills.length > 0) {
-            return true;
-        }
-        
-        return false;
     }
 
     public ShowWebsite(uri: string): void {

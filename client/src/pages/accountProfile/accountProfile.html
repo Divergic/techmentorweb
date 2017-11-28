@@ -3,15 +3,7 @@
         <v-progress-circular indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
         <p class="ma-3 subheading">Loading your profile, please wait...</p>
     </div>  
-    <v-alert color="warning" icon="priority_high" :value="isHidden()">
-      Your profile is currently hidden and will not be publicly visible.
-    </v-alert>
-    <v-alert error :value="isBanned()">
-      Your account has been banned and will not be publicly visible.
-    </v-alert>
-    <v-alert color="warning" icon="priority_high" :value="!isHidden() && !isSearchable()">
-      Your profile is currently not searchable. You must provide at least one value in either Gender, Languages or Skills.
-    </v-alert>
+    <AccountProfileAlerts v-if="!loading" :model="model"></AccountProfileAlerts>
     <v-form v-if="!loading" data-vv-scope="profileForm">
         <h3>Profile</h3>                
         <v-container grid-list-md text-xs-center>

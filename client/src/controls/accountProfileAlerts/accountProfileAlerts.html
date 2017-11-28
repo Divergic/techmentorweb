@@ -1,0 +1,11 @@
+<div>
+    <v-alert color="warning" icon="priority_high" :value="IsHidden()">
+        Your profile is currently hidden and will not be publicly visible.
+    </v-alert>
+    <v-alert error :value="IsBanned()">
+        Your account has been banned and will not be publicly visible.
+    </v-alert>
+    <v-alert color="warning" icon="priority_high" :value="!IsHidden() && !IsSearchable()">
+        Your profile is currently not searchable. You must provide at least one value in either Gender, Languages or Skills.
+    </v-alert>
+</div>
