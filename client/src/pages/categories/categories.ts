@@ -51,7 +51,7 @@ export default class Categories extends Vue {
         await this.adminCategoriesService.updateCategory(model);
     }
 
-    public async ToggleVisible(category: AdminCategory): Promise<void> {
+    public async UpdateCategory(category: AdminCategory): Promise<void> {
         let model = new AdminUpdateCategory(category);
 
         await this.adminCategoriesService.updateCategory(model);
