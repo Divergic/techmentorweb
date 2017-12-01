@@ -45,11 +45,7 @@ export default class Profile extends Vue {
         this.loading = false;
     }
 
-    public ShowWebsite(uri: string): void {
-        window.open(uri, "_blank");
-    }
-
-    public CompileMarkdown(): void {
+    private CompileMarkdown(): void {
         if (!this.model.about) {
             this.compiledMarkdown = "";
         }
