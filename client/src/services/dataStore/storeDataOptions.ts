@@ -1,6 +1,6 @@
 import * as Vuex from "vuex";
 import StoreData from "./storeData";
-import * as PersistedState from "vuex-persistedstate";
+import PersistedState from "vuex-persistedstate";
 
 export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
     public state: StoreData = new StoreData();

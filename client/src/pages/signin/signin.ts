@@ -25,16 +25,12 @@ export default class SignIn extends AuthComponent {
         return this.OnLoad();
     }
 
-    @Watch("$route")
-    public OnRouteChanged(): void {
-        this.OnLoad();
-    }
-
     public async OnLoad(): Promise<void> {
         try {
             let authenticated = await this.Authenticate();
     
             if (!authenticated) {
+                // There is already a redirection being actioned
                 return;
             }
     
@@ -50,14 +46,13 @@ export default class SignIn extends AuthComponent {
         }     
     }
 
+    @Watch("$route")
+    public async OnRouteChanged(): Promise<void> {
+        await this.OnLoad();
+    }
+
     private redirect(): void {
         let redirectUri = this.getRedirectUri();
-
-        if (!redirectUri) {
-            this.$router.replace({ name: "accountProfile" });
-
-            return;
-        }
 
         // Ensure that the redirect uri is not rooted
         let parsedUri = redirectUri.replace(/^(ht|f)tp(s)?:\/\/[^\/]+/i, "");
@@ -65,7 +60,7 @@ export default class SignIn extends AuthComponent {
         this.$router.replace(parsedUri);
     }
 
-    public async Authenticate(): Promise<Boolean> {
+    private async Authenticate(): Promise<Boolean> {
         if (this.IsAuthenticated
             && !this.SessionExpired) {
             // The user already has an auth session
@@ -74,7 +69,7 @@ export default class SignIn extends AuthComponent {
         else if (this.authenticationService.IsAuthResponse()) {
             // The user does not yet have an auth session
             let response = await this.authenticationService.ProcessAuthResponse();
-
+            
             // Store session context
             this.$store.commit("accessToken", response.accessToken);
             this.$store.commit("email", response.email);

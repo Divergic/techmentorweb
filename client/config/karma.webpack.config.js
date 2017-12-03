@@ -6,7 +6,7 @@ const rootPath = path.join(__dirname, "../../");
 
 module.exports = {
     name: "karma",
-    target: "node",
+    target: "web",
     output: {
         filename: "test/specs.js"
     },
