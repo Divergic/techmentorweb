@@ -9,7 +9,7 @@ const rootPath = path.join(__dirname, "../../../");
 const sourcePath = path.join(__dirname, "../../src");
 
 const extractSass = new ExtractTextPlugin({
-    filename: "content/[name].css",
+    filename: "content/[name].css?hash=[hash:7]",
 });
 
 let plugins = [
@@ -30,7 +30,7 @@ let plugins = [
     }),
     new webpack.optimize.CommonsChunkPlugin({
         name: "vendor",
-        filename: "scripts/vendor.js"
+        filename: "scripts/vendor.js?hash=[hash:7]"
     }),
     new HtmlWebpackPlugin({
         hash: true,
@@ -84,10 +84,10 @@ module.exports = {
         ]
     },
     output: {
-        chunkFilename: 'scripts/[name].js',
+        chunkFilename: 'scripts/[name].js?hash=[hash:7]',
         path: path.join(rootPath, "/dist"),
         publicPath: "/",
-        filename: "scripts/[name].js"
+        filename: "scripts/[name].js?hash=[hash:7]"
     },
     devtool: devtool,
     resolve: {
@@ -145,7 +145,7 @@ module.exports = {
                 loader: "url-loader",
                 options: {
                     limit: 10000,
-                    name: "images/[name].[ext]?[hash:7]"
+                    name: "images/[name].[ext]?hash=[hash:7]"
                 }
             }
         ]
