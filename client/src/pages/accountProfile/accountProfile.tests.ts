@@ -2,7 +2,7 @@ import Profile from "./accountProfile";
 import { IAccountProfileService, AccountProfile } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify } from "../../services/notify";
-import { IListsService, ListItem } from "../../services/lists";
+import { IListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 import store from "store";
 

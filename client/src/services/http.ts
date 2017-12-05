@@ -14,69 +14,28 @@ export interface IHttp {
 export class Http implements IHttp {
     private client: AxiosInstance;
 
-    public constructor(client?: AxiosInstance, config: IConfig = new Config(), dataStore: IDataStore = new DataStore(), location: ILocation = new Location(), userService: IUserService = new UserService()) {
-        if (client) {
-            this.client = client;
-        } else {
-            let httpConfig = <AxiosRequestConfig>{};
+    public constructor(
+        client?: AxiosInstance, 
+        private config: IConfig = new Config(), 
+        private dataStore: IDataStore = new DataStore(), 
+        private location: ILocation = new Location(), 
+        private userService: IUserService = new UserService()) {
+           
+        this.client = this.ConfigureClient(client);
 
-            httpConfig.baseURL = config.apiUri;
-            
-            this.client = Axios.create(httpConfig);
-        }
-
-        this.client.interceptors.request.use(async (config: AxiosRequestConfig) => {
-            let token = dataStore.accessToken;
-
-            if (token) {
-                config.headers.Authorization = "Bearer " + token;
-            }
-
-            return Promise.resolve(config);
+        this.client.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig => {
+            return this.OnBeforeRequest(config);
         });
         
-        this.client.interceptors.response.use(async (response: AxiosResponse) => {
-            return Promise.resolve(response);
-        }, async (error: any) => {
-
-            let response = error.response;
-
-            if (response.status !== 401) {
-                return Promise.resolve(error);
-            }
-
-            if (userService.IsAuthenticated === false) {
-                // The user is not authenticated and has been able to issue a request to a secure resource
-
-                // TODO: This really should redirect to the unauthorized page
-                return Promise.resolve(error);
-            }
-
-            if (userService.SessionExpired === false) {
-                // The user is authenticated has still has a valid session
-                // They have invoked something they are not allowed to hit
-                
-                // TODO: This really should redirect to the unauthorized page
-                return Promise.resolve(error);
-            }
-
-            const failure = new Failure("Your authentication session has expired.");
-
-            // We will redirect the user to authenticate again because their session has expired
-            let returnUri = location.getHref();
-            let signInUri = location.getSignInUri(returnUri);
-
-            // Redirect to the sign in page with a return back to the current page
-            location.setHref(signInUri);
-            
-            return Promise.reject(failure);
+        this.client.interceptors.response.use(undefined, (error: any): any => {
+            return this.OnResponseError(error);
         });
     }
 
     public async get<T>(resourceUri: string): Promise<T> {
         try {
             let rawResponse = await this.client.get(resourceUri);
-            let response = <AxiosResponse>(rawResponse);
+            let response = <AxiosResponse>rawResponse;
 
             return this.ProcessResult<T>(response, [200]);
         }
@@ -109,6 +68,62 @@ export class Http implements IHttp {
         }
     }
 
+    private ConfigureClient(client?: AxiosInstance): AxiosInstance {
+        if (client) {
+            return client;
+        }
+
+        let httpConfig = <AxiosRequestConfig>{};
+
+        httpConfig.baseURL = this.config.apiUri;
+        
+        return Axios.create(httpConfig);
+    }
+
+    private OnBeforeRequest(config: AxiosRequestConfig): AxiosRequestConfig {
+        let token = this.dataStore.accessToken;
+
+        if (token) {
+            config.headers.Authorization = "Bearer " + token;
+        }
+
+        return config;
+    }
+
+    private OnResponseError(error: any): any {
+        let response = error.response;
+        
+        if (response.status !== 401) {
+            return error;
+        }
+        
+        if (this.userService.IsAuthenticated === false) {
+            // The user is not authenticated and has been able to issue a request to a secure resource
+
+            // TODO: This really should redirect to the unauthorized page
+            return error;
+        }
+
+        if (this.userService.SessionExpired === false) {
+            // The user is authenticated has still has a valid session
+            // They have invoked something they are not allowed to hit
+            
+            // TODO: This really should redirect to the unauthorized page
+            return error;
+        }
+        
+        const failure = new Failure("Your authentication session has expired.");
+
+        // We will redirect the user to authenticate again because their session has expired
+        let returnUri = this.location.getHref();
+        let signInUri = this.location.getSignInUri(returnUri);
+
+        // Redirect to the sign in page with a return back to the current page
+        this.location.setHref(signInUri);
+        
+        throw failure;
+    }
+
     private ProcessResult<T>(response: AxiosResponse, allowedStatusCodes: Array<number>): T {
         // In failure scenarios, the first parameter is actually an error with response as a property
         // This needs to be mapped correctly so that the rest of the method can execute correctly
@@ -117,7 +132,12 @@ export class Http implements IHttp {
         }
 
         if (!response.status) {
-            throw this.CreateFailure(response.data);
+            if (response.data) {
+                throw this.CreateFailure(response.data);
+            }
+            else {
+                throw new Error("Unexpected status response");
+            }
         }
 
         if (allowedStatusCodes.indexOf(response.status) === -1) {
@@ -138,21 +158,21 @@ export class Http implements IHttp {
     }
 
     private CreateFailure(error: any): Failure {
+        if (error.visibleToUser) {
+            // This already looks like a Failure type
+            return <Failure>error;
+        }
+
         console.error(error);
         
         if (typeof error === "string") {
             return new Failure(error);
         }
         
-        if (error.response && error.response.data) {
-            if (typeof error.response.data === "string") {
-                return new Failure(error.response.data);
-            }
-            else if (error.response.data.message) {
-                return new Failure(error.response.data.message);
-            }
+        if (typeof error.message === "string") {
+            return new Failure(error.message);
         }
-
+        
         throw error;
     }
 }

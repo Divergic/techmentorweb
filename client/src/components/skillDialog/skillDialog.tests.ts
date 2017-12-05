@@ -1,7 +1,7 @@
 import SkillDialog from "./skillDialog";
 import { Skill } from "../../services/api/skill";
 import { INotify } from "../../services/notify";
-import { IListsService, ListItem } from "../../services/lists";
+import { IListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 
 const core = require("../../tests/core");

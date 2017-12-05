@@ -10,9 +10,7 @@
         <v-card-text>
             <v-layout row wrap>
                 <v-flex xs12 sm6 lg3 class="mb-4">
-                    <div class="mb-2 subheading">
-                        Personal
-                    </div>
+                    <div class="mb-2 subheading">Personal</div>
                     <div v-if="model.photoId">
                         <img :src="model.PhotoUri" />
                     </div>
@@ -40,9 +38,7 @@
                     </div>
                 </v-flex>
                 <v-flex xs12 sm6 lg3 class="mb-4" v-if="HasTechnicalData()">
-                    <div class="mb-2 subheading">
-                        Technical
-                    </div>
+                    <div class="mb-2 subheading">Technical</div>
                     <div v-if="model.yearStartedInTech" class="mb-2">
                         <div class="body-2">Years in Tech</div>
                         <div>{{ model.DisplayYearsInTech }}</div>
@@ -67,9 +63,7 @@
                     </div>
                 </v-flex>
                 <v-flex xs12 sm12 lg6 v-if="model.about" class="mb-4">
-                    <div class="mb-2 subheading">
-                        About
-                    </div>
+                    <div class="mb-2 subheading">About</div>
                     <div v-html="compiledMarkdown" class="mb-2 markdown"></div>
                 </v-flex>
             </v-layout>

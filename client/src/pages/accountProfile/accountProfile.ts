@@ -6,7 +6,7 @@ import AccountProfileAlerts from "../../controls/accountProfileAlerts/accountPro
 import { IAccountProfileService, AccountProfileService, AccountProfile } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
-import { IListsService, ListsService, ListItem } from "../../services/lists";
+import { IListsService, ListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 import store from "store";
 import marked from "marked";
