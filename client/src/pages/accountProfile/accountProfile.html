@@ -92,6 +92,7 @@
                                 combobox
                                 browser-autocomplete="off"
                                 hint="Select an existing gender or enter a new gender"
+                                persistent-hint
                                 v-bind:items="genders"
                                 v-model="model.gender">
                             </v-select>
@@ -116,6 +117,8 @@
                                 clearable
                                 chips
                                 tags
+                                hint="Select existing languages or enter a new language"
+                                persistent-hint
                                 @input="CheckLanguages"
                                 v-bind:items="languages"
                                 v-model="model.languages">
