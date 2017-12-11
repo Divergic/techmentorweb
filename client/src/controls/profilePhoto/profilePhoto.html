@@ -1,7 +1,7 @@
 <v-layout row wrap>
     <v-flex xs12>
         <h4 class="text-xs-left">Photo</h4>
-        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized.</div>
+        <div class="caption mb-3 text-xs-left grey--text">Profile photo must be a jpg/jpeg or png that is under 256kb. Images more than 300x300 pixels will be resized.<br />Please use a photo of yourself (typically a head photo) rather than any other image. This is important for transparency and building trust.</div>
         <div v-if="!photoUri" v-html="noPhoto" id="noPhoto"></div>
         <div v-if="photoUri">
             <img :src="photoUri" />

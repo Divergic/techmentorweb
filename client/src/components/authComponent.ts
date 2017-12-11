@@ -57,15 +57,6 @@ export default class AuthComponent extends Vue {
         return false;
     }
 
-    public click(): void {
-        if (this.IsAuthenticated) {
-            this.signOut();
-        }
-        else {
-            this.signIn();
-        }
-    }
-
     public signIn(): void {
         // Check if the current route has a sign in target
         let signInTarget = this.signInTarget();
@@ -139,13 +130,5 @@ export default class AuthComponent extends Vue {
         else {
             this.disabled = false;
         }
-    }
-
-    public get text(): string {
-        if (this.IsAuthenticated) {
-            return "Sign out";
-        }
-
-        return "Sign in";
     }
 }
