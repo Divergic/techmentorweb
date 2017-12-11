@@ -14,7 +14,7 @@ export class SignInResponse {
 }
 
 export interface IAuthenticationService {
-    Authenticate(returnUri: string): void;
+    Authenticate(returnUri: string, mode?: string): void;
     IsAuthResponse(): boolean;
     ProcessAuthResponse(): Promise<SignInResponse>;
 }
@@ -35,10 +35,10 @@ export class AuthenticationService implements IAuthenticationService {
         return false;
     }
 
-    public Authenticate(returnUri: string): void {        
+    public Authenticate(returnUri: string, mode?: string): void {        
         let callbackUri = this.location.getSignInUri(returnUri);
 
-        this.authWrapper.authorize(callbackUri);            
+        this.authWrapper.authorize(callbackUri, mode);            
     }
         
     public async ProcessAuthResponse(): Promise<SignInResponse> {

@@ -16,6 +16,9 @@ describe("Profile", () => {
     let sut: Profile;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         profile = <UserProfile>{
             firstName: "Sue",
             lastName: "Wise"

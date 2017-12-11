@@ -2,7 +2,7 @@ import { IConfig, Config } from "../config/config";
 import { WebAuth } from "auth0-js";
 
 export interface IAuthWrapper {
-    authorize(callbackUri: string): void;
+    authorize(callbackUri: string, mode?: string): void;
     parseHash(callback: AuthCallback): void;
 }
 
@@ -18,12 +18,13 @@ export class AuthWrapper implements IAuthWrapper {
         });
     }
     
-    public authorize(callbackUri: string): void {        
+    public authorize(callbackUri: string, mode?: string): void {        
         this.auth0.authorize({
             audience: this.config.audience,
             redirectUri: callbackUri,
             responseType: this.config.responseType,
-            scope: this.config.scope
+            scope: this.config.scope,
+            mode: mode
         });        
     }
 

@@ -45,7 +45,7 @@ export class UserService implements IUserService {
         let expiresAt = new Date();
         
         expiresAt.setTime(storedValue * 1000);
-        
+
         console.info("Token expires at " + expiresAt);
         
         return false;

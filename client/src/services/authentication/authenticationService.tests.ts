@@ -36,7 +36,7 @@ describe("AuthenticationService", () => {
             }
         };
         wrapper = <IAuthWrapper>{
-            authorize: (redirectUri: string) => {
+            authorize: (redirectUri: string, mode?: string) => {
             },
             parseHash: (callback: AuthCallback): void => {
                 callback(authError, authResult);
@@ -66,7 +66,7 @@ describe("AuthenticationService", () => {
     });
 
     describe("Authenticate", () => {
-        it("executes authorisation with the callbackUri", () => {
+        it("executes authorisation with the callbackUri and undefined mode", () => {
             let redirectUri = "/profile";
 
             spyOn(location, "getSignInUri").and.callThrough();
@@ -75,7 +75,19 @@ describe("AuthenticationService", () => {
             sut.Authenticate(redirectUri);
 
             expect(location.getSignInUri).toHaveBeenCalledWith(redirectUri);
-            expect(wrapper.authorize).toHaveBeenCalledWith(callbackUri);
+            expect(wrapper.authorize).toHaveBeenCalledWith(callbackUri, undefined);
+        });
+        it("executes authorisation with the callbackUri and specified mode", () => {
+            let redirectUri = "/profile";
+            let mode = "signUp";
+
+            spyOn(location, "getSignInUri").and.callThrough();
+            spyOn(wrapper, "authorize");
+
+            sut.Authenticate(redirectUri, mode);
+
+            expect(location.getSignInUri).toHaveBeenCalledWith(redirectUri);
+            expect(wrapper.authorize).toHaveBeenCalledWith(callbackUri, mode);
         });
     });
 

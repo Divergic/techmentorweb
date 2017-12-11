@@ -5,6 +5,9 @@ describe("SkillList", () => {
     let sut: SkillList;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         let skills = <Array<Skill>>[
             <Skill>{
                 name: "Zam"

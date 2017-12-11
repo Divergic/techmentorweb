@@ -29,6 +29,9 @@ describe("Http", () => {
     let sut: Http;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "error");
+
         requestConfig = <AxiosRequestConfig>{
             headers: {
                 Authorization: null

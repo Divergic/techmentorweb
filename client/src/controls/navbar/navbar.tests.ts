@@ -5,6 +5,9 @@ describe("navbar.ts", () => {
     let sut: navbar;
 
     beforeEach(function () {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         sut = new navbar();
         
         store = {

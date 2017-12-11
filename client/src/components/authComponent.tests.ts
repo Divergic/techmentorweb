@@ -12,6 +12,10 @@ describe("authComponent.ts", () => {
     let futureTime = new Date(Date.now() + 60000);
 
     beforeEach(function () {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+        spyOn(console, "warn");
+
         sut = new AuthComponent();
         
         href = "https://www.test.com/stuff?where=here";

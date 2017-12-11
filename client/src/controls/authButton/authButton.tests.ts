@@ -7,6 +7,9 @@ describe("AuthButton", () => {
     let signInTargetUri: string = "";
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         sut = new AuthButton();
         signInTarget = "accountProfile";
         signInTargetUri = "/profile";

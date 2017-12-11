@@ -4,6 +4,9 @@ describe("ReportAbuse", () => {
     let sut: ReportAbuse;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         sut = new ReportAbuse();
     });
 

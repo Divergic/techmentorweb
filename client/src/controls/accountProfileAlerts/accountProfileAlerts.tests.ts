@@ -7,6 +7,9 @@ describe("AccountProfileAlerts", () => {
     let sut: AccountProfileAlerts;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         model = new AccountProfile();
 
         model.status = ProfileStatus.Available;

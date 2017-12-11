@@ -17,7 +17,10 @@ describe("SkillDialog", () => {
     let sut: SkillDialog;
     let isValid: boolean;
 
-    beforeEach(core.runAsync(async () => {            
+    beforeEach(core.runAsync(async () => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+            
         skillLevels = <Array<ListItem<string>>>[
             <ListItem<string>> {
                 name: "Beginner",

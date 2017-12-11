@@ -6,6 +6,10 @@ describe("UserService", () => {
     let store: IDataStore;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+        spyOn(console, "warn");
+
         store = <IDataStore>{
             accessToken: "some token value",
             isAdministrator: true

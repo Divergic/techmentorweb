@@ -11,6 +11,9 @@ describe("ProfilePhoto", () => {
     let model: AccountProfile;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         photoUri = "https://test.techmentors.info/profiles/someprofileid/photos/somephotoid?hash=somehashvalue";        
         model = new AccountProfile(<AccountProfile>{id: "profileId", photoHash: "hash", photoId: "someid"});
         photoConfig = <IPhotoConfig>{

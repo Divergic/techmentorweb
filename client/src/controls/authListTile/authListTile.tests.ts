@@ -7,6 +7,9 @@ describe("AuthListTile", () => {
     let signInTargetUri: string = "";
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         sut = new AuthListTile();
         signInTarget = "accountProfile";
         signInTargetUri = "/profile";

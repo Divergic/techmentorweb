@@ -26,6 +26,9 @@ describe("AccountProfile", () => {
     let validator: any;
     
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         store.clearAll();
 
         model = new AccountProfile(

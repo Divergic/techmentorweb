@@ -9,6 +9,9 @@ describe("Categories", () => {
     let sut: Categories;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         categories = new Array<AdminCategory>(
             <AdminCategory>{
                 group: "skill",

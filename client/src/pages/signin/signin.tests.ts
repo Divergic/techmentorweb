@@ -17,6 +17,10 @@ describe("SignIn", () => {
     let sut: SignIn;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+        spyOn(console, "warn");
+
         isAuthResponse = false;
         redirectUri = "https://website.info/profile";
         relativeRedirectUri = "/profile";

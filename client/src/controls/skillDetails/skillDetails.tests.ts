@@ -6,6 +6,9 @@ describe("SkillDetails", () => {
     let model: Skill;
 
     beforeEach(() => {
+        // Cancel out the console calls to avoid noisy logging in tests
+        spyOn(console, "info");
+
         sut = new SkillDetails();
         model = <Skill>{
             name: "C#",
