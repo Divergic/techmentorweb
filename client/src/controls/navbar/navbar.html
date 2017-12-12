@@ -16,6 +16,7 @@
             <v-list-tile v-if="IsAdministrator" :to="{ name: 'admin' }">
                 <v-list-tile-title class="grey--text text--darken-1">Admin</v-list-tile-title>
             </v-list-tile>
+            <RegisterListTile></RegisterListTile>
             <AuthListTile></AuthListTile>
         </v-list>
     </v-menu>
@@ -31,6 +32,7 @@
         </v-btn>
         <v-btn :to="{ name: 'accountProfile' }" v-if="IsAuthenticated" title="Profile" flat>Profile</v-btn>
         <v-btn :to="{ name: 'admin' }" v-if="IsAdministrator" title="Admin" flat>Admin</v-btn>
+        <RegisterButton></RegisterButton>
         <AuthButton></AuthButton>
     </v-toolbar-items>
 </v-toolbar>

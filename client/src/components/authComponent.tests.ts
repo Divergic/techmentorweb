@@ -122,6 +122,40 @@ describe("authComponent.ts", () => {
         });
     });
     
+    describe("register", () => {
+        it("authenticates with redirect to route sign in target when sign in target defined", () => {
+            spyOn(router, "push");
+            spyOn(router, "resolve").and.callThrough();
+            
+            sut.register();
+
+            expect(router.resolve.calls.argsFor(0)[0].name).toEqual(router.currentRoute.meta.signInTarget);
+            expect(router.push.calls.argsFor(0)[0].name).toEqual("signin");
+            expect(router.push.calls.argsFor(0)[0].query.redirectUri).toEqual(signInTargetUri);
+            expect(router.push.calls.argsFor(0)[0].query.mode).toEqual("signUp");
+        });
+        it("authenticates with redirect to current uri when current route lacks meta", () => {
+            spyOn(router, "push");
+            router.currentRoute.meta = undefined;
+
+            sut.register();           
+
+            expect(router.push.calls.argsFor(0)[0].name).toEqual("signin");
+            expect(router.push.calls.argsFor(0)[0].query.redirectUri).toEqual(href);
+            expect(router.push.calls.argsFor(0)[0].query.mode).toEqual("signUp");
+        });
+        it("authenticates with redirect to current uri when sign in target not defined", () => {
+            spyOn(router, "push");
+            router.currentRoute.meta.signInTarget = undefined;
+
+            sut.register();           
+
+            expect(router.push.calls.argsFor(0)[0].name).toEqual("signin");
+            expect(router.push.calls.argsFor(0)[0].query.redirectUri).toEqual(href);
+            expect(router.push.calls.argsFor(0)[0].query.mode).toEqual("signUp");
+        });
+    });
+    
     describe("signIn", () => {
         it("authenticates with redirect to route sign in target when sign in target defined", () => {
             spyOn(router, "push");
@@ -132,6 +166,7 @@ describe("authComponent.ts", () => {
             expect(router.resolve.calls.argsFor(0)[0].name).toEqual(router.currentRoute.meta.signInTarget);
             expect(router.push.calls.argsFor(0)[0].name).toEqual("signin");
             expect(router.push.calls.argsFor(0)[0].query.redirectUri).toEqual(signInTargetUri);
+            expect(router.push.calls.argsFor(0)[0].query.mode).toBeUndefined();
         });
         it("authenticates with redirect to current uri when current route lacks meta", () => {
             spyOn(router, "push");
@@ -141,6 +176,7 @@ describe("authComponent.ts", () => {
 
             expect(router.push.calls.argsFor(0)[0].name).toEqual("signin");
             expect(router.push.calls.argsFor(0)[0].query.redirectUri).toEqual(href);
+            expect(router.push.calls.argsFor(0)[0].query.mode).toBeUndefined();
         });
         it("authenticates with redirect to current uri when sign in target not defined", () => {
             spyOn(router, "push");
@@ -150,6 +186,7 @@ describe("authComponent.ts", () => {
 
             expect(router.push.calls.argsFor(0)[0].name).toEqual("signin");
             expect(router.push.calls.argsFor(0)[0].query.redirectUri).toEqual(href);
+            expect(router.push.calls.argsFor(0)[0].query.mode).toBeUndefined();
         });
     });
     

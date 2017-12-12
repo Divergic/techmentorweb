@@ -7,6 +7,10 @@
     width: 300px;
 }
 
+.profilePhoto {
+    object-fit: scale-down;
+}
+
 .markdown ul {    
     padding-left: 24px;
     margin-bottom: 16px;

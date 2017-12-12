@@ -85,7 +85,9 @@ export default class SignIn extends AuthComponent {
             // The user does not yet have an auth session
             let redirectUri = this.getRedirectUri();
 
-            this.authenticationService.Authenticate(redirectUri);
+            let mode = this.$route.query.mode;
+
+            this.authenticationService.Authenticate(redirectUri, mode);
             
             // We are redirecting to authenticate
             return false;
