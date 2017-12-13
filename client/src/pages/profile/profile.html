@@ -11,7 +11,7 @@
             <v-layout row wrap>
                 <v-flex xs12 sm6 lg3 class="mb-4">
                     <div class="mb-2 subheading">Personal</div>
-                    <div v-if="model.photoId">
+                    <div v-if="model.photoId" class="mb-2">
                         <img :src="model.PhotoUri" />
                     </div>
                     <div v-if="model.status" class="mb-2">
