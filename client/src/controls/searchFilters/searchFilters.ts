@@ -1,5 +1,4 @@
-import Component from "vue-class-component";
-import Vue from "vue";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 
 const cacheExpiresInMilliseconds: number = 5 * 60000;   // Five minutes
@@ -40,6 +39,11 @@ export default class SearchFilters extends Vue {
         this.RunSearch();
     }
 
+    @Watch("$route")
+    public async OnRouteChanged(): Promise<void> {
+        await this.MatchFilters();
+        this.RunSearch();
+    }
     public async LoadCategories(): Promise<void> {     
         let categories = await this.getCategories();
 
@@ -96,6 +100,26 @@ export default class SearchFilters extends Vue {
         }
 
         this.$emit("runSearch", this.selectedGenders, this.selectedLanguages, this.selectedSkills);        
+    }
+       
+    public OnSearchClick(): void {
+        // Navigate to the new URI       
+        let query = <any>{            
+        };
+
+        if (this.selectedGenders.length > 0) {
+            query.gender = this.selectedGenders;
+        }
+
+        if (this.selectedLanguages.length > 0) {
+            query.language = this.selectedLanguages;
+        }
+
+        if (this.selectedSkills.length > 0) {
+            query.skill = this.selectedSkills;
+        }
+
+        this.$router.push({ name: "search", query: query});
     }
         
     private FilterMatchingCategories(categories: Array<Category>, filters: Array<string>): Array<string> {

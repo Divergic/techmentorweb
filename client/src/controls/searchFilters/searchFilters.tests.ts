@@ -45,6 +45,8 @@ describe("SearchFilters", () => {
             currentRoute: {
                 query: {                    
                 }
+            },
+            push: (options: any): void => {                
             }
         };
         (<any>sut).$emit = (genders: Array<string>, languages: Array<string>, skills: Array<string>) => {
@@ -62,6 +64,20 @@ describe("SearchFilters", () => {
             await sut.OnLoad();
 
             expect(sut.LoadCategories).toHaveBeenCalled();
+            expect(sut.MatchFilters).toHaveBeenCalled();
+            expect(sut.RunSearch).toHaveBeenCalled();
+        }));
+    });
+
+    describe("OnRouteChanged", () => {
+        it("loads categories and matches filters", core.runAsync(async () => {
+            spyOn(sut, "LoadCategories");
+            spyOn(sut, "MatchFilters");
+            spyOn(sut, "RunSearch");
+
+            await sut.OnRouteChanged();
+
+            expect(sut.LoadCategories).not.toHaveBeenCalled();
             expect(sut.MatchFilters).toHaveBeenCalled();
             expect(sut.RunSearch).toHaveBeenCalled();
         }));
@@ -363,6 +379,26 @@ describe("SearchFilters", () => {
         });
     });
 
+    describe("OnSearchClick", () => {
+        it("redirects to search with specified values", () => {
+            sut.selectedGenders = new Array<string>("Female");
+            sut.selectedLanguages = new Array<string>("English");
+            sut.selectedSkills = new Array<string>("C#");
+            
+            let spy = spyOn(sut.$router, "push");
+            
+            sut.OnSearchClick();
+            
+            expect(spy.calls.argsFor(0)[0].name).toEqual("search");
+            expect(spy.calls.argsFor(0)[0].query.gender.length).toEqual(1);
+            expect(spy.calls.argsFor(0)[0].query.gender[0]).toEqual("Female");
+            expect(spy.calls.argsFor(0)[0].query.language.length).toEqual(1);
+            expect(spy.calls.argsFor(0)[0].query.language[0]).toEqual("English");
+            expect(spy.calls.argsFor(0)[0].query.skill.length).toEqual(1);
+            expect(spy.calls.argsFor(0)[0].query.skill[0]).toEqual("C#");
+        });
+    });
+    
     describe("RunSearch", () => {
         it("does not emit runSearch event when no categories selected", () => {            
             sut.selectedGenders = new Array<string>();
