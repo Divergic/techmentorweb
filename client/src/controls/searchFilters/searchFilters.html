@@ -1,0 +1,65 @@
+<div>    
+    <div v-if="loadingLists" class="text-xs-center">
+        <v-progress-circular indeterminate v-bind:size="75" class="primary--text"></v-progress-circular>
+        <p class="ma-3 subheading">Loading filters, please wait...</p>
+    </div>
+    <v-container v-if="!loadingLists">
+        <v-layout row wrap>
+            <v-flex xs12 md4>
+                <v-select
+                    v-if="skills.length > 0"
+                    name="skills"
+                    label="Skills"
+                    title="Skills"
+                    chips
+                    multiple
+                    clearable
+                    item-text="displayName"
+                    item-value="name"
+                    v-bind:items="skills"
+                    v-model="selectedSkills">
+                </v-select>
+            </v-flex>
+            <v-flex xs12 md4>
+                <v-select
+                v-if="languages.length > 0"
+                    name="languages"
+                    label="Spoken Languages"
+                    title="Spoken Languages"
+                    chips
+                    multiple
+                    clearable
+                    item-text="displayName"
+                    item-value="name"
+                    v-bind:items="languages"
+                    v-model="selectedLanguages">
+                </v-select>
+            </v-flex>
+            <v-flex xs12 md4>
+                <v-select
+                    v-if="genders.length > 0"
+                    name="genders"
+                    label="Genders"
+                    title="Genders"
+                    chips
+                    multiple
+                    clearable
+                    item-text="displayName"
+                    item-value="name"
+                    v-bind:items="genders"
+                    v-model="selectedGenders">
+                </v-select>
+            </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 v-if="!FiltersSelected" class="text-xs-right">
+                  Please select at least one filter.
+            </v-flex>
+            <v-flex xs12 class="text-xs-right">
+                <v-btn color="primary" @click="RunSearch" :disabled="!FiltersSelected">
+                    Search
+                </v-btn>
+            </v-flex>
+        </v-layout>
+    </v-container>
+</div>

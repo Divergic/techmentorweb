@@ -1,4 +1,5 @@
 import homeComponent from "../../pages/home/home.vue";
+import searchComponent from "../../pages/search/search.vue";
 import conductComponent from "../../pages/conduct/conduct.vue";
 import reportAbuseComponent from "../../pages/reportabuse/reportabuse.vue";
 import profileComponent from "../../pages/profile/profile.vue";
@@ -34,6 +35,7 @@ import categoriesComponent from "../../pages/categories/categories.vue";
 // }
 let routes = [
     { name: "home", path: "/", component: homeComponent, meta: { signInTarget: "accountProfile" } },
+    { name: "search", path: "/search", component: searchComponent, meta: { signInTarget: "accountProfile" } },
     { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "accountProfile" } },
     { name: "reportabuse", path: "/reportabuse/", component: reportAbuseComponent, meta: { signInTarget: "accountProfile" } },
     { name: "profile", path: "/profiles/:id", component: profileComponent, meta: { signInTarget: "accountProfile" } },
