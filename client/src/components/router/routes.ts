@@ -9,6 +9,7 @@ import signInComponent from "../../pages/signin/signin.vue";
 import unauthorizedComponent from "../../pages/unauthorized/unauthorized.vue";
 import adminComponent from "../../pages/admin/admin.vue";
 import categoriesComponent from "../../pages/categories/categories.vue";
+import approveComponent from "../../pages/approve/approve.vue";
 
 // let homeComponent;
 // let conductComponent;
@@ -44,6 +45,7 @@ let routes = [
     { name: "accountProfile", path: "/profile/", component: accountProfileComponent, meta: { requiresAuth: true } },
     { name: "admin", path: "/admin/", component: adminComponent, meta: { requiresAuth: true, requiresAdmin: true } },
     { name: "categories", path: "/categories/", component: categoriesComponent, meta: { requiresAuth: true, requiresAdmin: true } },
+    { name: "approve", path: "/categories/approve", component: approveComponent, meta: { requiresAuth: true, requiresAdmin: true } },
     { name: "notfound", path: "*", component: notFoundComponent, meta: { signInTarget: "accountProfile" } }
   ];
 
