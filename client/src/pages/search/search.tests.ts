@@ -55,11 +55,11 @@ describe("Search", () => {
         it("determines filters from selected categories", core.runAsync(async () => {
             let spy = spyOn(profileService, "searchProfiles");
 
-            let genders = new Array<string>("Female");
+            let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
 
-            await sut.OnRunSearch(genders, languages, skills);
+            await sut.OnRunSearch(gender, languages, skills);
 
             expect(profileService.searchProfiles).toHaveBeenCalled();
             expect(spy.calls.mostRecent().args[0].length).toEqual(3);
@@ -79,11 +79,11 @@ describe("Search", () => {
                 throw expected;
             };
               
-            let genders = new Array<string>("Female");
+            let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
 
-            await sut.OnRunSearch(genders, languages, skills);
+            await sut.OnRunSearch(gender, languages, skills);
 
             expect(notify.showFailure).toHaveBeenCalledWith(expected);
         }));
@@ -96,12 +96,12 @@ describe("Search", () => {
                 throw expected;
             };
             
-            let genders = new Array<string>("Female");
+            let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
 
             try {
-                await sut.OnRunSearch(genders, languages, skills);    
+                await sut.OnRunSearch(gender, languages, skills);    
             }
             catch (e) {
                 expect(e).toEqual(expected);
@@ -110,20 +110,20 @@ describe("Search", () => {
             expect(notify.showError).toHaveBeenCalled();
         }));
         it("returns profile results", core.runAsync(async () => {
-            let genders = new Array<string>("Female");
+            let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
 
-            await sut.OnRunSearch(genders, languages, skills);
+            await sut.OnRunSearch(gender, languages, skills);
 
             expect(sut.profiles).toEqual(profiles);
         }));
         it("sets flags after search", core.runAsync(async () => {
-            let genders = new Array<string>("Female");
+            let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
 
-            await sut.OnRunSearch(genders, languages, skills);
+            await sut.OnRunSearch(gender, languages, skills);
 
             expect(sut.searching).toBeFalsy();
             expect(sut.searchRun).toBeTruthy();
@@ -135,11 +135,11 @@ describe("Search", () => {
                 throw expected;
             };
                 
-            let genders = new Array<string>("Female");
+            let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
 
-            await sut.OnRunSearch(genders, languages, skills);
+            await sut.OnRunSearch(gender, languages, skills);
 
             expect(sut.searching).toBeFalsy();
             expect(sut.searchRun).toBeTruthy();

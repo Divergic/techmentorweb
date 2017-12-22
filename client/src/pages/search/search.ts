@@ -34,7 +34,7 @@ export default class Search extends Vue {
         this.notify = notify;
     }
 
-    public async OnRunSearch(genders: Array<string>, languages: Array<string>, skills: Array<string>): Promise<void> {
+    public async OnRunSearch(gender: string, languages: Array<string>, skills: Array<string>): Promise<void> {
         this.searching = true;
         this.profiles = new Array<ProfileResult>();
 
@@ -58,14 +58,15 @@ export default class Search extends Vue {
     
                 filters.push(filter);
             });
-            genders.forEach(element => {
+
+            if (gender) {
                 let filter = <CategoryFilter>{
                     group: "gender",
-                    name: element
+                    name: gender
                 };
     
                 filters.push(filter);
-            });
+            }
     
             this.profiles = await this.profileService.searchProfiles(filters);
         }

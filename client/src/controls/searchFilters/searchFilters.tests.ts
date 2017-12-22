@@ -282,15 +282,15 @@ describe("SearchFilters", () => {
             expect(sut.selectedSkills.length).toEqual(1);
             expect(sut.selectedSkills[0]).toEqual("C#");
         }));        
-        it("set selectedGenders to empty when no filter parameter provided", core.runAsync(async () => {
+        it("set selectedGender to null when no filter parameter provided", core.runAsync(async () => {
             sut.$router.currentRoute.query = {};
 
             await sut.LoadCategories();
             await sut.MatchFilters();
 
-            expect(sut.selectedGenders.length).toEqual(0);
+            expect(sut.selectedGender).toBeNull();
         }));
-        it("set selectedGenders to single filter parameter", core.runAsync(async () => {
+        it("set selectedGender to single filter parameter", core.runAsync(async () => {
             sut.$router.currentRoute.query = {
                 gender: "Female"
             };
@@ -298,10 +298,9 @@ describe("SearchFilters", () => {
             await sut.LoadCategories();
             await sut.MatchFilters();
 
-            expect(sut.selectedGenders.length).toEqual(1);
-            expect(sut.selectedGenders[0]).toEqual("Female");
+            expect(sut.selectedGender).toEqual("Female");
         }));
-        it("set selectedGenders to multiple filter parameters", core.runAsync(async () => {
+        it("set selectedGender to first filter parameters", core.runAsync(async () => {
             categories.push(
                 <Category>{
                     group: CategoryGroup.Gender,
@@ -315,9 +314,7 @@ describe("SearchFilters", () => {
             await sut.LoadCategories();
             await sut.MatchFilters();
 
-            expect(sut.selectedGenders.length).toEqual(2);
-            expect(sut.selectedGenders[0]).toEqual("Female");
-            expect(sut.selectedGenders[1]).toEqual("Male");
+            expect(sut.selectedGender).toEqual("Female");
         }));
         it("matches case insensitive gender", core.runAsync(async () => {
             categories.push(
@@ -327,26 +324,23 @@ describe("SearchFilters", () => {
                     linkCount: 455
                 });
             sut.$router.currentRoute.query = {
-                gender: <any>["female", "male"]
+                gender: "male"
             };
 
             await sut.LoadCategories();
             await sut.MatchFilters();
 
-            expect(sut.selectedGenders.length).toEqual(2);
-            expect(sut.selectedGenders[0]).toEqual("Female");
-            expect(sut.selectedGenders[1]).toEqual("Male");
+            expect(sut.selectedGender).toEqual("Male");
         }));
         it("ignores gender filter that does not match category", core.runAsync(async () => {
             sut.$router.currentRoute.query = {
-                gender: <any>["Female", "Non-binary"]
+                gender: "Non-binary"
             };
 
             await sut.LoadCategories();
             await sut.MatchFilters();
 
-            expect(sut.selectedGenders.length).toEqual(1);
-            expect(sut.selectedGenders[0]).toEqual("Female");
+            expect(sut.selectedGender).toBeNull();
         }));
     });
     
@@ -364,7 +358,7 @@ describe("SearchFilters", () => {
             expect(actual).toBeTruthy();
         });
         it("return true when gender filter selected", () => {
-            sut.selectedGenders.push("Female");
+            sut.selectedGender = "Female";
 
             let actual = sut.FiltersSelected;
 
@@ -381,7 +375,7 @@ describe("SearchFilters", () => {
 
     describe("OnSearchClick", () => {
         it("redirects to search with specified values", () => {
-            sut.selectedGenders = new Array<string>("Female");
+            sut.selectedGender = "Female";
             sut.selectedLanguages = new Array<string>("English");
             sut.selectedSkills = new Array<string>("C#");
             
@@ -390,8 +384,7 @@ describe("SearchFilters", () => {
             sut.OnSearchClick();
             
             expect(spy.calls.argsFor(0)[0].name).toEqual("search");
-            expect(spy.calls.argsFor(0)[0].query.gender.length).toEqual(1);
-            expect(spy.calls.argsFor(0)[0].query.gender[0]).toEqual("Female");
+            expect(spy.calls.argsFor(0)[0].query.gender).toEqual("Female");
             expect(spy.calls.argsFor(0)[0].query.language.length).toEqual(1);
             expect(spy.calls.argsFor(0)[0].query.language[0]).toEqual("English");
             expect(spy.calls.argsFor(0)[0].query.skill.length).toEqual(1);
@@ -401,7 +394,7 @@ describe("SearchFilters", () => {
     
     describe("RunSearch", () => {
         it("does not emit runSearch event when no categories selected", () => {            
-            sut.selectedGenders = new Array<string>();
+            sut.selectedGender = null;
             sut.selectedLanguages = new Array<string>();
             sut.selectedSkills = new Array<string>();
 
@@ -412,7 +405,7 @@ describe("SearchFilters", () => {
             expect(sut.$emit).not.toHaveBeenCalled();
         });
         it("emits runSearch event with selected values", () => {            
-            sut.selectedGenders = new Array<string>("Female");
+            sut.selectedGender = "Female";
             sut.selectedLanguages = new Array<string>("English");
             sut.selectedSkills = new Array<string>("C#");
 
@@ -421,8 +414,7 @@ describe("SearchFilters", () => {
             sut.RunSearch();
             
             expect(spy.calls.argsFor(0)[0]).toEqual("runSearch");
-            expect(spy.calls.argsFor(0)[1].length).toEqual(1);
-            expect(spy.calls.argsFor(0)[1][0]).toEqual("Female");
+            expect(spy.calls.argsFor(0)[1]).toEqual("Female");
             expect(spy.calls.argsFor(0)[2].length).toEqual(1);
             expect(spy.calls.argsFor(0)[2][0]).toEqual("English");
             expect(spy.calls.argsFor(0)[3].length).toEqual(1);

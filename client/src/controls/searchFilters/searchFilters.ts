@@ -15,7 +15,7 @@ export default class SearchFilters extends Vue {
     public genders: Array<Category> = new Array<Category>();
     public languages: Array<Category> = new Array<Category>();
     public skills: Array<Category> = new Array<Category>();
-    public selectedGenders: Array<string> = new Array<string>();
+    public selectedGender: string | null = null;
     public selectedLanguages: Array<string> = new Array<string>();
     public selectedSkills: Array<string> = new Array<string>();
     
@@ -73,7 +73,15 @@ export default class SearchFilters extends Vue {
         let languageFilters = this.ParseQueryValues(query.language);
         let skillFilters = this.ParseQueryValues(query.skill);
         
-        this.selectedGenders = this.FilterMatchingCategories(this.genders, genderFilters);
+        let matchingGenders = this.FilterMatchingCategories(this.genders, genderFilters);
+
+        if (matchingGenders.length > 0) {
+            this.selectedGender = matchingGenders[0];
+        }
+        else {
+            this.selectedGender = null;
+        }
+        
         this.selectedLanguages = this.FilterMatchingCategories(this.languages, languageFilters);
         this.selectedSkills = this.FilterMatchingCategories(this.skills, skillFilters);
     }
@@ -87,7 +95,7 @@ export default class SearchFilters extends Vue {
             return true;
         }
 
-        if (this.selectedGenders.length > 0) {
+        if (this.selectedGender) {
             return true;
         }
 
@@ -99,7 +107,7 @@ export default class SearchFilters extends Vue {
             return;
         }
 
-        this.$emit("runSearch", this.selectedGenders, this.selectedLanguages, this.selectedSkills);        
+        this.$emit("runSearch", this.selectedGender, this.selectedLanguages, this.selectedSkills);        
     }
        
     public OnSearchClick(): void {
@@ -107,8 +115,8 @@ export default class SearchFilters extends Vue {
         let query = <any>{            
         };
 
-        if (this.selectedGenders.length > 0) {
-            query.gender = this.selectedGenders;
+        if (this.selectedGender) {
+            query.gender = this.selectedGender;
         }
 
         if (this.selectedLanguages.length > 0) {
