@@ -22,7 +22,7 @@
                                 required
                                 :error-messages="errors.collect('name')"
                                 data-vv-scope="skillForm"
-                                v-validate="'required'"
+                                v-validate="'required|skillNameFormat'"
                                 v-if="isAdd">
                             </v-select>
                             <v-text-field
