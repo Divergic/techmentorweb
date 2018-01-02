@@ -13,7 +13,7 @@ require("./styles/theme.scss");
 Vue.use(Vuex);
 Vue.use(Vuetify);
 
-VeeValidate.Validator.extend("skillNameFormat", {
+VeeValidate.Validator.extend("noSlashes", {
     getMessage: field => "The " + field + " field must not contain / or \\.",
     validate: value => {
         let regex = /^[^/\\]+$/g;

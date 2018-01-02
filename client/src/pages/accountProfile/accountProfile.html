@@ -93,6 +93,9 @@
                                 browser-autocomplete="off"
                                 hint="Select an existing gender or enter a new gender"
                                 persistent-hint
+                                :error-messages="errors.collect('gender')"
+                                data-vv-scope="profileForm"
+                                v-validate="'noSlashes'"
                                 v-bind:items="genders"
                                 v-model="model.gender">
                             </v-select>
@@ -119,6 +122,9 @@
                                 tags
                                 hint="Select existing languages or enter a new language"
                                 persistent-hint
+                                :error-messages="errors.collect('languages')"
+                                data-vv-scope="profileForm"
+                                v-validate="'noSlashes'"
                                 @input="CheckLanguages"
                                 v-bind:items="languages"
                                 v-model="model.languages">
