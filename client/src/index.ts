@@ -16,7 +16,7 @@ Vue.use(Vuetify);
 VeeValidate.Validator.extend("noSlashes", {
     getMessage: field => "The " + field + " field must not contain / or \\.",
     validate: value => {
-        let regex = /^[^/\\]+$/g;
+        let regex = /^[^/\\]*$/g;
 
         return regex.test(value);
     }
