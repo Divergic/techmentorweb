@@ -2,86 +2,33 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VendorChunkPlugin = require("webpack-vendor-chunk-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const config = require("../../../config");
 
 const rootPath = path.join(__dirname, "../../../");
 const sourcePath = path.join(__dirname, "../../src");
 
-const extractSass = new ExtractTextPlugin({
-    filename: "content/[name].css?hash=[hash:7]",
-});
-
-let plugins = [
-    new webpack.DefinePlugin(
-    { 
-        "webpackDefine": {
-            "environment": JSON.stringify(config.environment),
-            "configuration": JSON.stringify(config.configuration),
-            "apiUri": JSON.stringify(config.apiUri),
-            "audience": JSON.stringify(config.authAudience),
-            "authDomain": JSON.stringify(config.authDomain),
-            "authorizeUri": JSON.stringify(config.authAuthorizeUri),
-            "clientId": JSON.stringify(config.authClientId),
-            "responseType": JSON.stringify(config.authResponseType),
-            "scope": JSON.stringify(config.authScope),
-            "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
-        } 
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor",
-        filename: "scripts/vendor.js?hash=[hash:7]"
-    }),
-    new HtmlWebpackPlugin({
-        hash: true,
-        filename: "index.html",
-        template: path.join(sourcePath, "/index.html"),
-    }),
-    extractSass
-];
-
-if (config.configuration === "release") {
-    let uglify = new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            warnings: false
-        },
-        sourceMap: true
-    });
-
-    plugins.push(uglify);
-}
-
+const mode = config.configuration === "release" ? "production" : "development";
 const devtool = config.configuration === "release" ? "hidden-source-map" : "source-map";
 
-console.log("Compiling with devtool " + devtool + " for the client");
-
-module.exports = {
+let webpackConfig = {
     name: "client",
     target: "web",
+    mode: mode,
     entry: {
-        app: [path.join(sourcePath, "/index.ts")],
-
-        // auth0-js is included back in the vendor bundle until lazy loaded modules are working
-        // When lazy modules are available then this can come out of the vendor bundle and be pulled into the app.auth bundle by nature of the import
-        vendor: [
-            "auth0-js", 
-            "vue", 
-            "vuex", 
-            "vue-router", 
-            "vuex-persistedstate", 
-            "vee-validate", 
-            "vuetify", 
-            "vue-upload-component",
-            "vue-application-insights",
-            "store", 
-            "iziToast", 
-            "axios", 
-            "es6-promise/auto", 
-            "vue-class-component", 
-            "vue-property-decorator",
-            "tz-ids/index.jsnext.js", 
-            "marked"
-        ]
+        app: [path.join(sourcePath, "/index.ts")]
+    },
+    optimization: {
+        runtimeChunk: true,
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all"
+                }
+            }
+        }
     },
     output: {
         chunkFilename: 'scripts/[name].js?hash=[hash:7]',
@@ -117,19 +64,10 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loader: extractSass.extract({
-                    use: 
-                    [
-                        {
-                            loader: "css-loader"
-                        }, 
-                        {
-                            loader: "sass-loader"
-                        }
-                    ],
-                    // use style-loader in development
-                    fallback: "style-loader"
-                })
+                use: [
+                  MiniCssExtractPlugin.loader,
+                  "css-loader"
+                ]
             },
             {
                 test: /\.svg$/,
@@ -150,5 +88,33 @@ module.exports = {
             }
         ]
     },
-    plugins: plugins
+    plugins: [
+        new webpack.DefinePlugin(
+        { 
+            "webpackDefine": {
+                "environment": JSON.stringify(config.environment),
+                "configuration": JSON.stringify(config.configuration),
+                "apiUri": JSON.stringify(config.apiUri),
+                "audience": JSON.stringify(config.authAudience),
+                "authDomain": JSON.stringify(config.authDomain),
+                "authorizeUri": JSON.stringify(config.authAuthorizeUri),
+                "clientId": JSON.stringify(config.authClientId),
+                "responseType": JSON.stringify(config.authResponseType),
+                "scope": JSON.stringify(config.authScope),
+                "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
+            } 
+        }),
+        new HtmlWebpackPlugin({
+            hash: true,
+            filename: "index.html",
+            template: path.join(sourcePath, "/index.html"),
+        }),
+        new MiniCssExtractPlugin({
+            filename: "content/[name].css?hash=[hash:7]",
+        })
+    ]
 };
+
+console.log("Compiling with devtool " + devtool + " for the client");
+
+module.exports = webpackConfig;
