@@ -65,8 +65,9 @@ let webpackConfig = {
             {
                 test: /\.scss$/,
                 use: [
-                  MiniCssExtractPlugin.loader,
-                  "css-loader"
+                    'style-loader', 
+                    MiniCssExtractPlugin.loader,
+                    "css-loader"
                 ]
             },
             {
