@@ -20,6 +20,7 @@ let webpackConfig = {
     },
     optimization: {
         runtimeChunk: true,
+        namedModules: true,
         splitChunks: {
             cacheGroups: {
                 commons: {
@@ -31,7 +32,7 @@ let webpackConfig = {
         }
     },
     output: {
-        chunkFilename: 'scripts/[name].js?hash=[hash:7]',
+        chunkFilename: "scripts/[name].js?hash=[hash:7]",
         path: path.join(rootPath, "/dist"),
         publicPath: "/",
         filename: "scripts/[name].js?hash=[hash:7]"
@@ -57,7 +58,7 @@ let webpackConfig = {
             },
             {
                 test: /\.vue$/,
-                loader: 'vue-loader',
+                loader: "vue-loader",
                 options: {
                     esModule: true
                 }
@@ -65,14 +66,14 @@ let webpackConfig = {
             {
                 test: /\.scss$/,
                 use: [
-                    'style-loader', 
+                    "style-loader", 
                     MiniCssExtractPlugin.loader,
                     "css-loader"
                 ]
             },
             {
                 test: /\.svg$/,
-                loader: 'svg-inline-loader',
+                loader: "svg-inline-loader",
                 options: {
                     classPrefix: true,
                     idPrefix: true,
