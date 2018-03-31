@@ -78,6 +78,8 @@
     "open-browser-webpack-plugin": "^0.0.5",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.3",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "subpackage": "^1.1.0",
     "ts-loader": "^4.1.0",
     "tslint": "^5.7.0",

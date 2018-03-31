@@ -64,6 +64,10 @@ let webpackConfig = {
                 }
             },
             {
+                test: /\.styl$/,
+                loader: "css-loader!stylus-loader"
+            },
+            {
                 test: /\.scss$/,
                 use: [
                     "style-loader", 

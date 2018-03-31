@@ -1,6 +1,7 @@
-const homeComponent = () => import(/* webpackChunkName: "app.search" */ "../../pages/home/home.vue");
-const searchComponent = () => import(/* webpackChunkName: "app.search" */ "../../pages/search/search.vue");
-const profileComponent = () => import(/* webpackChunkName: "app.search" */ "../../pages/profile/profile.vue");
+// These components are imported like this to ensure they are bundled into the entry bundle
+import homeComponent from "../../pages/home/home.vue";
+import searchComponent from "../../pages/search/search.vue";
+import profileComponent from "../../pages/profile/profile.vue";
 
 const conductComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/conduct/conduct.vue");
 const reportAbuseComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/reportabuse/reportabuse.vue");
