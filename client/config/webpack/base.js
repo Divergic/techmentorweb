@@ -11,25 +11,14 @@ const sourcePath = path.join(__dirname, "../../src");
 const mode = config.configuration === "release" ? "production" : "development";
 const devtool = config.configuration === "release" ? "hidden-source-map" : "source-map";
 
+console.log("Compiling for " + mode + " with devtool " + devtool + " for the client");
+
 let webpackConfig = {
     name: "client",
     target: "web",
     mode: mode,
     entry: {
         app: [path.join(sourcePath, "/index.ts")]
-    },
-    optimization: {
-        runtimeChunk: true,
-        namedModules: true,
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: "vendors",
-                    chunks: "all"
-                }
-            }
-        }
     },
     output: {
         chunkFilename: "scripts/[name].js?hash=[hash:7]",
@@ -120,7 +109,5 @@ let webpackConfig = {
         })
     ]
 };
-
-console.log("Compiling with devtool " + devtool + " for the client");
 
 module.exports = webpackConfig;
