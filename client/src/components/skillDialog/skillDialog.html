@@ -68,9 +68,21 @@
                                 v-model="model.yearLastUsed">
                             </v-select>
                         </v-flex>
+                        <v-flex xs12>
+                            <small>*indicates required field</small>
+                        </v-flex>
+                        <v-flex xs12>
+                            This is a
+                            <strong>
+                                <span v-if="!model.yearLastUsed" class="green--text">current skill</span>
+                                <span v-if="model.yearLastUsed" class="red--text">previous skill</span>
+                            </strong> and will be displayed using the following statement:
+                        </v-flex>
+                        <v-flex xs12>
+                            <SkillDetails :skill="model" class="ml-4" />
+                        </v-flex>
                     </v-layout>
                 </v-container>
-                <small>*indicates required field</small>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
