@@ -20,6 +20,19 @@ let webpackConfig = {
     entry: {
         app: [path.join(sourcePath, "/index.ts")]
     },
+    optimization: {
+        runtimeChunk: true,
+        namedModules: true,
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "initial"
+                }
+            }
+        }
+    },
     output: {
         chunkFilename: "scripts/[name].js?hash=[hash:7]",
         path: path.join(rootPath, "/dist"),
