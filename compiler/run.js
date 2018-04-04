@@ -3,7 +3,6 @@ const path = require("path");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotServerMiddleware = require("webpack-hot-middleware");
-const opn = require('opn');
 
 module.exports = function(webpackCompiler) {
 
@@ -46,9 +45,6 @@ module.exports = function(webpackCompiler) {
 
         app.listen(config.port, function () {
             console.log("Website (" + config.configuration + " on " + config.compileTarget + ") listening on port " + config.port + " for path " + __dirname);
-            console.log("Website running at http://localhost:" + config.port);
         });
-
-        opn("http://localhost:" + config.port);
     }
 };

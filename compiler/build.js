@@ -38,48 +38,7 @@ module.exports = function() {
     }
 
     try {
-        let webpackCompiler = webpack(compilerConfiguration, function (err, stats) {
-            if (stats) {
-                let statsMessage = stats.toString({
-                    colors: true,
-                    modules: true,
-                    children: true,
-                    chunks: true,
-                    chunkModules: false
-                }) + "\n";
-
-                console.log(statsMessage);
-
-                const info = stats.toJson();
-
-                if (stats.hasErrors()) {
-                    for (let index = 0; index < info.errors.length; index++) {
-                        console.error("\x1b[31m%s\x1b[0m", info.errors[index]);
-                    }
-                }
-
-                if (stats.hasWarnings()) {
-                    for (let index = 0; index < info.warnings.length; index++) {
-                        console.error("\x1b[33m%s\x1b[0m", info.warnings[index]);
-                    }
-                }
-
-                if (!stats.hasErrors()
-                    && !stats.hasWarnings()) {
-                    console.error("\x1b[32m%s\x1b[0m", "Build successfully completed");
-                }
-            }
-        
-            if (err) {
-                console.error(err.stack || err);
-
-                if (err.details) {
-                    console.error(err.details);
-                }
-
-                return;
-            }
-        });
+        let webpackCompiler = webpack(compilerConfiguration);
         
         return webpackCompiler;
     }
