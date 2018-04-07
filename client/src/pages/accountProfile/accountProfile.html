@@ -192,11 +192,8 @@
                         autocomplete="off"
                         v-model="model.gitHubUsername"
                         :append-icon="model.gitHubUsername ? 'link' : ''"
-                        :append-icon-cb="() => ShowWebsite('https://github.com/' + model.gitHubUsername)">
-                        <!-- 
-                            Currently broken in vuetify due to the label, see https://github.com/vuetifyjs/vuetify/issues/1620
-                            prefix="https://github.com/"
-                         -->
+                        :append-icon-cb="() => ShowWebsite('https://github.com/' + model.gitHubUsername)"
+                        prefix="https://github.com/">
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6>
@@ -207,7 +204,8 @@
                         autocomplete="off"
                         v-model="model.twitterUsername"
                         :append-icon="model.twitterUsername ? 'link' : ''"
-                        :append-icon-cb="() => ShowWebsite('https://twitter.com/' + model.twitterUsername)">
+                        :append-icon-cb="() => ShowWebsite('https://twitter.com/' + model.twitterUsername)"
+                        prefix="https://twitter.com/">
                     </v-text-field>
                 </v-flex>
             </v-layout>

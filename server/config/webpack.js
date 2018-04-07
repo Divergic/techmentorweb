@@ -12,9 +12,12 @@ let externalModules = [nodeExternals({
     modulesDir: modulesPath
 })];
 
+const mode = config.configuration === "release" ? "production" : "development";
+
 module.exports = {
     name: "server",
     target: "node",
+    mode: mode,
     entry: path.join(__dirname, "../src/host.js"),
     node: {
     __dirname: false

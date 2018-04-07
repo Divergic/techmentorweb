@@ -5,6 +5,7 @@
                 <span class="headline">{{ isAdd ? "Add" : "Edit" }} Skill</span>
             </v-card-title>
             <v-card-text>
+                <small>*indicates required field</small>
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12 md6>
@@ -70,8 +71,21 @@
                         </v-flex>
                     </v-layout>
                 </v-container>
-                <small>*indicates required field</small>
             </v-card-text>
+            <v-slide-y-transition>
+                <v-card-text v-show="model.name && model.level">
+                    <div>
+                        This is a
+                        <strong>
+                            <span v-if="!model.yearLastUsed" class="green--text">current skill</span>
+                            <span v-if="model.yearLastUsed" class="red--text">past skill</span>
+                        </strong> and will be displayed using the following statement:
+                    </div>
+                    <div>
+                        <SkillDetails :skill="model" class="ml-4" />
+                    </div>
+                </v-card-text>
+            </v-slide-y-transition>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn class="blue--text darken-1" flat @click="OnClose" v-if="isAdd">Close</v-btn>

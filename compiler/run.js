@@ -45,7 +45,6 @@ module.exports = function(webpackCompiler) {
 
         app.listen(config.port, function () {
             console.log("Website (" + config.configuration + " on " + config.compileTarget + ") listening on port " + config.port + " for path " + __dirname);
-            console.log("Website running at http://localhost:" + config.port);
         });
     }
 };

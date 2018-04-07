@@ -4,8 +4,13 @@ import { Skill } from "../../services/api/skill";
 import { INotify, Notify } from "../../services/notify";
 import { IListsService, ListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
+import SkillDetails from "../../controls/skillDetails/skillDetails.vue";
 
-@Component
+@Component({
+    components: {
+      SkillDetails
+    }
+  })
 export default class SkillDialog extends Vue {
     private listsService: IListsService;
     private categoriesService: ICategoriesService;
@@ -18,7 +23,7 @@ export default class SkillDialog extends Vue {
     public skills: Array<string> = new Array<string>();
     public skillLevels: Array<ListItem<string>> = new Array<ListItem<string>>();
     public availableSkills: Array<string> = new Array<string>();
-    
+
     @Prop()
     public usedSkills: Array<Skill>;
 

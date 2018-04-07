@@ -4,7 +4,9 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer/lib/BundleAnalyzer
 
 module.exports = {
     plugins: [
-        new OpenBrowserPlugin({ url: "http://localhost:" + config.port }),
+        new OpenBrowserPlugin({ 
+            url: "http://localhost:" + config.port
+        }),
         new BundleAnalyzerPlugin({
             // Can be `server`, `static` or `disabled`. 
             // In `server` mode analyzer will start HTTP server to show bundle report. 
