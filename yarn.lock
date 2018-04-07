@@ -6210,8 +6210,8 @@ vue@^2.4.2:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
 vuetify@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.11.tgz#c6b262f3b4d062e810d62a08481991e4c090e116"
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.13.tgz#54a802932e1fda1f9d8d1d8586c477a09c179ef3"
 
 vuex-persistedstate@^2.0.0:
   version "2.5.1"
