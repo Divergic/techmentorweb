@@ -237,5 +237,30 @@
                 </v-flex>
             </v-layout>
         </v-container>
+        <v-expansion-panel>
+          <v-expansion-panel-content>
+            <div slot="header">Privacy Controls</div>
+            <!-- <v-card>
+                <v-card-text> -->
+                    <v-container>
+                        <v-layout row wrap>
+                            <v-flex xs12 sm4 mp-2>
+                                <v-btn :loading="savingModel" :disabled="savingModel" @click="OnHide">Hide Profile</v-btn>
+                                <p>Hiding your profile will make sure it is not publically visible and will not be returned in search results.</p>
+                            </v-flex>
+                            <v-flex xs12 sm4 mp-2>
+                                <v-btn :disabled="savingModel">Export Profile</v-btn>
+                                <p>Export.</p>
+                            </v-flex>
+                            <v-flex xs12 sm4 mp-2>
+                                <v-btn color="error" :disabled="savingModel">Delete Profile</v-btn>
+                                <p>Delete.</p>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                <!-- </v-card-text>
+            </v-card> -->
+          </v-expansion-panel-content>
+        </v-expansion-panel>
     </v-form>
 </div>

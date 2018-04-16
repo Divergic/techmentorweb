@@ -6,8 +6,6 @@ import { IListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 import store from "store";
 
-const core = require("../../tests/core");
-
 describe("AccountProfile", () => {
     let model: AccountProfile;
     let timezones: Array<string>;
@@ -124,12 +122,12 @@ describe("AccountProfile", () => {
     });
 
     describe("OnLoad", () => {
-        it("loads profile from service when not found in store", core.runAsync(async () => {
+        it("loads profile from service when not found in store", async () => {
             await sut.OnLoad();
 
             expect(sut.model).toEqual(model);
-        }));
-        it("loads profile from store", core.runAsync(async () => {
+        });
+        it("loads profile from store", async () => {
             let storedProfile = new AccountProfile(<AccountProfile>{firstName: "Joe", lastName: "Jones", email: "joe.jones@test.com"});
 
             store.set("profile", storedProfile);
@@ -137,8 +135,8 @@ describe("AccountProfile", () => {
             await sut.OnLoad();
 
             expect(sut.model).toEqual(storedProfile);
-        }));  
-        it("displays notification when profile loaded from store", core.runAsync(async () => {
+        });  
+        it("displays notification when profile loaded from store", async () => {
             spyOn(notify, "showInformation");
             spyOn(store, "remove");
 
@@ -150,8 +148,8 @@ describe("AccountProfile", () => {
 
             expect(notify.showInformation).toHaveBeenCalled();
             expect(store.remove).toHaveBeenCalledWith("profile");
-        }));  
-        it("populates values from authentication when missing", core.runAsync(async () => {
+        });  
+        it("populates values from authentication when missing", async () => {
             model.email = <string><any>null;
             model.firstName = <string><any>null;
             model.lastName = <string><any>null;
@@ -167,8 +165,8 @@ describe("AccountProfile", () => {
             expect(sut.model.email).toEqual(vuexStore.getters.email);
             expect(sut.model.firstName).toEqual(vuexStore.getters.firstName);
             expect(sut.model.lastName).toEqual(vuexStore.getters.lastName);
-        }));
-        it("displays notification when loading profile throws known failure", core.runAsync(async () => {
+        });
+        it("displays notification when loading profile throws known failure", async () => {
             let expected = new Failure("Uh oh!");
 
             spyOn(notify, "showFailure");
@@ -180,8 +178,8 @@ describe("AccountProfile", () => {
             await sut.OnLoad();
 
             expect(notify.showFailure).toHaveBeenCalledWith(expected);
-        }));
-        it("throws error when loading profile throws unknown failure", core.runAsync(async () => {
+        });
+        it("throws error when loading profile throws unknown failure", async () => {
             let expected = new Error("Uh oh!");
 
             spyOn(notify, "showFailure");
@@ -198,15 +196,15 @@ describe("AccountProfile", () => {
             }
 
             expect(notify.showFailure).not.toHaveBeenCalled();
-        }));
-        it("sets compiledMarkdown to empty when about is null", core.runAsync(async () => {
+        });
+        it("sets compiledMarkdown to empty when about is null", async () => {
             model.about = null;
 
             await sut.OnLoad();
 
             expect(sut.compiledMarkdown).toEqual("");
-        }));
-        it("sets compiledMarkdown to compiled markdown when about has value", core.runAsync(async () => {
+        });
+        it("sets compiledMarkdown to compiled markdown when about has value", async () => {
             model.about = "- stuff";
 
             await sut.OnLoad();
@@ -214,50 +212,50 @@ describe("AccountProfile", () => {
             let actual = sut.compiledMarkdown.replace(/\r?\n|\r/g, "");
 
             expect(actual).toEqual("<ul><li>stuff</li></ul>");
-        }));
-        it("loads timezones", core.runAsync(async () => {
+        });
+        it("loads timezones", async () => {
             await sut.OnLoad();
 
             expect(sut.timezones).toEqual(timezones);
-        }));
-        it("loads birthYears", core.runAsync(async () => {
+        });
+        it("loads birthYears", async () => {
             await sut.OnLoad();
 
             expect(sut.birthYears).toEqual(birthYears);
-        }));
-        it("loads techYears", core.runAsync(async () => {
+        });
+        it("loads techYears", async () => {
             await sut.OnLoad();
 
             expect(sut.techYears).toEqual(techYears);
-        }));
-        it("loads statuses", core.runAsync(async () => {
+        });
+        it("loads statuses", async () => {
             await sut.OnLoad();
 
             expect(sut.statuses).toEqual(statuses);
-        }));
-        it("loads languages", core.runAsync(async () => {
+        });
+        it("loads languages", async () => {
             await sut.OnLoad();
 
             expect(sut.languages.length).toEqual(1);
             expect(sut.languages[0]).toEqual("English");
-        }));
-        it("loads genders", core.runAsync(async () => {
+        });
+        it("loads genders", async () => {
             await sut.OnLoad();
 
             expect(sut.genders.length).toEqual(1);
             expect(sut.genders[0]).toEqual("Female");
-        }));
-        it("marks loading as false", core.runAsync(async () => {
+        });
+        it("marks loading as false", async () => {
             await sut.OnLoad();
 
             let actual = sut.loading;
 
             expect(actual).toBeFalsy();
-        }));
+        });
     });
 
     describe("OnSave", () => {
-        it("shows notification when validation fails", core.runAsync(async () => {
+        it("shows notification when validation fails", async () => {
             spyOn(profileService, "updateAccountProfile");
             spyOn(notify, "showWarning");
 
@@ -268,8 +266,8 @@ describe("AccountProfile", () => {
 
             expect(profileService.updateAccountProfile).not.toHaveBeenCalled();
             expect(notify.showWarning).toHaveBeenCalled();
-        }));
-        it("shows notification on successful save", core.runAsync(async () => {
+        });
+        it("shows notification on successful save", async () => {
             spyOn(store, "set").and.callThrough();
             spyOn(profileService, "updateAccountProfile");
             spyOn(store, "remove").and.callThrough();
@@ -279,11 +277,13 @@ describe("AccountProfile", () => {
             await sut.OnSave();
 
             expect(store.set).toHaveBeenCalledWith("profile", model);
+            expect(store.set).toHaveBeenCalledWith("storedProfile", model);
             expect(profileService.updateAccountProfile).toHaveBeenCalledWith(model);
             expect(store.remove).toHaveBeenCalledWith("profile");
+            expect(store.remove).toHaveBeenCalledWith("storedProfile");
             expect(notify.showSuccess).toHaveBeenCalled();
-        }));
-        it("shows failiure notification on known save failure", core.runAsync(async () => {
+        });
+        it("shows failiure notification on known save failure", async () => {
             spyOn(store, "set").and.callThrough();
             spyOn(store, "remove").and.callThrough();
             spyOn(notify, "showFailure");
@@ -298,10 +298,11 @@ describe("AccountProfile", () => {
             await sut.OnSave();
 
             expect(store.set).toHaveBeenCalledWith("profile", model);
-            expect(store.remove).not.toHaveBeenCalledWith();
+            expect(store.set).toHaveBeenCalledWith("storedProfile", model);
+            expect(store.remove).not.toHaveBeenCalled();
             expect(notify.showFailure).toHaveBeenCalled();
-        }));
-        it("shows error notification and throws error on unknown save failure", core.runAsync(async () => {
+        });
+        it("shows error notification and throws error on unknown save failure", async () => {
             spyOn(store, "set").and.callThrough();
             spyOn(store, "remove").and.callThrough();
             spyOn(notify, "showError");
@@ -324,10 +325,10 @@ describe("AccountProfile", () => {
             }
 
             expect(store.set).toHaveBeenCalledWith("profile", model);
-            expect(store.remove).not.toHaveBeenCalledWith();
+            expect(store.remove).not.toHaveBeenCalled();
             expect(notify.showError).toHaveBeenCalled();
-        }));
-        it("sets savingModel flag around successful save", core.runAsync(async () => {
+        });
+        it("sets savingModel flag around successful save", async () => {
             profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
                 expect(sut.savingModel).toBeTruthy();
                 return Promise.resolve();
@@ -337,8 +338,8 @@ describe("AccountProfile", () => {
             await sut.OnSave();
             
             expect(sut.savingModel).toBeFalsy();
-        }));
-        it("sets savingModel flag around failed save", core.runAsync(async () => {
+        });
+        it("sets savingModel flag around failed save", async () => {
             profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
                 expect(sut.savingModel).toBeTruthy();
                 return Promise.reject(new Failure("Uh oh!"));
@@ -348,7 +349,117 @@ describe("AccountProfile", () => {
             await sut.OnSave();
             
             expect(sut.savingModel).toBeFalsy();
-        }));
+        });
+    });
+
+    describe("OnHide", () => {
+        it("shows notification on successful save", async () => {
+            spyOn(store, "set").and.callThrough();
+            spyOn(profileService, "updateAccountProfile");
+            spyOn(store, "remove").and.callThrough();
+            spyOn(notify, "showSuccess");
+            
+            await sut.OnLoad();
+            await sut.OnHide();
+
+            model.status = "hidden";
+
+            expect(store.set).toHaveBeenCalledWith("profile", model);
+            expect(store.set).toHaveBeenCalledWith("storedProfile", model);
+            expect(profileService.updateAccountProfile).toHaveBeenCalledWith(model);
+            expect(store.remove).toHaveBeenCalledWith("profile");
+            expect(store.remove).toHaveBeenCalledWith("storedProfile");
+            expect(notify.showSuccess).toHaveBeenCalled();
+        });
+        it("updates last loaded model instead of updated model", async () => {
+            spyOn(store, "set").and.callThrough();
+            spyOn(profileService, "updateAccountProfile");
+            spyOn(store, "remove").and.callThrough();
+            spyOn(notify, "showSuccess");
+            
+            await sut.OnLoad();
+
+            let originalFirstName = model.firstName;
+
+            model.firstName = "UpdatedFirstName";
+
+            await sut.OnHide();
+
+            expect((<any>profileService.updateAccountProfile).calls.argsFor(0)[0].firstName).toEqual(originalFirstName);
+            expect(model.firstName).toEqual("UpdatedFirstName");
+        });
+        it("shows failiure notification on known save failure", async () => {
+            spyOn(store, "set").and.callThrough();
+            spyOn(store, "remove").and.callThrough();
+            spyOn(notify, "showFailure");
+
+            let failure = new Failure("Uh oh!");
+
+            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                return Promise.reject(failure);
+            };
+            
+            await sut.OnLoad();
+            await sut.OnHide();
+
+            model.status = "hidden";
+
+            expect(store.set).toHaveBeenCalledWith("profile", model);
+            expect(store.set).toHaveBeenCalledWith("storedProfile", model);
+            expect(store.remove).not.toHaveBeenCalled();
+            expect(notify.showFailure).toHaveBeenCalled();
+        });
+        it("shows error notification and throws error on unknown save failure", async () => {
+            spyOn(store, "set").and.callThrough();
+            spyOn(store, "remove").and.callThrough();
+            spyOn(notify, "showError");
+
+            let failure = new Error("Uh oh!");
+
+            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                return Promise.reject(failure);
+            };
+            
+            await sut.OnLoad();
+
+            try {
+                await sut.OnHide();
+
+                throw new Error("Test should have thrown an error");
+            }
+            catch (e) {
+                expect(e).toEqual(failure);
+            }
+
+            model.status = "hidden";
+
+            expect(store.set).toHaveBeenCalledWith("profile", model);
+            expect(store.set).toHaveBeenCalledWith("storedProfile", model);
+            expect(store.remove).not.toHaveBeenCalled();
+            expect(notify.showError).toHaveBeenCalled();
+        });
+        it("sets savingModel flag around successful save", async () => {
+            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                expect(sut.savingModel).toBeTruthy();
+                return Promise.resolve();
+            };
+            
+            await sut.OnLoad();
+            await sut.OnHide();
+            
+            expect(sut.savingModel).toBeFalsy();
+        });
+        it("sets savingModel flag around failed save", async () => {
+            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                expect(sut.savingModel).toBeTruthy();
+                return Promise.reject(new Failure("Uh oh!"));
+            };
+            
+            await sut.OnLoad();
+            await sut.OnHide();
+            
+            expect(sut.savingModel).toBeFalsy();
+        });
     });
 
     describe("ShowWebsite", () => {
@@ -407,7 +518,7 @@ describe("AccountProfile", () => {
     });
 
     describe("CheckLanguages", () => {
-        it("updates languages to title case", core.runAsync(async () => {
+        it("updates languages to title case", async () => {
             model.languages.push("spanish");
 
             await sut.OnLoad();
@@ -415,19 +526,19 @@ describe("AccountProfile", () => {
 
             expect(sut.model.languages.length).toEqual(2);
             expect(sut.model.languages[1]).toEqual("Spanish");
-        }));
+        });
     });
 
     describe("CompileMarkdown", () => {
-        it("sets compiledMarkdown to empty when about is null", core.runAsync(async () => {
+        it("sets compiledMarkdown to empty when about is null", async () => {
             model.about = null;
 
             await sut.OnLoad();
             sut.CompileMarkdown();
 
             expect(sut.compiledMarkdown).toEqual("");
-        }));
-        it("sets compiledMarkdown to compiled markdown when about has value", core.runAsync(async () => {
+        });
+        it("sets compiledMarkdown to compiled markdown when about has value", async () => {
             model.about = "- stuff";
 
             await sut.OnLoad();
@@ -436,6 +547,6 @@ describe("AccountProfile", () => {
             let actual = sut.compiledMarkdown.replace(/\r?\n|\r/g, "");
 
             expect(actual).toEqual("<ul><li>stuff</li></ul>");
-        }));
+        });
     });
 });

@@ -21,6 +21,7 @@ import VSubheader from "vuetify/es5/components/VSubheader";
 import VSwitch from "vuetify/es5/components/VSwitch";
 import VGrid from "vuetify/es5/components/VGrid";
 import VDivider from "vuetify/es5/components/VDivider";
+import VExpansionPanel from "vuetify/es5/components/VExpansionPanel";
 import transitions from "vuetify/es5/components/transitions";
 import * as VeeValidate from "vee-validate";
 import StoreDataOptions from "./services/dataStore/storeDataOptions";
@@ -52,6 +53,7 @@ Vue.use(Vuetify, {
       VSwitch,
       VGrid,
       VDivider,
+      VExpansionPanel,
       transitions
     }
   });
