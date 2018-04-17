@@ -8,6 +8,7 @@ import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { IListsService, ListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
+import { IJsonDownloader, JsonDownloader } from "./jsonDownloader";
 import store from "store";
 import marked from "marked";
 
@@ -22,6 +23,7 @@ export default class Profile extends AuthComponent {
     private profileService: IAccountProfileService;
     private listsService: IListsService;
     private categoriesService: ICategoriesService;
+    private jsonDownloader: IJsonDownloader;
     private notify: INotify;
 
     // Properties for view binding
@@ -43,13 +45,15 @@ export default class Profile extends AuthComponent {
         this.profileService = new AccountProfileService();
         this.listsService = new ListsService();
         this.categoriesService = new CategoriesService();
+        this.jsonDownloader = new JsonDownloader();
         this.notify = new Notify();
     }
     
-    public configure(profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, notify: INotify) {
+    public configure(profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, jsonDownloader: IJsonDownloader, notify: INotify) {
         this.profileService = profileService;
         this.listsService = listsService;
         this.categoriesService = categoriesService;
+        this.jsonDownloader = jsonDownloader;
         this.notify = notify;
     }
 
@@ -139,6 +143,25 @@ export default class Profile extends AuthComponent {
         }
         finally {
             this.savingModel = false;
+        }
+    }
+
+    public async OnExport(): Promise<void> {
+        try {
+            let exportProfile = await this.profileService.exportAccountProfile();
+            let name = exportProfile.id + ".json";
+
+            this.jsonDownloader.download(name, exportProfile);
+        }
+        catch (failure) {
+            // Check Failure.visibleToUser
+            if (failure.visibleToUser) {
+                this.notify.showFailure(<Failure>failure);
+            } else {
+                this.notify.showError("Uh oh. Someting went wrong. We will look into it.");
+                
+                throw failure;
+            }
         }
     }
 

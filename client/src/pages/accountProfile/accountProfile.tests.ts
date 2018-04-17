@@ -1,13 +1,15 @@
 import Profile from "./accountProfile";
-import { IAccountProfileService, AccountProfile } from "../../services/api/accountProfileService";
+import { IAccountProfileService, AccountProfile, ExportProfile } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify } from "../../services/notify";
 import { IListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
+import { IJsonDownloader } from "./jsonDownloader";
 import store from "store";
 
 describe("AccountProfile", () => {
     let model: AccountProfile;
+    let exportModel: ExportProfile;
     let timezones: Array<string>;
     let birthYears: Array<number>;
     let techYears: Array<number>;
@@ -19,6 +21,7 @@ describe("AccountProfile", () => {
     let profileService: IAccountProfileService;
     let listsService: IListsService;
     let categoriesService: ICategoriesService;
+    let jsonDownloader: IJsonDownloader;
     let notify: INotify;
     let vuexStore: any;
     let validator: any;
@@ -36,6 +39,13 @@ describe("AccountProfile", () => {
                 email: "jane.smith@test.com", 
                 languages: new Array<string>("English")
             });
+        exportModel = new ExportProfile(
+        <ExportProfile>{
+            firstName: "Dave", 
+            lastName: "Smith", 
+            email: "dave.smith@test.com", 
+            languages: new Array<string>("Spanish")
+        });
         timezones = new Array<string>("Australia/Canberra", "Australia/Sydney");
         birthYears = new Array<number>(1980, 1981);
         techYears = new Array<number>(1999, 2000);
@@ -65,6 +75,9 @@ describe("AccountProfile", () => {
 
         sut = new Profile();
         profileService = <IAccountProfileService>{
+            exportAccountProfile: (): Promise<ExportProfile> => {
+                return Promise.resolve(exportModel);
+            },
             getAccountProfile: (): Promise<AccountProfile> => {
                 return Promise.resolve(model);
             },
@@ -91,6 +104,10 @@ describe("AccountProfile", () => {
                 return Promise.resolve(categories);
             }
         };
+        jsonDownloader = <IJsonDownloader>{
+            download: (name: string, value: any) => {                
+            }
+        };
         notify = <INotify>{
             showInformation: (message: string): void => {                
             },
@@ -115,7 +132,7 @@ describe("AccountProfile", () => {
             }
         };
         
-        sut.configure(profileService, listsService, categoriesService, notify);
+        sut.configure(profileService, listsService, categoriesService, jsonDownloader, notify);
         
         (<any>sut).$store = vuexStore;  
         (<any>sut).$validator = validator;    
@@ -459,6 +476,49 @@ describe("AccountProfile", () => {
             await sut.OnHide();
             
             expect(sut.savingModel).toBeFalsy();
+        });
+    });
+
+    describe("OnExport", () => {
+        it("exports current profile", async () => {
+            spyOn(jsonDownloader, "download");
+            
+            await sut.OnExport();
+
+            expect(<any>jsonDownloader.download).toHaveBeenCalledWith(exportModel.id + ".json", exportModel);
+        });
+        it("shows failiure notification on known export failure", async () => {
+            spyOn(notify, "showFailure");
+
+            let failure = new Failure("Uh oh!");
+
+            profileService.exportAccountProfile = (): Promise<ExportProfile> => {
+                return Promise.reject(failure);
+            };
+            
+            await sut.OnExport();
+
+            expect(notify.showFailure).toHaveBeenCalled();
+        });
+        it("shows error notification and throws error on unknown save failure", async () => {
+            spyOn(notify, "showError");
+
+            let failure = new Error("Uh oh!");
+
+            profileService.exportAccountProfile = (): Promise<ExportProfile> => {
+                return Promise.reject(failure);
+            };
+
+            try {            
+                await sut.OnExport();
+    
+                throw new Error("Test should have thrown an error");
+            }
+            catch (e) {
+                expect(e).toEqual(failure);
+            }
+
+            expect(notify.showError).toHaveBeenCalled();
         });
     });
 

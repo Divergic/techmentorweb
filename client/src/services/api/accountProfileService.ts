@@ -87,13 +87,69 @@ export class AccountProfile {
     }
 }
 
+export class ExportPhoto {
+    public contentType: string | null;
+    public data: Uint8Array;
+    public hash: string | null;
+    public id: string | null;
+    public profileId: string | null;
+
+    public constructor(photo: ExportPhoto | null = null) {
+        if (photo) {
+            this.contentType = photo.contentType;
+            this.data = photo.data;
+            this.hash = photo.hash;
+            this.id = photo.id;
+            this.profileId = photo.profileId;
+        }
+        else {
+            this.contentType = null;
+            this.data = new Uint8Array(0);
+            this.hash = null;
+            this.id = null;
+            this.profileId = null;
+        }
+    }
+}
+
+export class ExportProfile extends AccountProfile {
+    public photos: Array<ExportPhoto> = new Array<ExportPhoto>();
+    public constructor(profile: ExportProfile | null = null) {
+        super(profile);
+
+        if (profile) {
+            this.photos = new Array<ExportPhoto>();
+
+            if (profile.photos) {
+                let sourcePhotos = <Array<ExportPhoto>>profile.photos;
+                
+                sourcePhotos.forEach(element => {
+                    let photo = new ExportPhoto(element);
+                    
+                    this.photos.push(photo);
+                });
+            }
+        }
+        else {
+            this.photos = new Array<ExportPhoto>();
+        }
+    }
+}
+
 export interface IAccountProfileService {
+    exportAccountProfile(): Promise<ExportProfile>;
     getAccountProfile(): Promise<AccountProfile>;
     updateAccountProfile(profile: AccountProfile): Promise<void>;
 }
 
 export class AccountProfileService implements IAccountProfileService {
     public constructor(private http: IHttp = new Http()) {
+    }
+
+    public exportAccountProfile(): Promise<ExportProfile> {
+        let uri: string = "profile/export";
+
+        return this.http.get<ExportProfile>(uri);
     }
 
     public getAccountProfile(): Promise<AccountProfile> {
