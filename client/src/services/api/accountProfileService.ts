@@ -137,6 +137,7 @@ export class ExportProfile extends AccountProfile {
 }
 
 export interface IAccountProfileService {
+    deleteAccountProfile(): Promise<void>;
     exportAccountProfile(): Promise<ExportProfile>;
     getAccountProfile(): Promise<AccountProfile>;
     updateAccountProfile(profile: AccountProfile): Promise<void>;
@@ -146,8 +147,14 @@ export class AccountProfileService implements IAccountProfileService {
     public constructor(private http: IHttp = new Http()) {
     }
 
+    public deleteAccountProfile(): Promise<void> {
+        let uri: string = "profile/";
+
+        return this.http.delete(uri);
+    }
+
     public exportAccountProfile(): Promise<ExportProfile> {
-        let uri: string = "profile/export";
+        let uri: string = "profile/export/";
 
         return this.http.get<ExportProfile>(uri);
     }

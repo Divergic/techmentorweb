@@ -208,6 +208,8 @@ describe("ProfileService", () => {
             lastName: "Goods"
         };
         http = <IHttp>{
+            delete: async (resource: string): Promise<void> => {
+            },
             get: async (resource: string): Promise<AccountProfile> => {
                 if (resource.indexOf("export") > -1) {
                     return exportProfile;
@@ -222,13 +224,23 @@ describe("ProfileService", () => {
         sut = new AccountProfileService(http);          
     });
 
+    describe("deleteAccountProfile", () => {
+        it("removes profile from API", core.runAsync(async () => {
+            spyOn(http, "delete").and.callThrough();
+
+            await sut.deleteAccountProfile();
+
+            expect(http.delete).toHaveBeenCalledWith("profile/");
+        }));
+    });
+
     describe("exportAccountProfile", () => {
         it("returns profile from API", core.runAsync(async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.exportAccountProfile();
 
-            expect(http.get).toHaveBeenCalledWith("profile/export");
+            expect(http.get).toHaveBeenCalledWith("profile/export/");
             expect(actual).toEqual(exportProfile);
         }));
     });

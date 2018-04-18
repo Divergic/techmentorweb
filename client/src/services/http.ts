@@ -6,6 +6,7 @@ import Axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
 import Failure from "./failure";
 
 export interface IHttp {
+    delete(resourceUri: string): Promise<void>;
     get<T>(resourceUri: string): Promise<T>;
     post<T, R>(resourceUri: string, data?: T): Promise<R>;
     put<T, R>(resourceUri: string, data?: T): Promise<R>;
@@ -30,6 +31,18 @@ export class Http implements IHttp {
         this.client.interceptors.response.use(undefined, (error: any): any => {
             return this.OnResponseError(error);
         });
+    }
+
+    public async delete(resourceUri: string): Promise<void> {
+        try {
+            let rawResponse = await this.client.delete(resourceUri);
+            let response = <AxiosResponse>rawResponse;
+
+            return this.ProcessResult<void>(response, [200]);
+        }
+        catch (error) {
+            throw this.CreateFailure(error);
+        }
     }
 
     public async get<T>(resourceUri: string): Promise<T> {
