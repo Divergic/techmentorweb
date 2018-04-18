@@ -520,6 +520,26 @@ describe("AccountProfile", () => {
 
             expect(notify.showError).toHaveBeenCalled();
         });
+        it("sets exportingModel flag around successful save", async () => {
+            profileService.exportAccountProfile = (): Promise<ExportProfile> => {
+                expect(sut.exportingModel).toBeTruthy();
+                return Promise.resolve(exportModel);
+            };
+            
+            await sut.OnExport();
+            
+            expect(sut.exportingModel).toBeFalsy();
+        });
+        it("sets exportingModel flag around failed save", async () => {
+            profileService.exportAccountProfile = (): Promise<ExportProfile> => {
+                expect(sut.exportingModel).toBeTruthy();
+                return Promise.reject(new Failure("Uh oh!"));
+            };
+            
+            await sut.OnExport();
+            
+            expect(sut.exportingModel).toBeFalsy();
+        });
     });
 
     describe("ShowWebsite", () => {

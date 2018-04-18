@@ -38,6 +38,7 @@ export default class Profile extends AuthComponent {
     public genders: Array<string> = new Array<string>();
     public languages: Array<string> = new Array<string>();
     public savingModel: boolean = false;
+    public exportingModel: boolean = false;
 
     public constructor() {
         super();
@@ -148,6 +149,8 @@ export default class Profile extends AuthComponent {
 
     public async OnExport(): Promise<void> {
         try {
+            this.exportingModel = true;
+
             let exportProfile = await this.profileService.exportAccountProfile();
             let name = exportProfile.id + ".json";
 
@@ -162,6 +165,9 @@ export default class Profile extends AuthComponent {
                 
                 throw failure;
             }
+        }
+        finally {
+            this.exportingModel = false;
         }
     }
 

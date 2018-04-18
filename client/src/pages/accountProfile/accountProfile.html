@@ -249,7 +249,7 @@
                                 <p>Hiding your profile will make sure it is not publically visible and will not be returned in search results.</p>
                             </v-flex>
                             <v-flex xs12 sm4 pa-3>
-                                <v-btn :disabled="savingModel" @click="OnExport">Export Profile</v-btn>
+                                <v-btn :loading="exportingModel" :disabled="savingModel || exportingModel" @click="OnExport">Export Profile</v-btn>
                                 <p>Exporting your profile will download a data file (json format) containing all your stored profile data and uploaded profile photos.</p>
                             </v-flex>
                             <v-flex xs12 sm4 pa-3>
