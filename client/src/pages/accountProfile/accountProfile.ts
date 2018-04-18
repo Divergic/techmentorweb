@@ -1,6 +1,7 @@
 import Component from "vue-class-component";
 import AuthComponent from "../../components/authComponent";
 import ProfilePhoto from "../../controls/profilePhoto/profilePhoto.vue";
+import DeleteButton from "../../controls/deleteButton/deleteButton.vue";
 import SkillList from "../../controls/skillList/skillList.vue";
 import AccountProfileAlerts from "../../controls/accountProfileAlerts/accountProfileAlerts.vue";
 import { IAccountProfileService, AccountProfileService, AccountProfile, ProfileStatus } from "../../services/api/accountProfileService";
@@ -16,7 +17,8 @@ import marked from "marked";
     components: {
       ProfilePhoto,
       SkillList,
-      AccountProfileAlerts
+      AccountProfileAlerts,
+      DeleteButton
     }
   })
 export default class Profile extends AuthComponent {
