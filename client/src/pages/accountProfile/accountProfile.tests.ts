@@ -4,6 +4,7 @@ import Failure from "../../services/failure";
 import { INotify } from "../../services/notify";
 import { IListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
+import { ILocation } from "../../services/location";
 import { IJsonDownloader } from "./jsonDownloader";
 import store from "store";
 
@@ -16,11 +17,13 @@ describe("AccountProfile", () => {
     let statuses: Array<ListItem<string>>;
     let categories: Array<Category>;
     let isValid: boolean;
+    let hash: string;
 
     let sut: Profile;
     let profileService: IAccountProfileService;
     let listsService: IListsService;
     let categoriesService: ICategoriesService;
+    let location: ILocation;
     let jsonDownloader: IJsonDownloader;
     let notify: INotify;
     let vuexStore: any;
@@ -72,6 +75,7 @@ describe("AccountProfile", () => {
             }
         ];
         isValid = true;
+        hash = "";
 
         sut = new Profile();
         profileService = <IAccountProfileService>{
@@ -104,6 +108,11 @@ describe("AccountProfile", () => {
                 return Promise.resolve(categories);
             }
         };
+        location = <ILocation>{
+            getHash: () => {
+                return hash;
+            }
+        };
         jsonDownloader = <IJsonDownloader>{
             download: (name: string, value: any) => {                
             }
@@ -132,7 +141,7 @@ describe("AccountProfile", () => {
             }
         };
         
-        sut.configure(profileService, listsService, categoriesService, jsonDownloader, notify);
+        sut.configure(profileService, listsService, categoriesService, location, jsonDownloader, notify);
         
         (<any>sut).$store = vuexStore;  
         (<any>sut).$validator = validator;    
@@ -268,6 +277,40 @@ describe("AccountProfile", () => {
             let actual = sut.loading;
 
             expect(actual).toBeFalsy();
+        });
+        it("marks expandPrivacy as false when hash is empty", async () => {
+            await sut.OnLoad();
+
+            let actual = sut.expandPrivacy;
+
+            expect(actual).toBeFalsy();
+        });
+        it("marks expandPrivacy as false when hash is unexpected value", async () => {
+            hash = "#something";
+
+            await sut.OnLoad();
+
+            let actual = sut.expandPrivacy;
+
+            expect(actual).toBeFalsy();
+        });
+        it("marks expandPrivacy as true when hash is privacy", async () => {
+            hash = "#privacy";
+            
+            await sut.OnLoad();
+
+            let actual = sut.expandPrivacy;
+
+            expect(actual).toBeTruthy();
+        });
+        it("marks expandPrivacy as true when hash is privacy ignoring case", async () => {
+            hash = "#PRIVACY";
+            
+            await sut.OnLoad();
+
+            let actual = sut.expandPrivacy;
+
+            expect(actual).toBeTruthy();
         });
     });
 

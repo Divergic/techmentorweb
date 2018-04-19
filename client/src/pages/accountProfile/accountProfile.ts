@@ -9,6 +9,7 @@ import Failure from "../../services/failure";
 import { INotify, Notify } from "../../services/notify";
 import { IListsService, ListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, CategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
+import { ILocation, Location } from "../../services/location";
 import { IJsonDownloader, JsonDownloader } from "./jsonDownloader";
 import store from "store";
 import marked from "marked";
@@ -25,6 +26,7 @@ export default class Profile extends AuthComponent {
     private profileService: IAccountProfileService;
     private listsService: IListsService;
     private categoriesService: ICategoriesService;
+    private locationService: ILocation;
     private jsonDownloader: IJsonDownloader;
     private notify: INotify;
 
@@ -41,6 +43,7 @@ export default class Profile extends AuthComponent {
     public languages: Array<string> = new Array<string>();
     public savingModel: boolean = false;
     public exportingModel: boolean = false;
+    public expandPrivacy: boolean = false;
 
     public constructor() {
         super();
@@ -48,16 +51,20 @@ export default class Profile extends AuthComponent {
         this.profileService = new AccountProfileService();
         this.listsService = new ListsService();
         this.categoriesService = new CategoriesService();
+        this.locationService = new Location();
         this.jsonDownloader = new JsonDownloader();
         this.notify = new Notify();
     }
     
-    public configure(profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, jsonDownloader: IJsonDownloader, notify: INotify) {
+    public configure(profileService: IAccountProfileService, listsService: IListsService, categoriesService: ICategoriesService, locationService: ILocation, jsonDownloader: IJsonDownloader, notify: INotify) {
         this.profileService = profileService;
         this.listsService = listsService;
         this.categoriesService = categoriesService;
+        this.locationService = locationService;
         this.jsonDownloader = jsonDownloader;
         this.notify = notify;
+
+        this.init(locationService);
     }
 
     public mounted(): Promise<void> {
@@ -65,6 +72,10 @@ export default class Profile extends AuthComponent {
     }
 
     public async OnLoad(): Promise<void> {
+        let locationHash = this.locationService.getHash() || "";
+
+        this.expandPrivacy = (locationHash.toLowerCase() === "#privacy");
+        
         let listsTask = this.loadLists();
         let profileTask = this.loadProfile();
 
@@ -233,7 +244,7 @@ export default class Profile extends AuthComponent {
                 return item.name;
             });
     }
-
+ 
     private async loadProfile(): Promise<void> {
         try {
             // Get the profile stored before an auth refresh or create a new one

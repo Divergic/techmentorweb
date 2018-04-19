@@ -238,8 +238,8 @@
             </v-layout>
         </v-container>
         <v-expansion-panel>
-          <v-expansion-panel-content>
-            <div slot="header">Privacy Controls</div>
+          <v-expansion-panel-content :value="expandPrivacy">
+            <div slot="header" id="privacy">Privacy Controls</div>
                 <v-container>
                     <v-layout row wrap>
                         <v-flex xs12 sm4 pa-3>
@@ -252,7 +252,7 @@
                         </v-flex>
                         <v-flex xs12 sm4 pa-3>
                             <DeleteButton :disabled="savingModel"></DeleteButton>
-                            <p>Delete.</p>
+                            <p>Deleting your profile will remove all your profile data (including uploaded photos) from Tech Mentors. It will also remove your authentication account with the Tech Mentors authentication provider (Auth0).</p>
                         </v-flex>
                     </v-layout>
                 </v-container>
