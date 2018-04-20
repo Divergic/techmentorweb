@@ -1,4 +1,5 @@
 import Component from "vue-class-component";
+import VueScrollTo from "vue-scrollto";
 import AuthComponent from "../../components/authComponent";
 import ProfilePhoto from "../../controls/profilePhoto/profilePhoto.vue";
 import DeleteButton from "../../controls/deleteButton/deleteButton.vue";
@@ -72,9 +73,9 @@ export default class Profile extends AuthComponent {
     }
 
     public async OnLoad(): Promise<void> {
-        let locationHash = this.locationService.getHash() || "";
+        let locationHash = this.locationService.getSearch() || "";
 
-        this.expandPrivacy = (locationHash.toLowerCase() === "#privacy");
+        this.expandPrivacy = (locationHash.toLowerCase() === "?privacy");
         
         let listsTask = this.loadLists();
         let profileTask = this.loadProfile();
@@ -82,8 +83,63 @@ export default class Profile extends AuthComponent {
         await Promise.all([listsTask, profileTask]);
 
         this.loading = false;
+
+        // This is really hacky but no other solution is available ATM
+        // The issue here is that setting a value to display elements in Vue does not make them visible immediately
+        // This hack waits on a timer for the element to become rendered in the DOM and then we can scroll to it
+        if (this.expandPrivacy) {
+            let that = this;
+            
+            let checkExist = setInterval(function() {
+                let element = document.getElementById("privacy");
+
+                if (!element) {
+                    return;
+                }
+
+                if (that.isVisible(element)) {
+                    clearInterval(checkExist);
+
+                    let options = {
+                        easing: "ease-in",
+                        offset: -60
+                    };
+                     
+                    VueScrollTo.scrollTo("#privacy", undefined, options);
+                }
+             }, 100); // check every 100ms
+        }
     }
 
+    private isVisible(el: any): boolean {
+        while (el) {
+            if (el === document) {
+                return true;
+            }
+
+            let $style = window.getComputedStyle(el, null);
+
+            if (!el) {
+                return false;
+            } else if (!$style) {
+                return false;
+            } else if ($style.display === "none") {
+                return false;
+            } else if ($style.visibility === "hidden") {
+                return false;
+            } else if ($style.opacity === "0") {
+                return false;
+            } else if (($style.display === "block" || $style.display === "inline-block") &&
+                $style.height === "0px" && $style.overflow === "hidden") {
+                return false;
+            }
+            
+            return $style.position === "fixed" || this.isVisible(el.parentNode);
+        }
+
+        return false;
+    }
+    
     public async OnSave(): Promise<void> {
         let isValid = await this.$validator.validateAll("profileForm");
 

@@ -17,7 +17,7 @@ describe("AccountProfile", () => {
     let statuses: Array<ListItem<string>>;
     let categories: Array<Category>;
     let isValid: boolean;
-    let hash: string;
+    let query: string;
 
     let sut: Profile;
     let profileService: IAccountProfileService;
@@ -75,7 +75,7 @@ describe("AccountProfile", () => {
             }
         ];
         isValid = true;
-        hash = "";
+        query = "";
 
         sut = new Profile();
         profileService = <IAccountProfileService>{
@@ -109,8 +109,8 @@ describe("AccountProfile", () => {
             }
         };
         location = <ILocation>{
-            getHash: () => {
-                return hash;
+            getSearch: () => {
+                return query;
             }
         };
         jsonDownloader = <IJsonDownloader>{
@@ -278,15 +278,15 @@ describe("AccountProfile", () => {
 
             expect(actual).toBeFalsy();
         });
-        it("marks expandPrivacy as false when hash is empty", async () => {
+        it("marks expandPrivacy as false when query is empty", async () => {
             await sut.OnLoad();
 
             let actual = sut.expandPrivacy;
 
             expect(actual).toBeFalsy();
         });
-        it("marks expandPrivacy as false when hash is unexpected value", async () => {
-            hash = "#something";
+        it("marks expandPrivacy as false when query is unexpected value", async () => {
+            query = "?something";
 
             await sut.OnLoad();
 
@@ -294,8 +294,8 @@ describe("AccountProfile", () => {
 
             expect(actual).toBeFalsy();
         });
-        it("marks expandPrivacy as true when hash is privacy", async () => {
-            hash = "#privacy";
+        it("marks expandPrivacy as true when query is privacy", async () => {
+            query = "?privacy";
             
             await sut.OnLoad();
 
@@ -303,8 +303,8 @@ describe("AccountProfile", () => {
 
             expect(actual).toBeTruthy();
         });
-        it("marks expandPrivacy as true when hash is privacy ignoring case", async () => {
-            hash = "#PRIVACY";
+        it("marks expandPrivacy as true when query is privacy ignoring case", async () => {
+            query = "?PRIVACY";
             
             await sut.OnLoad();
 
