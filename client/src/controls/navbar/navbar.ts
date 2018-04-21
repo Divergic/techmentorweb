@@ -1,5 +1,5 @@
 import Component from "vue-class-component";
-import AuthComponent from "../../components/authComponent";
+import AuthComponent from "../../components/authComponent/authComponent";
 import RegisterButton from "../../controls/registerButton/registerButton.vue";
 import AuthButton from "../../controls/authButton/authButton.vue";
 import AuthListTile from "../../controls/authListTile/authListTile.vue";

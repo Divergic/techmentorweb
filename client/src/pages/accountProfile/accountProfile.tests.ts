@@ -87,6 +87,8 @@ describe("AccountProfile", () => {
             },
             updateAccountProfile: (profile: AccountProfile): Promise<void> => {
                 return Promise.resolve();               
+            },
+            deleteAccountProfile: async (): Promise<void> => {
             }
         };
         listsService = <IListsService>{
@@ -278,6 +280,21 @@ describe("AccountProfile", () => {
 
             expect(actual).toBeFalsy();
         });
+        it("marks disabledButtons as false", async () => {
+            await sut.OnLoad();
+
+            let actual = sut.disableButtons;
+
+            expect(actual).toBeFalsy();
+        });
+        it("marks button loading indicators as false", async () => {
+            await sut.OnLoad();
+
+            expect(sut.savingModel).toBeFalsy();
+            expect(sut.hidingModel).toBeFalsy();
+            expect(sut.exportingModel).toBeFalsy();
+            expect(sut.deletingModel).toBeFalsy();
+        });
         it("marks expandPrivacy as false when hash is empty", async () => {
             await sut.OnLoad();
 
@@ -388,8 +405,9 @@ describe("AccountProfile", () => {
             expect(store.remove).not.toHaveBeenCalled();
             expect(notify.showError).toHaveBeenCalled();
         });
-        it("sets savingModel flag around successful save", async () => {
+        it("sets button state around successful save", async () => {
             profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                expect(sut.disableButtons).toBeTruthy();
                 expect(sut.savingModel).toBeTruthy();
                 return Promise.resolve();
             };
@@ -398,9 +416,11 @@ describe("AccountProfile", () => {
             await sut.OnSave();
             
             expect(sut.savingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
         });
-        it("sets savingModel flag around failed save", async () => {
+        it("sets button state around failed save", async () => {
             profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                expect(sut.disableButtons).toBeTruthy();
                 expect(sut.savingModel).toBeTruthy();
                 return Promise.reject(new Failure("Uh oh!"));
             };
@@ -409,6 +429,7 @@ describe("AccountProfile", () => {
             await sut.OnSave();
             
             expect(sut.savingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
         });
     });
 
@@ -498,27 +519,65 @@ describe("AccountProfile", () => {
             expect(store.remove).not.toHaveBeenCalled();
             expect(notify.showError).toHaveBeenCalled();
         });
-        it("sets savingModel flag around successful save", async () => {
+        it("sets button state around successful save", async () => {
             profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
-                expect(sut.savingModel).toBeTruthy();
+                expect(sut.disableButtons).toBeTruthy();
+                expect(sut.hidingModel).toBeTruthy();
                 return Promise.resolve();
             };
             
             await sut.OnLoad();
             await sut.OnHide();
             
-            expect(sut.savingModel).toBeFalsy();
+            expect(sut.hidingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
         });
-        it("sets savingModel flag around failed save", async () => {
+        it("sets button state around failed save", async () => {
             profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
-                expect(sut.savingModel).toBeTruthy();
+                expect(sut.disableButtons).toBeTruthy();
+                expect(sut.hidingModel).toBeTruthy();
                 return Promise.reject(new Failure("Uh oh!"));
             };
             
             await sut.OnLoad();
             await sut.OnHide();
             
-            expect(sut.savingModel).toBeFalsy();
+            expect(sut.hidingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
+        });
+    });
+
+    describe("OnDelete", () => {
+        it("removes profile from service", async () => {
+            spyOn(profileService, "deleteAccountProfile");
+
+            await sut.OnDelete();
+
+            expect(profileService.deleteAccountProfile).toHaveBeenCalled();
+        });
+        it("sets button state around successful save", async () => {
+            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                expect(sut.disableButtons).toBeTruthy();
+                expect(sut.deletingModel).toBeTruthy();
+                return Promise.resolve();
+            };
+            
+            await sut.OnDelete();
+            
+            expect(sut.deletingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
+        });
+        it("sets button state around failed save", async () => {
+            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+                expect(sut.disableButtons).toBeTruthy();
+                expect(sut.deletingModel).toBeTruthy();
+                return Promise.reject(new Failure("Uh oh!"));
+            };
+            
+            await sut.OnDelete();
+            
+            expect(sut.deletingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
         });
     });
 
@@ -563,8 +622,9 @@ describe("AccountProfile", () => {
 
             expect(notify.showError).toHaveBeenCalled();
         });
-        it("sets exportingModel flag around successful save", async () => {
+        it("sets button state around successful save", async () => {
             profileService.exportAccountProfile = (): Promise<ExportProfile> => {
+                expect(sut.disableButtons).toBeTruthy();
                 expect(sut.exportingModel).toBeTruthy();
                 return Promise.resolve(exportModel);
             };
@@ -572,9 +632,11 @@ describe("AccountProfile", () => {
             await sut.OnExport();
             
             expect(sut.exportingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
         });
-        it("sets exportingModel flag around failed save", async () => {
+        it("sets button state around failed save", async () => {
             profileService.exportAccountProfile = (): Promise<ExportProfile> => {
+                expect(sut.disableButtons).toBeTruthy();
                 expect(sut.exportingModel).toBeTruthy();
                 return Promise.reject(new Failure("Uh oh!"));
             };
@@ -582,6 +644,7 @@ describe("AccountProfile", () => {
             await sut.OnExport();
             
             expect(sut.exportingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
         });
     });
 

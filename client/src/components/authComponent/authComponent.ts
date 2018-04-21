@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { ILocation, Location } from "../services/location";
+import { ILocation, Location } from "../../services/location";
 import { Location as RouterLocation } from "vue-router";
 
 export default class AuthComponent extends Vue {

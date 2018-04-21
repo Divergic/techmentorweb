@@ -1,4 +1,4 @@
-import AuthComponent from "../../components/authComponent";
+import AuthComponent from "../../components/authComponent/authComponent";
 import FileUpload from "vue-upload-component";
 import { Component, Prop } from "vue-property-decorator";
 import { AccountProfile } from "../../services/api/accountProfileService";

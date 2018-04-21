@@ -231,32 +231,21 @@
                     <small>* indicates required field</small>
                 </v-flex>
                 <v-flex xs12 class="text-xs-right">
-                    <v-btn title="Save" color="primary" :loading="savingModel" :disabled="savingModel" @click="OnSave">
+                    <v-btn title="Save" color="primary" :loading="savingModel" :disabled="disableButtons" @click="OnSave">
                         Save
                     </v-btn>
                 </v-flex>
             </v-layout>
-        </v-container>
-        <v-expansion-panel id="privacy">
-          <v-expansion-panel-content :value="expandPrivacy">
-            <div slot="header">Privacy Controls</div>
-                <v-container>
-                    <v-layout row wrap>
-                        <v-flex xs12 sm4 pa-3>
-                            <v-btn :loading="savingModel" :disabled="savingModel || this.storedModel.status == 'hidden'" @click="OnHide">Hide Profile</v-btn>
-                            <p>Hiding your profile will make sure it is not publically visible and will not be returned in search results.</p>
-                        </v-flex>
-                        <v-flex xs12 sm4 pa-3>
-                            <v-btn :loading="exportingModel" :disabled="savingModel || exportingModel" @click="OnExport">Export Profile</v-btn>
-                            <p>Exporting your profile will download a data file (json format) containing all your stored profile data and uploaded profile photos.</p>
-                        </v-flex>
-                        <v-flex xs12 sm4 pa-3>
-                            <DeleteButton :disabled="savingModel"></DeleteButton>
-                            <p>Deleting your profile will remove all your profile data (including uploaded photos) from Tech Mentors. It will also remove your authentication account with the Tech Mentors authentication provider (Auth0).</p>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+        </v-container>        
+        <PrivacyBar 
+            :disabled="disableButtons" 
+            :isExpanded="expandPrivacy" 
+            :isHiding="hidingModel" 
+            :isExporting="exportingModel" 
+            :isDeleting="deletingModel" 
+            :isProfileHidden="this.storedModel.status == 'hidden'"
+            @onHide="OnHide"
+            @onExport="OnExport"
+            @onDelete="OnDelete"></PrivacyBar>
     </v-form>
 </div>

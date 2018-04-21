@@ -1,5 +1,5 @@
 import AuthComponent from "./authComponent";
-import { ILocation } from "../services/location";
+import { ILocation } from "../../services/location";
 
 describe("authComponent.ts", () => {
     let href: string = "";
