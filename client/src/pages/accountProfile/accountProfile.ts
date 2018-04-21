@@ -73,9 +73,9 @@ export default class Profile extends AuthComponent {
     }
 
     public async OnLoad(): Promise<void> {
-        let locationHash = this.locationService.getSearch() || "";
+        let locationHash = this.locationService.getHash() || "";
 
-        this.expandPrivacy = (locationHash.toLowerCase() === "?privacy");
+        this.expandPrivacy = (locationHash.toLowerCase() === "#privacy");
         
         let listsTask = this.loadLists();
         let profileTask = this.loadProfile();
