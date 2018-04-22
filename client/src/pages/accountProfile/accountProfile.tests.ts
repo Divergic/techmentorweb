@@ -550,34 +550,65 @@ describe("AccountProfile", () => {
     describe("OnDelete", () => {
         it("removes profile from service", async () => {
             spyOn(profileService, "deleteAccountProfile");
+            spyOn(sut, "signOut");
 
             await sut.OnDelete();
 
             expect(profileService.deleteAccountProfile).toHaveBeenCalled();
+            expect(sut.signOut).toHaveBeenCalled();
         });
-        it("sets button state around successful save", async () => {
-            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+        it("sets button state around successful delete", async () => {
+            profileService.deleteAccountProfile = (): Promise<void> => {
                 expect(sut.disableButtons).toBeTruthy();
                 expect(sut.deletingModel).toBeTruthy();
                 return Promise.resolve();
             };
+            spyOn(sut, "signOut");
             
             await sut.OnDelete();
             
-            expect(sut.deletingModel).toBeFalsy();
-            expect(sut.disableButtons).toBeFalsy();
+            expect(sut.deletingModel).toBeTruthy();
+            expect(sut.disableButtons).toBeTruthy();
         });
-        it("sets button state around failed save", async () => {
-            profileService.updateAccountProfile = (profile: AccountProfile): Promise<void> => {
+        it("shows failiure notification on known delete failure", async () => {
+            profileService.deleteAccountProfile = (): Promise<void> => {
                 expect(sut.disableButtons).toBeTruthy();
                 expect(sut.deletingModel).toBeTruthy();
                 return Promise.reject(new Failure("Uh oh!"));
             };
+            spyOn(sut, "signOut");
+            spyOn(notify, "showFailure");
             
             await sut.OnDelete();
             
+            expect(sut.signOut).not.toHaveBeenCalled();
             expect(sut.deletingModel).toBeFalsy();
             expect(sut.disableButtons).toBeFalsy();
+            expect(notify.showFailure).toHaveBeenCalled();
+        });
+        it("shows failiure notification on unknown delete failure", async () => {
+            let failure = new Error("Uh oh!");
+            profileService.deleteAccountProfile = (): Promise<void> => {
+                expect(sut.disableButtons).toBeTruthy();
+                expect(sut.deletingModel).toBeTruthy();
+                return Promise.reject(failure);
+            };
+            spyOn(sut, "signOut");
+            spyOn(notify, "showError");
+                        
+            try {            
+                await sut.OnDelete();
+    
+                throw new Error("Test should have thrown an error");
+            }
+            catch (e) {
+                expect(e).toEqual(failure);
+            }
+
+            expect(sut.signOut).not.toHaveBeenCalled();
+            expect(sut.deletingModel).toBeFalsy();
+            expect(sut.disableButtons).toBeFalsy();
+            expect(notify.showError).toHaveBeenCalled();
         });
     });
 

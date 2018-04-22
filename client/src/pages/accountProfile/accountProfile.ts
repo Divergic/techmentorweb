@@ -199,7 +199,7 @@ export default class Profile extends AuthComponent {
             this.deletingModel = true;
 
             await this.profileService.deleteAccountProfile();
-            
+
             this.signOut();
         }
         catch (failure) {
