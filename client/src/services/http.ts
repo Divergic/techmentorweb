@@ -38,7 +38,7 @@ export class Http implements IHttp {
             let rawResponse = await this.client.delete(resourceUri);
             let response = <AxiosResponse>rawResponse;
 
-            return this.ProcessResult<void>(response, [200]);
+            return this.ProcessResult<void>(response, [200, 204]);
         }
         catch (error) {
             throw this.CreateFailure(error);

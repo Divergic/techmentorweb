@@ -11,6 +11,7 @@ module.exports = {
 
     // Client configuration
     authAudience: "#{API_URI}",
+    authDomain: "#{AUTH_DOMAIN}",
     authClientId: "#{AUTH_CLIENTID}",
     clientApplicationInsightsKey: "#{APPLICATIONINSIGHTS_KEY}",
     

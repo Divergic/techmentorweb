@@ -198,8 +198,8 @@ export default class Profile extends AuthComponent {
             this.disableButtons = true;
             this.deletingModel = true;
 
-            console.log("Delete profile");
-            // await this.profileService.deleteAccountProfile();
+            await this.profileService.deleteAccountProfile();
+            
             this.signOut();
         }
         catch (failure) {

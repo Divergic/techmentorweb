@@ -15,6 +15,7 @@ describe("Http", () => {
     let data: any;
     let successfulResponse: any;
     let successfulEmptyResponse: any;
+    let successfulNoContentResponse: any;
     let noStatusOrDataResponse: any;
     let noStatusResponse: any;
     let unauthorizedResponse: any;
@@ -47,6 +48,9 @@ describe("Http", () => {
         };
         successfulEmptyResponse = {
             status: 200
+        };
+        successfulNoContentResponse = {
+            status: 204
         };
         noStatusOrDataResponse = {
             contents: "this is an unexpected and invalid response"
@@ -261,6 +265,13 @@ describe("Http", () => {
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(successfulEmptyResponse);
+
+            await sut.delete(resource);
+        }));
+        it("returns 204 response", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(successfulNoContentResponse);
 
             await sut.delete(resource);
         }));
