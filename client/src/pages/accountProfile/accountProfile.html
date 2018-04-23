@@ -211,6 +211,10 @@
                         v-model="model.twitterUsername"
                         :append-icon="model.twitterUsername ? 'link' : ''"
                         :append-icon-cb="() => ShowWebsite('https://twitter.com/' + model.twitterUsername)">
+                        <!-- 
+                            Currently broken in vuetify due to the label, see https://github.com/vuetifyjs/vuetify/issues/1620
+                            prefix="https://twitter.com/"
+                         -->
                     </v-text-field>
                 </v-flex>
             </v-layout>
