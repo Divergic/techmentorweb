@@ -23,7 +23,7 @@ function buildConfiguration(apiUri) {
             connectSrc: [
                 "'self'",
                 "https://dc.services.visualstudio.com/v2/track",
-                "https://techmentor.auth0.com/",
+                "https://techmentordev.auth0.com/",
                 apiUri
             ],
             imgSrc: [
@@ -32,7 +32,7 @@ function buildConfiguration(apiUri) {
                 apiUri
             ],
             objectSrc: ["'none'"],
-            reportUri: "https://techmentors.report-uri.io/r/default/csp/enforce"
+            reportUri: "https://techmentors.report-uri.com/r/default/csp/enforce"
         },
         
         // Set to true if you only want browsers to report errors, not block them 

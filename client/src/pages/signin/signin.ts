@@ -1,5 +1,5 @@
 import { Component, Watch } from "vue-property-decorator";
-import AuthComponent from "../../components/authComponent";
+import AuthComponent from "../../components/authComponent/authComponent";
 import { IAuthenticationService, AuthenticationService } from "../../services/authentication/authenticationService";
 import Failure from "../../services/failure";
 

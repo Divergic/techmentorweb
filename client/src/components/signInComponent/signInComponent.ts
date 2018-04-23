@@ -1,4 +1,4 @@
-import AuthComponent from "../authComponent";
+import AuthComponent from "../authComponent/authComponent";
 
 export default class SignInComponent extends AuthComponent {
     public constructor() {

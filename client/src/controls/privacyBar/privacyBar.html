@@ -1,0 +1,39 @@
+<v-expansion-panel id="privacy">
+    <v-expansion-panel-content :value="isExpanded">
+        <div slot="header">Privacy Controls</div>
+            <v-container>
+                <v-layout row wrap>
+                    <v-flex xs12 sm4 pa-3>
+                        <v-btn :loading="isHiding" :disabled="disabled || isProfileHidden" @click="OnHide">Hide Profile</v-btn>
+                        <p>Hiding your profile will make sure it is not publically visible and will not be returned in search results.</p>
+                    </v-flex>
+                    <v-flex xs12 sm4 pa-3>
+                        <v-btn :loading="isExporting" :disabled="disabled" @click="OnExport">Export Profile</v-btn>
+                        <p>Exporting your profile will download a data file (json format) containing all your stored profile data and uploaded profile photos.</p>
+                    </v-flex>
+                    <v-flex xs12 sm4 pa-3>
+                        <v-btn color="error" :loading="isDeleting" :disabled="disabled" @click="OnShowConfirm">Delete Profile</v-btn>
+                        <p>Deleting your profile will remove all your profile data (including uploaded photos) from Tech Mentors. It will also remove your authentication account with the Tech Mentors authentication provider (Auth0).</p>
+                        <v-dialog v-model="showConfirm" max-width="50%">
+                            <v-card>
+                                <v-card-title>
+                                <h3>Delete Profile?</h3>
+                                </v-card-title>
+                                <v-card-text>
+                                    Deleting your profile will remove all your profile data (including uploaded photos) from Tech Mentors. It will also remove your authentication account with the Tech Mentors authentication provider (Auth0).
+                                </v-card-text>
+                                <v-card-text>
+                                    Are you sure you want to delete your profile?
+                                </v-card-text>
+                                <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn @click.stop="OnCancelDelete">Cancel</v-btn>
+                                <v-btn color="error" @click.stop="OnDelete">Delete Profile</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+    </v-expansion-panel-content>
+</v-expansion-panel>

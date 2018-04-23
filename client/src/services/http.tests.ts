@@ -15,6 +15,7 @@ describe("Http", () => {
     let data: any;
     let successfulResponse: any;
     let successfulEmptyResponse: any;
+    let successfulNoContentResponse: any;
     let noStatusOrDataResponse: any;
     let noStatusResponse: any;
     let unauthorizedResponse: any;
@@ -47,6 +48,9 @@ describe("Http", () => {
         };
         successfulEmptyResponse = {
             status: 200
+        };
+        successfulNoContentResponse = {
+            status: 204
         };
         noStatusOrDataResponse = {
             contents: "this is an unexpected and invalid response"
@@ -122,6 +126,9 @@ describe("Http", () => {
                         responseErrorFunc = errorFunc;
                     }
                 }
+            },
+            delete: async (uri: string): Promise<any> => {
+                return null;
             },
             get: async (uri: string): Promise<any> => {
                 return null;
@@ -241,6 +248,105 @@ describe("Http", () => {
 
             expect(location.getSignInUri).toHaveBeenCalledWith(returnUri);
             expect(location.setHref).toHaveBeenCalledWith(signInUri);
+        }));
+    });
+
+    describe("delete", () => {
+        it("deletes the specified resource", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(successfulResponse);
+
+            await sut.delete(resource);
+
+            expect(client.delete).toHaveBeenCalledWith(resource);
+        }));
+        it("returns 200 response", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(successfulEmptyResponse);
+
+            await sut.delete(resource);
+        }));
+        it("returns 204 response", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(successfulNoContentResponse);
+
+            await sut.delete(resource);
+        }));
+        it("throws exception when client throws error", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+            let failure = new Error("some failure");
+
+            spyOn(client, "delete").and.returnValue(Promise.reject(failure));
+
+            try {
+                await sut.delete(resource);
+            }
+            catch (e) {
+                expect(e).toEqual(failure);
+            }
+        }));
+        it("throws failure when response is a failure without status or data", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(noStatusOrDataResponse);
+
+            try {
+                await sut.delete(resource);
+                
+                throw new Error("An error should have been thrown");
+            }
+            catch (e) {         
+                expect(e.visibleToUser).toBeTruthy();
+                expect(e.message).toEqual("Unexpected status response");
+            }
+        }));
+        it("throws failure when response is a failure without status", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(noStatusResponse);
+
+            try {
+                await sut.delete(resource);
+                
+                throw new Error("An error should have been thrown");
+            }
+            catch (e) {         
+                expect(e.visibleToUser).toBeTruthy();
+                expect(e.message).toEqual(noStatusResponse.data);
+            }
+        }));
+        it("throws failure when response is a failure with error message in data", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(unauthorizedResponse);
+
+            try {
+                await sut.delete(resource);
+                
+                throw new Error("An error should have been thrown");
+            }
+            catch (e) {         
+                expect(e.visibleToUser).toBeTruthy();
+                expect(e.message).toEqual(unauthorizedResponse.data);
+            }
+        }));
+        it("throws failure when response is a failure with error message in data.message", core.runAsync(async () => {  
+            let resource = "https://api.techmentortest.info/something";
+
+            spyOn(client, "delete").and.returnValue(badRequestResponse);
+
+            try {
+                await sut.delete(resource);
+                
+                throw new Error("An error should have been thrown");
+            }
+            catch (e) {         
+                expect(e.visibleToUser).toBeTruthy();
+                expect(e.message).toEqual(badRequestResponse.data.message);
+            }
         }));
     });
 
