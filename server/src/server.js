@@ -5,14 +5,14 @@ const routes = require("./routes");
 const csp = require("./csp");
 const https = require("./https");
 
-module.exports = function(apiUri) {
+module.exports = function(apiUri, authDomain) {
 
     const router = express.Router();
     
     router.use(compression());
     router.use(https);
     router.use(headers);
-    router.use(csp(apiUri));
+    router.use(csp(apiUri, authDomain));
     router.use(routes);
     
     // router.use(function (req, res, next) {

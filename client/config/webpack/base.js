@@ -105,7 +105,6 @@ let webpackConfig = {
                 "apiUri": JSON.stringify(config.apiUri),
                 "audience": JSON.stringify(config.authAudience),
                 "authDomain": JSON.stringify(config.authDomain),
-                "authorizeUri": JSON.stringify(config.authAuthorizeUri),
                 "clientId": JSON.stringify(config.authClientId),
                 "responseType": JSON.stringify(config.authResponseType),
                 "scope": JSON.stringify(config.authScope),
