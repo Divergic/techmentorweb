@@ -6,7 +6,7 @@ monitor();
 
 var app = express();
 
-app.use(server(webpackDefine.apiUri));
+app.use(server(webpackDefine.apiUri, webpackDefine.authDomain));
 
 app.listen(webpackDefine.port, function () {
     console.log("Website (" + webpackDefine.configuration + ") listening on port " + webpackDefine.port + " for path " + __dirname);

@@ -13,7 +13,6 @@ describe("config.ts", () => {
             
             expect(sut.apiUri.length).toBeGreaterThan(0, "apiUri");
             expect(sut.authDomain.length).toBeGreaterThan(0, "authDomain");
-            expect(sut.authorizeUri.length).toBeGreaterThan(0, "authorizeUri");
             expect(sut.clientId.length).toBeGreaterThan(0, "clientId");
             expect(sut.responseType.length).toBeGreaterThan(0, "responseType");
         });

@@ -12,7 +12,6 @@ module.exports = {
     // Client configuration
     authAudience: "https://techmentorapidev.azurewebsites.net/",
     authDomain: "techmentordev.auth0.com",
-    authAuthorizeUri: "https://techmentordev.auth0.com/authorize",
     authClientId: "nUAw34DQVLgrgz6GCJLZ2RodyKylMkXg",
     authResponseType: "token id_token",
     authScope: "openid profile email",

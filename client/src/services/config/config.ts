@@ -2,7 +2,6 @@ export interface IConfig {
     apiUri: string;
     audience: string;
     authDomain: string;
-    authorizeUri: string;
     clientId: string;
     responseType: string;
     scope: string;
@@ -15,7 +14,6 @@ export class Config implements IConfig {
     public apiUri: string = webpackDefine.apiUri;
     public audience: string = webpackDefine.audience;
     public authDomain: string = webpackDefine.authDomain;
-    public authorizeUri: string = webpackDefine.authorizeUri;
     public clientId: string = webpackDefine.clientId;
     public responseType: string = webpackDefine.responseType;
     public scope: string = webpackDefine.scope;

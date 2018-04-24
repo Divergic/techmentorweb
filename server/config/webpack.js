@@ -35,7 +35,8 @@ module.exports = {
                 "configuration": JSON.stringify(config.configuration),
                 "port": config.port,
                 "apiUri": JSON.stringify(config.apiUri),
-                "applicationInsightsKey": JSON.stringify(config.serverApplicationInsightsKey)
+                "applicationInsightsKey": JSON.stringify(config.serverApplicationInsightsKey),
+                "authDomain": JSON.stringify(config.authDomain)
             } 
         }),
         new webpack.IgnorePlugin(/\.(css|less)$/),

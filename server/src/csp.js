@@ -1,6 +1,6 @@
 const helmetCsp = require("helmet-csp");
 
-function buildConfiguration(apiUri) {
+function buildConfiguration(apiUri, authDomain) {
     return {
         // Specify directives as normal. 
         directives: {
@@ -23,7 +23,7 @@ function buildConfiguration(apiUri) {
             connectSrc: [
                 "'self'",
                 "https://dc.services.visualstudio.com/v2/track",
-                "https://techmentordev.auth0.com/",
+                "https://" + authDomain + "/",
                 apiUri
             ],
             imgSrc: [
@@ -52,8 +52,8 @@ function buildConfiguration(apiUri) {
     }
 };
 
-module.exports = function(apiUri){
-    const cspConfig = buildConfiguration(apiUri);
+module.exports = function(apiUri, authDomain){
+    const cspConfig = buildConfiguration(apiUri, authDomain);
 
     return helmetCsp(cspConfig);
 } 
