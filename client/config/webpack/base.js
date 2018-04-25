@@ -108,7 +108,9 @@ let webpackConfig = {
                 "clientId": JSON.stringify(config.authClientId),
                 "responseType": JSON.stringify(config.authResponseType),
                 "scope": JSON.stringify(config.authScope),
-                "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
+                "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey),
+                "sentryDsn": JSON.stringify(config.clientSentryDsn),
+                "version": JSON.stringify(config.version)
             } 
         }),
         new HtmlWebpackPlugin({

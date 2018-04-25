@@ -89,6 +89,7 @@ export default class AuthComponent extends Vue {
         this.$store.commit("isAdministrator", false);
         this.$store.commit("lastName", null);
         this.$store.commit("tokenExpires", null);
+        this.$store.commit("username", null);
 
         if (requiresRedirect) {
             this.$router.push({ name: "home"});

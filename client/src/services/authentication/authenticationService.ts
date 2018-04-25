@@ -11,6 +11,7 @@ export class SignInResponse {
     isAdministrator: boolean;
     lastName: string;
     tokenExpires: number;
+    username: string;
 }
 
 export interface IAuthenticationService {
@@ -65,6 +66,7 @@ export class AuthenticationService implements IAuthenticationService {
                 response.email = authResult.idTokenPayload.email;
                 response.firstName = authResult.idTokenPayload.given_name;
                 response.lastName = authResult.idTokenPayload.family_name;
+                response.username = authResult.idTokenPayload.sub;
 
                 let issuedAt = <number>authResult.idTokenPayload.iat;
                 let accessTokenLifespan = <number>authResult.expiresIn;

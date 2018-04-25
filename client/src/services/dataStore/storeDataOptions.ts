@@ -26,6 +26,9 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         },
         tokenExpires: (state: StoreData): number | null => {
             return state.tokenExpires;
+        },
+        username: (state: StoreData): string | null => {
+            return state.username;
         }
     };
     
@@ -50,6 +53,9 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         },
         tokenExpires: (state: StoreData, expires: number | null) => {
             state.tokenExpires = expires;
+        },
+        username: (state: StoreData, username: string | null) => {
+            state.username = username;
         }
     };
 

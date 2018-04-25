@@ -15,7 +15,8 @@ describe("tokenStateOption.ts", () => {
             idToken: "This is the id token",
             isAdministrator: true,
             lastName: "Brown",
-            tokenExpires: 1505118903
+            tokenExpires: 1505118903,
+            username: "someuseridentifier"
         };
         sut = new StoreDataOptions();
     });
@@ -87,6 +88,16 @@ describe("tokenStateOption.ts", () => {
             let actual = getter(state, null, state, null);
             
             expect(actual).toEqual(state.tokenExpires);
+        });
+    });
+    
+    describe("getters.username", () => {
+        it("returns stored value", () => {
+            let getter = <Vuex.Getter<StoreData, StoreData>>sut.getters["username"];
+
+            let actual = getter(state, null, state, null);
+            
+            expect(actual).toEqual(state.username);
         });
     });
 
@@ -266,6 +277,32 @@ describe("tokenStateOption.ts", () => {
             setter(state, expected);
             
             expect(state.tokenExpires).toEqual(expected);
+        });
+    });
+
+    describe("mutations.username", () => {
+        it("can store null value", () => {
+            let setter = <Vuex.Mutation<StoreData>>sut.mutations["username"];
+
+            setter(state, null);
+            
+            expect(state.username).toBeNull();
+        });
+        it("can store undefined value", () => {
+            let sut = new StoreDataOptions();
+            let setter = <Vuex.Mutation<StoreData>>sut.mutations["username"];
+
+            setter(state, undefined);
+
+            expect(state.username).toBeUndefined();
+        });
+        it("can store new value", () => {
+            let expected = "my new value";
+            let setter = <Vuex.Mutation<StoreData>>sut.mutations["username"];
+
+            setter(state, expected);
+            
+            expect(state.username).toEqual(expected);
         });
     });
 });

@@ -120,7 +120,8 @@ describe("AuthenticationService", () => {
                     email: "fred.goods@test.com",
                     given_name: "Fred",
                     family_name: "Goods",
-                    iat: Date.now()
+                    iat: Date.now(),
+                    sub: "someuseridentifier"
                 },
                 expiresIn: Date.now() + 600000
             };
@@ -130,6 +131,7 @@ describe("AuthenticationService", () => {
             expect(actual.email).toEqual(authResult.idTokenPayload.email);
             expect(actual.firstName).toEqual(authResult.idTokenPayload.given_name);
             expect(actual.lastName).toEqual(authResult.idTokenPayload.family_name);
+            expect(actual.username).toEqual(authResult.idTokenPayload.sub);
         }));
         it("sets token expiry with auth response values", core.runAsync(async () => {
             authResult = {
@@ -137,7 +139,8 @@ describe("AuthenticationService", () => {
                     email: "sue.jones@test.com",
                     given_name: "Sue",
                     family_name: "Jones",
-                    iat: Date.now()
+                    iat: Date.now(),
+                    sub: "someuseridentifier"
                 },
                 expiresIn: Date.now() + 600000
             };
@@ -155,7 +158,8 @@ describe("AuthenticationService", () => {
                     email: "sue.jones@test.com",
                     given_name: "Sue",
                     family_name: "Jones",
-                    iat: Date.now()
+                    iat: Date.now(),
+                    sub: "someuseridentifier"
                 },
                 expiresIn: Date.now() + 600000
             };
@@ -171,6 +175,7 @@ describe("AuthenticationService", () => {
                     given_name: "Sue",
                     family_name: "Jones",
                     iat: Date.now(),
+                    sub: "someuseridentifier",
                     "http://techmentor/roles": new Array<string>()
                 },
                 expiresIn: Date.now() + 600000
@@ -187,6 +192,7 @@ describe("AuthenticationService", () => {
                     given_name: "Sue",
                     family_name: "Jones",
                     iat: Date.now(),
+                    sub: "someuseridentifier",
                     "http://techmentor/roles": new Array<string>("Power User")
                 },
                 expiresIn: Date.now() + 600000
@@ -203,6 +209,7 @@ describe("AuthenticationService", () => {
                     given_name: "Sue",
                     family_name: "Jones",
                     iat: Date.now(),
+                    sub: "someuseridentifier",
                     "http://techmentor/roles": new Array<string>("Power User", "Administrator")
                 },
                 expiresIn: Date.now() + 600000

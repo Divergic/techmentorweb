@@ -9,6 +9,7 @@ export interface IDataStore {
     isAdministrator: boolean;
     lastName: string | null;
     tokenExpires: number | null;
+    username: string | null;
 }
 
 export class DataStore implements IDataStore {
@@ -86,5 +87,15 @@ export class DataStore implements IDataStore {
         let storedValue = <number><any>options.tokenExpires;
         
         return storedValue;
+    }
+    
+    public get username(): string | null {
+        let options = <StoreData>store.get("vuex");
+
+        if (!options) {
+            return null;
+        }
+
+        return options.username;
     }
 }
