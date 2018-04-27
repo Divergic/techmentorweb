@@ -1,13 +1,14 @@
 const express = require("express");
 const server = require("./server");
 const monitor = require("./monitor");
+const serverConfig = require("./serverConfig");
 
 monitor();
 
 var app = express();
 
-app.use(server(webpackDefine.apiUri, webpackDefine.authDomain));
+app.use(server(serverConfig));
 
-app.listen(webpackDefine.port, function () {
-    console.log("Website (" + webpackDefine.configuration + ") listening on port " + webpackDefine.port + " for path " + __dirname);
+app.listen(serverConfig.port, function () {
+    console.log("Website (" + serverConfig.configuration + ") listening on port " + serverConfig.port + " for path " + __dirname);
 });

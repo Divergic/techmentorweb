@@ -98,6 +98,16 @@ class Application {
                 })
                 .addPlugin(RavenVue, Vue)
                 .install();
+
+            // Determine if the user is already signed in
+            let username = store.getters["username"];
+
+            if (username 
+                && username.length > 0) {
+                Raven.setUserContext({
+                        username: username
+                    });
+            }
         }
         
         new Vue({

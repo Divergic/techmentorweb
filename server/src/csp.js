@@ -1,6 +1,6 @@
 const helmetCsp = require("helmet-csp");
 
-function buildConfiguration(apiUri, authDomain) {
+function buildConfiguration(serverConfig) {
     return {
         // Specify directives as normal. 
         directives: {
@@ -23,16 +23,18 @@ function buildConfiguration(apiUri, authDomain) {
             connectSrc: [
                 "'self'",
                 "https://dc.services.visualstudio.com/v2/track",
-                "https://" + authDomain + "/",
-                apiUri
+                "https://sentry.io/api/1195783/store/",
+                "https://sentry.io/api/1195783/security/",
+                "https://" + serverConfig.authDomain + "/",
+                serverConfig.apiUri
             ],
             imgSrc: [
                 "'self'",
                 "data:",
-                apiUri
+                serverConfig.apiUri
             ],
             objectSrc: ["'none'"],
-            reportUri: "https://techmentors.report-uri.com/r/default/csp/enforce"
+            reportUri: serverConfig.reportUri
         },
         
         // Set to true if you only want browsers to report errors, not block them 
@@ -52,8 +54,8 @@ function buildConfiguration(apiUri, authDomain) {
     }
 };
 
-module.exports = function(apiUri, authDomain){
-    const cspConfig = buildConfiguration(apiUri, authDomain);
+module.exports = function(serverConfig){
+    const cspConfig = buildConfiguration(serverConfig);
 
     return helmetCsp(cspConfig);
 } 

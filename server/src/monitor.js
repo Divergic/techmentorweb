@@ -1,7 +1,8 @@
 const appInsights = require('applicationinsights');
+const serverConfig = require("./serverConfig");
 
 module.exports = function() {
-    const appInsightsKey = webpackDefine.applicationInsightsKey;
+    const appInsightsKey = serverConfig.applicationInsightsKey;
     
     if (!appInsightsKey) {
         return;
@@ -11,7 +12,7 @@ module.exports = function() {
         return;
     }
 
-    console.log("Configuring Application Insights using key " + appInsightsKey + " for environment " + webpackDefine.environment);
+    console.log("Configuring Application Insights using key " + appInsightsKey + " for environment " + serverConfig.environment);
     
     appInsights.setup(appInsightsKey).start();
 };

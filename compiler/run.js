@@ -12,8 +12,11 @@ module.exports = function(webpackCompiler) {
         const csp = require("../server/src/csp");
         const app = express();
 
-        app.use(headers);
-        app.use(csp(config.apiUri, config.authDomain));
+        // Need to copy the reportUri logic found in serverConfig.js so that it can run under the local web server
+        config.reportUri = "https://sentry.io/api/1195783/security/?sentry_key=025317d899744da5911331d72424adfa&sentry_environment=" + config.environment + (config.version ? "&sentry_release=" + config.version : "")
+
+        app.use(headers(config));
+        app.use(csp(config));
 
         app.use(webpackDevMiddleware(webpackCompiler, {
             lazy: false,

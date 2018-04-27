@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { ILocation, Location } from "../../services/location";
 import { Location as RouterLocation } from "vue-router";
+import Raven from "raven-js";
 
 export default class AuthComponent extends Vue {
     private location: ILocation;
@@ -90,6 +91,9 @@ export default class AuthComponent extends Vue {
         this.$store.commit("lastName", null);
         this.$store.commit("tokenExpires", null);
         this.$store.commit("username", null);
+
+        // Clear the identified user for error reporting
+        Raven.setUserContext();
 
         if (requiresRedirect) {
             this.$router.push({ name: "home"});
