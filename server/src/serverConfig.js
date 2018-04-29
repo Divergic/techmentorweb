@@ -5,6 +5,7 @@ module.exports = {
     configuration: webpackDefine.configuration,
     environment: webpackDefine.environment,
     port: webpackDefine.port,
-    version: webpackDefine.version,
-    reportUri: "https://sentry.io/api/1195783/security/?sentry_key=025317d899744da5911331d72424adfa&sentry_environment=" + serverConfig.environment + (serverConfig.version ? "&sentry_release=" + serverConfig.version : "")
+    reportUri: "https://sentry.io/api/1195783/security/?sentry_key=025317d899744da5911331d72424adfa&sentry_environment=" + serverConfig.environment + (serverConfig.version ? "&sentry_release=" + serverConfig.version : ""),
+    sentryDsn: webpackDefine.sentryDsn,
+    version: webpackDefine.version
 }
