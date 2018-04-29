@@ -109,7 +109,7 @@ let webpackConfig = {
                 "environment": JSON.stringify(config.environment),
                 "responseType": JSON.stringify(config.authResponseType),
                 "scope": JSON.stringify(config.authScope),
-                "sentryDsn": JSON.stringify(config.clientSentryDsn),
+                "sentryDsn": JSON.stringify(config.sentryDsn),
                 "version": JSON.stringify(config.version)
             } 
         }),

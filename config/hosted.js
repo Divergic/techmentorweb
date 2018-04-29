@@ -14,7 +14,7 @@ module.exports = {
     authDomain: "#{AUTH_DOMAIN}",
     authClientId: "#{AUTH_CLIENTID}",
     clientApplicationInsightsKey: "#{APPLICATIONINSIGHTS_KEY}",
-    clientSentryDsn: "https://025317d899744da5911331d72424adfa@sentry.io/1195783",
+    sentryDsn: "https://025317d899744da5911331d72424adfa@sentry.io/1195783",
     
     // Server configuration
     // NOTE: Port needs to be the string representation here so that the string value is written to the bundle rather than the bundle time value in node
