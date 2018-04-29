@@ -37,7 +37,7 @@ module.exports = {
                 "environment": JSON.stringify(config.environment),
                 "configuration": JSON.stringify(config.configuration),
                 "port": config.port,
-                "sentryDsn": config.sentryDsn,
+                "sentryDsn": JSON.stringify(config.sentryDsn),
                 "version": JSON.stringify(config.version)
             } 
         }),
