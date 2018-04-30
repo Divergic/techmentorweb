@@ -17,12 +17,12 @@ function buildConfiguration() {
         
         if (config.environment
             && config.environment.length > 0) {
-            config.reportUri += "&sentry_environment=" + environment;
+            config.reportUri += "&sentry_environment=" + config.environment;
         }
 
         if (config.version
             && config.version.length > 0) {
-            config.reportUri += "&sentry_release=" + version;
+            config.reportUri += "&sentry_release=" + config.version;
         }
     }
 
