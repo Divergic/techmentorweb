@@ -56,7 +56,7 @@ module.exports = function(serverConfig){
 
     if (reportUri
         && reportUri.length > 0) {
-        cspCOnfig.reportUri = serverConfig.reportUri;
+        cspConfig.reportUri = serverConfig.reportUri;
     }
     
     return helmetCsp(cspConfig);
