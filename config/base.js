@@ -17,8 +17,9 @@ module.exports = {
     authScope: "openid profile email",
     apiUri: "https://techmentorapidev.azurewebsites.net/",
     clientApplicationInsightsKey: "",
-    sentryDsn: "https://025317d899744da5911331d72424adfa@sentry.io/1195783",
+    sentryDsn: "",
 
     // Server configuration
-    serverApplicationInsightsKey: ""
+    serverApplicationInsightsKey: "",
+    reportUri: ""
 };

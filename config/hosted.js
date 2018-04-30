@@ -19,5 +19,6 @@ module.exports = {
     // Server configuration
     // NOTE: Port needs to be the string representation here so that the string value is written to the bundle rather than the bundle time value in node
     port: "process.env.PORT",
-    serverApplicationInsightsKey: "#{APPLICATIONINSIGHTS_KEY}"
+    serverApplicationInsightsKey: "#{APPLICATIONINSIGHTS_KEY}",
+    reportUri: "https://sentry.io/api/1195783/security/?sentry_key=025317d899744da5911331d72424adfa"
 };

@@ -16,6 +16,8 @@ module.exports = function() {
 
     if (sentryDsn
         && sentryDsn.length > 0) {        
+        console.log("Configuring Sentry using key " + sentryDsn + " for environment " + serverConfig.environment);
+
         Raven.config(sentryDsn, {
             environment: serverConfig.environment, 
             release: serverConfig.version

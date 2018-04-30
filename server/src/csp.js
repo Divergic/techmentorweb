@@ -1,7 +1,7 @@
 const helmetCsp = require("helmet-csp");
 
-function buildConfiguration(serverConfig) {
-    return {
+module.exports = function(serverConfig){
+    let cspConfig = {
         // Specify directives as normal. 
         directives: {
             defaultSrc: ["'none'"],
@@ -33,8 +33,7 @@ function buildConfiguration(serverConfig) {
                 "data:",
                 serverConfig.apiUri
             ],
-            objectSrc: ["'none'"],
-            reportUri: serverConfig.reportUri
+            objectSrc: ["'none'"]
         },
         
         // Set to true if you only want browsers to report errors, not block them 
@@ -51,11 +50,14 @@ function buildConfiguration(serverConfig) {
         // This may make the headers less compatible but it will be much faster. 
         // This defaults to `true`. 
         browserSniff: true
+    };
+    
+    let reportUri = serverConfig.reportUri;
+
+    if (reportUri
+        && reportUri.length > 0) {
+        cspCOnfig.reportUri = serverConfig.reportUri;
     }
-};
-
-module.exports = function(serverConfig){
-    const cspConfig = buildConfiguration(serverConfig);
-
+    
     return helmetCsp(cspConfig);
 } 
