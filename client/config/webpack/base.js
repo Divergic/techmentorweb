@@ -100,15 +100,17 @@ let webpackConfig = {
         new webpack.DefinePlugin(
         { 
             "webpackDefine": {
-                "environment": JSON.stringify(config.environment),
-                "configuration": JSON.stringify(config.configuration),
                 "apiUri": JSON.stringify(config.apiUri),
+                "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey),
                 "audience": JSON.stringify(config.authAudience),
                 "authDomain": JSON.stringify(config.authDomain),
                 "clientId": JSON.stringify(config.authClientId),
+                "configuration": JSON.stringify(config.configuration),
+                "environment": JSON.stringify(config.environment),
                 "responseType": JSON.stringify(config.authResponseType),
                 "scope": JSON.stringify(config.authScope),
-                "applicationInsightsKey": JSON.stringify(config.clientApplicationInsightsKey)
+                "sentryDsn": JSON.stringify(config.sentryDsn),
+                "version": JSON.stringify(config.version)
             } 
         }),
         new HtmlWebpackPlugin({

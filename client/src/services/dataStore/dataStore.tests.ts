@@ -2,7 +2,7 @@ import store from "store";
 import { DataStore } from "./dataStore";
 import StoreData from "../dataStore/storeData";
 
-describe("store.ts", () => {
+describe("DataStore", () => {
     let sut: DataStore;
     let vuex: StoreData;
 
@@ -38,7 +38,7 @@ describe("store.ts", () => {
 
             expect(actual).toBeNull();
         });
-        it("returns token from storage", () => {
+        it("return value from storage", () => {
             store.set("vuex", vuex);
 
             let actual = sut.accessToken;
@@ -62,7 +62,7 @@ describe("store.ts", () => {
 
             expect(actual).toBeNull();
         });
-        it("returns token from storage", () => {
+        it("return value from storage", () => {
             store.set("vuex", vuex);
 
             let actual = sut.email;
@@ -86,7 +86,7 @@ describe("store.ts", () => {
 
             expect(actual).toBeNull();
         });
-        it("returns token from storage", () => {
+        it("return value from storage", () => {
             store.set("vuex", vuex);
 
             let actual = sut.firstName;
@@ -134,7 +134,7 @@ describe("store.ts", () => {
 
             expect(actual).toBeNull();
         });
-        it("returns token from storage", () => {
+        it("return value from storage", () => {
             store.set("vuex", vuex);
 
             let actual = sut.idToken;
@@ -158,7 +158,7 @@ describe("store.ts", () => {
 
             expect(actual).toBeNull();
         });
-        it("returns token from storage", () => {
+        it("return value from storage", () => {
             store.set("vuex", vuex);
 
             let actual = sut.lastName;
@@ -188,6 +188,30 @@ describe("store.ts", () => {
             let actual = sut.tokenExpires;
             
             expect(actual).toEqual(<number>vuex.tokenExpires);
+        });
+    });
+    
+    describe("username", () => {
+        it("returns null when vuex data is null", () => {
+            store.set("vuex", null);
+
+            let actual = sut.username;
+
+            expect(actual).toBeNull();
+        });
+        it("returns null when vuex data is undefined", () => {
+            store.set("vuex", undefined);
+
+            let actual = sut.username;
+
+            expect(actual).toBeNull();
+        });
+        it("returns value from storage", () => {
+            store.set("vuex", vuex);
+
+            let actual = sut.username;
+
+            expect(actual).toEqual(vuex.username);
         });
     });
 });

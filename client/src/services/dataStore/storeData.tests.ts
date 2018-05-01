@@ -12,6 +12,7 @@ describe("StoreData", () => {
             expect(actual.isAdministrator).toBeFalsy();
             expect(actual.lastName).toBeNull();
             expect(actual.tokenExpires).toBeNull();
+            expect(actual.username).toBeNull();
         });
     });
 });

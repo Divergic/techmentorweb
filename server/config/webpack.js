@@ -31,12 +31,15 @@ module.exports = {
         new webpack.DefinePlugin(
         { 
             "webpackDefine": {
+                "apiUri": JSON.stringify(config.apiUri),
+                "applicationInsightsKey": JSON.stringify(config.serverApplicationInsightsKey),
+                "authDomain": JSON.stringify(config.authDomain),
                 "environment": JSON.stringify(config.environment),
                 "configuration": JSON.stringify(config.configuration),
                 "port": config.port,
-                "apiUri": JSON.stringify(config.apiUri),
-                "applicationInsightsKey": JSON.stringify(config.serverApplicationInsightsKey),
-                "authDomain": JSON.stringify(config.authDomain)
+                "reportUri": JSON.stringify(config.reportUri),
+                "sentryDsn": JSON.stringify(config.sentryDsn),
+                "version": JSON.stringify(config.version)
             } 
         }),
         new webpack.IgnorePlugin(/\.(css|less)$/),

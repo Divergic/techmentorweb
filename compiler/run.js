@@ -12,8 +12,8 @@ module.exports = function(webpackCompiler) {
         const csp = require("../server/src/csp");
         const app = express();
 
-        app.use(headers);
-        app.use(csp(config.apiUri, config.authDomain));
+        app.use(headers(config));
+        app.use(csp(config));
 
         app.use(webpackDevMiddleware(webpackCompiler, {
             lazy: false,

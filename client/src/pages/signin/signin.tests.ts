@@ -39,7 +39,8 @@ describe("SignIn", () => {
             idToken: "new id token",
             isAdministrator: false,
             lastName: "Wise",
-            tokenExpires: tokenExpires
+            tokenExpires: tokenExpires,
+            username: "someuseridentifier"
         };
         service = <IAuthenticationService>{
             Authenticate: (returnUri: string): void => {                
@@ -120,6 +121,8 @@ describe("SignIn", () => {
             expect(spy.calls.argsFor(5)[1]).toEqual(response.lastName);
             expect(spy.calls.argsFor(6)[0]).toEqual("tokenExpires");
             expect(spy.calls.argsFor(6)[1]).toEqual(response.tokenExpires);
+            expect(spy.calls.argsFor(7)[0]).toEqual("username");
+            expect(spy.calls.argsFor(7)[1]).toEqual(response.username);
             expect(sut.$router.replace).toHaveBeenCalledWith(relativeRedirectUri);
         }));
         it("redirects to specified redirectUri when authenticated", core.runAsync(async () => {

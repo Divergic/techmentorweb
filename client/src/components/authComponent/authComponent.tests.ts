@@ -203,6 +203,7 @@ describe("authComponent.ts", () => {
             expect(store.commit).toHaveBeenCalledWith("isAdministrator", false);
             expect(store.commit).toHaveBeenCalledWith("lastName", null);
             expect(store.commit).toHaveBeenCalledWith("tokenExpires", null);
+            expect(store.commit).toHaveBeenCalledWith("username", null);
         });
         it("does not redirect if current route lacks meta", () => {
             spyOn(router, "push");

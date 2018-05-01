@@ -7,6 +7,7 @@ export default class StoreData {
         this.isAdministrator = false;
         this.lastName = null;
         this.tokenExpires = null;
+        this.username = null;
     }
 
     accessToken: string | null;
@@ -16,4 +17,5 @@ export default class StoreData {
     isAdministrator: boolean;
     lastName: string | null;
     tokenExpires: number | null;
+    username: string | null;
 }

@@ -29,6 +29,8 @@ import Router from "./components/router/router";
 import App from "./components/app/app.vue";
 import VueAppInsights from "vue-application-insights";
 import { Config } from "./services/config/config";
+import Raven from "raven-js";
+import RavenVue from "raven-js/plugins/vue";
 require("./styles/theme.scss");
 
 Vue.use(Vuex);
@@ -86,6 +88,26 @@ class Application {
                 id: config.applicationInsightsKey,
                 router
               });
+        }
+
+        if (config.sentryDsn
+            && config.sentryDsn.length > 0) {
+            Raven.config(config.sentryDsn, {
+                    environment: config.environment, 
+                    release: config.version
+                })
+                .addPlugin(RavenVue, Vue)
+                .install();
+
+            // Determine if the user is already signed in
+            let username = store.getters["username"];
+
+            if (username 
+                && username.length > 0) {
+                Raven.setUserContext({
+                        username: username
+                    });
+            }
         }
         
         new Vue({

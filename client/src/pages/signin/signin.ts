@@ -2,6 +2,7 @@ import { Component, Watch } from "vue-property-decorator";
 import AuthComponent from "../../components/authComponent/authComponent";
 import { IAuthenticationService, AuthenticationService } from "../../services/authentication/authenticationService";
 import Failure from "../../services/failure";
+import Raven from "raven-js";
 
 @Component
 export default class SignIn extends AuthComponent {
@@ -78,7 +79,13 @@ export default class SignIn extends AuthComponent {
             this.$store.commit("isAdministrator", response.isAdministrator);
             this.$store.commit("lastName", response.lastName);
             this.$store.commit("tokenExpires", response.tokenExpires);
+            this.$store.commit("username", response.username);
             
+            // Record the user for error reporting
+            Raven.setUserContext({
+                    username: response.username
+                });
+                
             return true;
         }
         else {
