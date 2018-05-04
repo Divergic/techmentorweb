@@ -4,8 +4,6 @@ import { IProfileService, CategoryFilter } from "../../services/api/profileServi
 import ProfileResult from "../../services/api/profileResult";
 import Failure from "../../services/failure";
 
-const core = require("../../tests/core");
-
 describe("Search", () => {
     let profileService: IProfileService;
     let notify: INotify;
@@ -52,7 +50,7 @@ describe("Search", () => {
     });
 
     describe("OnRunSearch", () => {
-        it("determines filters from selected categories", core.runAsync(async () => {
+        it("determines filters from selected categories", async () => {
             let spy = spyOn(profileService, "searchProfiles");
 
             let gender = "Female";
@@ -69,8 +67,8 @@ describe("Search", () => {
             expect(spy.calls.mostRecent().args[0][1].name).toEqual("English");
             expect(spy.calls.mostRecent().args[0][2].group).toEqual("gender");
             expect(spy.calls.mostRecent().args[0][2].name).toEqual("Female");
-        }));
-        it("displays notification when searching profiles throws known failure", core.runAsync(async () => {
+        });
+        it("displays notification when searching profiles throws known failure", async () => {
             let expected = new Failure("Uh oh!");
 
             spyOn(notify, "showFailure");
@@ -86,8 +84,8 @@ describe("Search", () => {
             await sut.OnRunSearch(gender, languages, skills);
 
             expect(notify.showFailure).toHaveBeenCalledWith(expected);
-        }));
-        it("displays notification when searching profiles throws unknown failure", core.runAsync(async () => {
+        });
+        it("displays notification when searching profiles throws unknown failure", async () => {
             let expected = new Error("Uh oh!");
 
             spyOn(notify, "showError");
@@ -108,8 +106,8 @@ describe("Search", () => {
             }
 
             expect(notify.showError).toHaveBeenCalled();
-        }));
-        it("returns profile results", core.runAsync(async () => {
+        });
+        it("returns profile results", async () => {
             let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
@@ -117,8 +115,8 @@ describe("Search", () => {
             await sut.OnRunSearch(gender, languages, skills);
 
             expect(sut.profiles).toEqual(profiles);
-        }));
-        it("sets flags after search", core.runAsync(async () => {
+        });
+        it("sets flags after search", async () => {
             let gender = "Female";
             let languages = new Array<string>("English");
             let skills = new Array<string>("C#");
@@ -127,8 +125,8 @@ describe("Search", () => {
 
             expect(sut.searching).toBeFalsy();
             expect(sut.searchRun).toBeTruthy();
-        }));
-        it("sets flags when searching profiles throws unknown failure", core.runAsync(async () => {
+        });
+        it("sets flags when searching profiles throws unknown failure", async () => {
             let expected = new Failure("Uh oh!");
 
             profileService.searchProfiles = (filters: Array<CategoryFilter>): Promise<Array<ProfileResult>> => {
@@ -143,6 +141,6 @@ describe("Search", () => {
 
             expect(sut.searching).toBeFalsy();
             expect(sut.searchRun).toBeTruthy();
-        }));
+        });
     });
 });

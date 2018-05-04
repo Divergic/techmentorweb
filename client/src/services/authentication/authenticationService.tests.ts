@@ -3,8 +3,6 @@ import { ILocation } from "../location";
 import { IAuthWrapper } from "./authWrapper";
 import AuthFailure from "./authFailure";
 
-const core = require("../../tests/core");
-
 type AuthCallback = (err: any, authResult: any) => void;
 
 describe("AuthenticationService", () => {
@@ -92,7 +90,7 @@ describe("AuthenticationService", () => {
     });
 
     describe("ProcessAuthResponse", () => {
-        it("throws known failure when identified in hash", core.runAsync(async () => {            
+        it("throws known failure when identified in hash", async () => {            
             authFailure.error = "some error";
             authFailure.error_description = "some description";
             authFailure.state = "some state";
@@ -103,8 +101,8 @@ describe("AuthenticationService", () => {
             catch (e) {
                 expect(e.message).toEqual(authFailure.error_description);
             }
-        }));
-        it("throws exception when parseHash fails", core.runAsync(async () => {
+        });
+        it("throws exception when parseHash fails", async () => {
             authError = new Error("Uh oh!");
 
             try {
@@ -113,8 +111,8 @@ describe("AuthenticationService", () => {
             catch (e) {
                 expect(e).toEqual(authError);
             }
-        }));
-        it("sets identity information with auth response values", core.runAsync(async () => {
+        });
+        it("sets identity information with auth response values", async () => {
             authResult = {
                 idTokenPayload: {
                     email: "fred.goods@test.com",
@@ -132,8 +130,8 @@ describe("AuthenticationService", () => {
             expect(actual.firstName).toEqual(authResult.idTokenPayload.given_name);
             expect(actual.lastName).toEqual(authResult.idTokenPayload.family_name);
             expect(actual.username).toEqual(authResult.idTokenPayload.sub);
-        }));
-        it("sets token expiry with auth response values", core.runAsync(async () => {
+        });
+        it("sets token expiry with auth response values", async () => {
             authResult = {
                 idTokenPayload: {
                     email: "sue.jones@test.com",
@@ -151,8 +149,8 @@ describe("AuthenticationService", () => {
             let actual = await sut.ProcessAuthResponse();
                 
             expect(actual.tokenExpires).toEqual(expected);
-        }));
-        it("does not set isAdministrator when roles array is null", core.runAsync(async () => {
+        });
+        it("does not set isAdministrator when roles array is null", async () => {
             authResult = {
                 idTokenPayload: {
                     email: "sue.jones@test.com",
@@ -167,8 +165,8 @@ describe("AuthenticationService", () => {
             let actual = await sut.ProcessAuthResponse();
                 
             expect(actual.isAdministrator).toBeFalsy();
-        }));
-        it("does not set isAdministrator when roles array is empty", core.runAsync(async () => {
+        });
+        it("does not set isAdministrator when roles array is empty", async () => {
             authResult = {
                 idTokenPayload: {
                     email: "sue.jones@test.com",
@@ -184,8 +182,8 @@ describe("AuthenticationService", () => {
             let actual = await sut.ProcessAuthResponse();
                 
             expect(actual.isAdministrator).toBeFalsy();
-        }));
-        it("does not set isAdministrator when roles array has other role", core.runAsync(async () => {
+        });
+        it("does not set isAdministrator when roles array has other role", async () => {
             authResult = {
                 idTokenPayload: {
                     email: "sue.jones@test.com",
@@ -201,8 +199,8 @@ describe("AuthenticationService", () => {
             let actual = await sut.ProcessAuthResponse();
                 
             expect(actual.isAdministrator).toBeFalsy();
-        }));
-        it("sets isAdministrator when roles array has Administrator", core.runAsync(async () => {
+        });
+        it("sets isAdministrator when roles array has Administrator", async () => {
             authResult = {
                 idTokenPayload: {
                     email: "sue.jones@test.com",
@@ -218,6 +216,6 @@ describe("AuthenticationService", () => {
             let actual = await sut.ProcessAuthResponse();
                 
             expect(actual.isAdministrator).toBeTruthy();
-        }));
+        });
     });
 });

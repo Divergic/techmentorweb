@@ -2,8 +2,6 @@ import SignIn from "./signin";
 import { IAuthenticationService, SignInResponse } from "../../services/authentication/authenticationService";
 import Failure from "../../services/failure";
 
-const core = require("../../tests/core");
-
 describe("SignIn", () => {
     let isAuthResponse: boolean;
     let redirectUri: string;
@@ -80,14 +78,14 @@ describe("SignIn", () => {
     });
 
     describe("OnLoad", () => {
-        it("authenticates when not authenticated", core.runAsync(async () => {
+        it("authenticates when not authenticated", async () => {
             spyOn(service, "Authenticate");
 
             await sut.OnLoad();
 
             expect(service.Authenticate).toHaveBeenCalledWith(redirectUri, undefined);
-        }));
-        it("authenticates with sign up when not authenticated and mode specified", core.runAsync(async () => {
+        });
+        it("authenticates with sign up when not authenticated and mode specified", async () => {
             spyOn(service, "Authenticate");
 
             sut.$route.query.mode = "signUp";
@@ -95,8 +93,8 @@ describe("SignIn", () => {
             await sut.OnLoad();
 
             expect(service.Authenticate).toHaveBeenCalledWith(redirectUri, sut.$route.query.mode);
-        }));
-        it("processes authentication and redirects to specified uri", core.runAsync(async () => {
+        });
+        it("processes authentication and redirects to specified uri", async () => {
             isAuthResponse = true;
 
             let spy = spyOn(sut.$store, "commit");
@@ -124,8 +122,8 @@ describe("SignIn", () => {
             expect(spy.calls.argsFor(7)[0]).toEqual("username");
             expect(spy.calls.argsFor(7)[1]).toEqual(response.username);
             expect(sut.$router.replace).toHaveBeenCalledWith(relativeRedirectUri);
-        }));
-        it("redirects to specified redirectUri when authenticated", core.runAsync(async () => {
+        });
+        it("redirects to specified redirectUri when authenticated", async () => {
             sut.$store.getters.idToken = "somevalidtoken";
             spyOn(service, "Authenticate");
             spyOn(sut.$router, "replace");
@@ -134,8 +132,8 @@ describe("SignIn", () => {
 
             expect(service.Authenticate).not.toHaveBeenCalled();
             expect(sut.$router.replace).toHaveBeenCalledWith(relativeRedirectUri);
-        }));
-        it("redirects to home when authenticated and no redirectUri specified", core.runAsync(async () => {
+        });
+        it("redirects to home when authenticated and no redirectUri specified", async () => {
             sut.$store.getters.idToken = "somevalidtoken";
             sut.$route.query.redirectUri = <any>null;
 
@@ -146,8 +144,8 @@ describe("SignIn", () => {
 
             expect(service.Authenticate).not.toHaveBeenCalled();
             expect(sut.$router.replace).toHaveBeenCalledWith(targetRoute.href);
-        }));
-        it("sets model with known failure", core.runAsync(async () => {
+        });
+        it("sets model with known failure", async () => {
             let failure = new Failure("Uh oh!");
 
             service.Authenticate = () => {
@@ -157,8 +155,8 @@ describe("SignIn", () => {
             await sut.OnLoad();
 
             expect(sut.model).toEqual(failure);
-        }));
-        it("throws error when known failure", core.runAsync(async () => {
+        });
+        it("throws error when known failure", async () => {
             let failure = new Error("Uh oh!");
 
             service.Authenticate = () => {
@@ -171,16 +169,16 @@ describe("SignIn", () => {
             catch (e) {
                 expect(e).toEqual(failure);
             }
-        }));
+        });
     });
 
     describe("OnRouteChanged", () => {
-        it("invokes OnLoad", core.runAsync(async () => {
+        it("invokes OnLoad", async () => {
             spyOn(sut, "OnLoad");
 
             await sut.OnRouteChanged();
 
             expect(sut.OnLoad).toHaveBeenCalled();
-        }));
+        });
     });
 });

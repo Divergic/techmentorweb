@@ -5,8 +5,6 @@ import { IDataStore } from "./dataStore/dataStore";
 import { ILocation } from "./location";
 import { IUserService } from "./authentication/userService";
 
-const core = require("../tests/core");
-
 type RequestConfigFunc = (config: AxiosRequestConfig) => AxiosRequestConfig;
 type ResponseErrorFunc = (error: any) => any;
 
@@ -179,7 +177,7 @@ describe("Http", () => {
             
             expect(actual.headers.Authorization).toBeNull();
         });
-        it("response error returns error when not 401", core.runAsync(async () => {  
+        it("response error returns error when not 401", async () => {  
             let error = {
                 response: {
                     status: 500
@@ -191,8 +189,8 @@ describe("Http", () => {
             let actual = await responseErrorFunc(error);
 
             expect(actual).toEqual(error);
-        }));
-        it("response error returns error when 401 and user not authenticated", core.runAsync(async () => {  
+        });
+        it("response error returns error when 401 and user not authenticated", async () => {  
             let error = {
                 response: {
                     status: 401
@@ -206,8 +204,8 @@ describe("Http", () => {
             let actual = await responseErrorFunc(error);
 
             expect(actual).toEqual(error);
-        }));
-        it("response error returns error when 401 and user session not expired", core.runAsync(async () => {  
+        });
+        it("response error returns error when 401 and user session not expired", async () => {  
             let error = {
                 response: {
                     status: 401
@@ -221,8 +219,8 @@ describe("Http", () => {
             let actual = await responseErrorFunc(error);
             
             expect(actual).toEqual(error);
-        }));
-        it("response error redirects sign in when 401 returned an unauthenticated", core.runAsync(async () => {  
+        });
+        it("response error redirects sign in when 401 returned an unauthenticated", async () => {  
             let signInUri = "https://www.test.com/auth";
             let returnUri = "/profile";
             let error = {
@@ -248,11 +246,11 @@ describe("Http", () => {
 
             expect(location.getSignInUri).toHaveBeenCalledWith(returnUri);
             expect(location.setHref).toHaveBeenCalledWith(signInUri);
-        }));
+        });
     });
 
     describe("delete", () => {
-        it("deletes the specified resource", core.runAsync(async () => {  
+        it("deletes the specified resource", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(successfulResponse);
@@ -260,22 +258,22 @@ describe("Http", () => {
             await sut.delete(resource);
 
             expect(client.delete).toHaveBeenCalledWith(resource);
-        }));
-        it("returns 200 response", core.runAsync(async () => {  
+        });
+        it("returns 200 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(successfulEmptyResponse);
 
             await sut.delete(resource);
-        }));
-        it("returns 204 response", core.runAsync(async () => {  
+        });
+        it("returns 204 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(successfulNoContentResponse);
 
             await sut.delete(resource);
-        }));
-        it("throws exception when client throws error", core.runAsync(async () => {  
+        });
+        it("throws exception when client throws error", async () => {  
             let resource = "https://api.techmentortest.info/something";
             let failure = new Error("some failure");
 
@@ -287,8 +285,8 @@ describe("Http", () => {
             catch (e) {
                 expect(e).toEqual(failure);
             }
-        }));
-        it("throws failure when response is a failure without status or data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status or data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(noStatusOrDataResponse);
@@ -302,8 +300,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual("Unexpected status response");
             }
-        }));
-        it("throws failure when response is a failure without status", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(noStatusResponse);
@@ -317,8 +315,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(noStatusResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(unauthorizedResponse);
@@ -332,8 +330,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(unauthorizedResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data.message", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data.message", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "delete").and.returnValue(badRequestResponse);
@@ -347,11 +345,11 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(badRequestResponse.data.message);
             }
-        }));
+        });
     });
 
     describe("get", () => {
-        it("gets the specified resource", core.runAsync(async () => {  
+        it("gets the specified resource", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(successfulResponse);
@@ -359,8 +357,8 @@ describe("Http", () => {
             await sut.get<any>(resource);
 
             expect(client.get).toHaveBeenCalledWith(resource);
-        }));
-        it("returns 200 response", core.runAsync(async () => {  
+        });
+        it("returns 200 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(successfulResponse);
@@ -368,8 +366,8 @@ describe("Http", () => {
             let actual = await sut.get<any>(resource);
 
             expect(actual).toEqual(successfulResponse.data);
-        }));
-        it("returns empty response", core.runAsync(async () => {  
+        });
+        it("returns empty response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(successfulEmptyResponse);
@@ -377,8 +375,8 @@ describe("Http", () => {
             let actual = await sut.get<any>(resource);
 
             expect(actual).toBeNull();
-        }));
-        it("throws exception when client throws error", core.runAsync(async () => {  
+        });
+        it("throws exception when client throws error", async () => {  
             let resource = "https://api.techmentortest.info/something";
             let failure = new Error("some failure");
 
@@ -390,8 +388,8 @@ describe("Http", () => {
             catch (e) {
                 expect(e).toEqual(failure);
             }
-        }));
-        it("throws failure when response is a failure without status or data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status or data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(noStatusOrDataResponse);
@@ -405,8 +403,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual("Unexpected status response");
             }
-        }));
-        it("throws failure when response is a failure without status", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(noStatusResponse);
@@ -420,8 +418,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(noStatusResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(unauthorizedResponse);
@@ -435,8 +433,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(unauthorizedResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data.message", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data.message", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "get").and.returnValue(badRequestResponse);
@@ -450,11 +448,11 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(badRequestResponse.data.message);
             }
-        }));
+        });
     });
 
     describe("post", () => {
-        it("posts to the specified resource", core.runAsync(async () => {  
+        it("posts to the specified resource", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(successfulResponse);
@@ -462,8 +460,8 @@ describe("Http", () => {
             await sut.post<any, any>(resource, data);
 
             expect(client.post).toHaveBeenCalledWith(resource, data);
-        }));
-        it("returns 200 response", core.runAsync(async () => {  
+        });
+        it("returns 200 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(successfulResponse);
@@ -471,8 +469,8 @@ describe("Http", () => {
             let actual = await sut.post<any, any>(resource, data);
 
             expect(actual).toEqual(successfulResponse.data);
-        }));
-        it("returns 201 response", core.runAsync(async () => {  
+        });
+        it("returns 201 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             successfulResponse.status = 201;
@@ -482,8 +480,8 @@ describe("Http", () => {
             let actual = await sut.post<any, any>(resource, data);
 
             expect(actual).toEqual(successfulResponse.data);
-        }));
-        it("returns 204 response", core.runAsync(async () => {  
+        });
+        it("returns 204 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             successfulResponse.status = 204;
@@ -494,8 +492,8 @@ describe("Http", () => {
 
             // A 204 is No Content so the body is ignored
             expect(actual).toBeNull();
-        }));
-        it("returns empty response", core.runAsync(async () => {  
+        });
+        it("returns empty response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(successfulEmptyResponse);
@@ -503,8 +501,8 @@ describe("Http", () => {
             let actual = await sut.post<any, any>(resource, data);
 
             expect(actual).toBeNull();
-        }));
-        it("throws exception when client throws error", core.runAsync(async () => {  
+        });
+        it("throws exception when client throws error", async () => {  
             let resource = "https://api.techmentortest.info/something";
             let failure = new Error("some failure");
 
@@ -516,8 +514,8 @@ describe("Http", () => {
             catch (e) {
                 expect(e).toEqual(failure);
             }
-        }));
-        it("throws failure when response is a failure without status or data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status or data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(noStatusOrDataResponse);
@@ -531,8 +529,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual("Unexpected status response");
             }
-        }));
-        it("throws failure when response is a failure without status", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(noStatusResponse);
@@ -546,8 +544,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(noStatusResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(unauthorizedResponse);
@@ -561,8 +559,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(unauthorizedResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data.message", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data.message", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "post").and.returnValue(badRequestResponse);
@@ -576,11 +574,11 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(badRequestResponse.data.message);
             }
-        }));
+        });
     });
     
     describe("put", () => {
-        it("posts to the specified resource", core.runAsync(async () => {  
+        it("posts to the specified resource", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(successfulResponse);
@@ -588,8 +586,8 @@ describe("Http", () => {
             await sut.put<any, any>(resource, data);
 
             expect(client.put).toHaveBeenCalledWith(resource, data);
-        }));
-        it("returns 200 response", core.runAsync(async () => {  
+        });
+        it("returns 200 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(successfulResponse);
@@ -597,8 +595,8 @@ describe("Http", () => {
             let actual = await sut.put<any, any>(resource, data);
 
             expect(actual).toEqual(successfulResponse.data);
-        }));
-        it("returns 204 response", core.runAsync(async () => {  
+        });
+        it("returns 204 response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             successfulResponse.status = 204;
@@ -609,8 +607,8 @@ describe("Http", () => {
 
             // A 204 is No Content so the body is ignored
             expect(actual).toBeNull();
-        }));
-        it("returns empty response", core.runAsync(async () => {  
+        });
+        it("returns empty response", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(successfulEmptyResponse);
@@ -618,8 +616,8 @@ describe("Http", () => {
             let actual = await sut.put<any, any>(resource, data);
 
             expect(actual).toBeNull();
-        }));
-        it("throws exception when client throws error", core.runAsync(async () => {  
+        });
+        it("throws exception when client throws error", async () => {  
             let resource = "https://api.techmentortest.info/something";
             let failure = new Error("some failure");
 
@@ -631,8 +629,8 @@ describe("Http", () => {
             catch (e) {
                 expect(e).toEqual(failure);
             }
-        }));
-        it("throws failure when response is a failure without status or data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status or data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(noStatusOrDataResponse);
@@ -646,8 +644,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual("Unexpected status response");
             }
-        }));
-        it("throws failure when response is a failure without status", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure without status", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(noStatusResponse);
@@ -661,8 +659,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(noStatusResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(unauthorizedResponse);
@@ -676,8 +674,8 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(unauthorizedResponse.data);
             }
-        }));
-        it("throws failure when response is a failure with error message in data.message", core.runAsync(async () => {  
+        });
+        it("throws failure when response is a failure with error message in data.message", async () => {  
             let resource = "https://api.techmentortest.info/something";
 
             spyOn(client, "put").and.returnValue(badRequestResponse);
@@ -691,6 +689,6 @@ describe("Http", () => {
                 expect(e.visibleToUser).toBeTruthy();
                 expect(e.message).toEqual(badRequestResponse.data.message);
             }
-        }));
+        });
     });
 });
