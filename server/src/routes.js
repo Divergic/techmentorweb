@@ -13,11 +13,7 @@ router.get("*.map", function (req, res) {
     let sentryToken = req.get("X-Sentry-Token")
     
     if (sentryToken === serverConfig.sentryToken) {
-        let localPath = path.resolve(__dirname, req.path);
-
-        console.log("Directory: " + __dirname);
-        console.log("Requested path: " + req.path);
-        console.log("Resolved path: " + localPath);
+        let localPath = path.join(__dirname, req.path);
 
         res.sendFile(localPath);
     }
