@@ -22,6 +22,7 @@ module.exports = function (config) {
       }
     },
     files: [
+      "./node_modules/es6-promise/dist/es6-promise.auto.js",
       "./client/src/**/*.tests.ts"
     ],
     mime: {

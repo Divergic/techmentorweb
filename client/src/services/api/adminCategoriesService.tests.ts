@@ -1,8 +1,6 @@
 import { AdminCategoriesService, AdminCategory, AdminUpdateCategory } from "./adminCategoriesService";
 import { IHttp } from "../http";
 
-const core = require("../../tests/core");
-
 describe("AdminUpdateCategory", () => {
     describe("constructor", () => {
         it("can create without a value", () => {
@@ -75,18 +73,18 @@ describe("AdminCategoriesService", () => {
     });
 
     describe("getCategories", () => {
-        it("returns admin categories from API", core.runAsync(async () => {
+        it("returns admin categories from API", async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.getCategories();
 
             expect(http.get).toHaveBeenCalledWith("categories/");
             expect(actual).toEqual(adminCategories);
-        }));
+        });
     });
 
     describe("updateCategory", () => {
-        it("sends category update to API", core.runAsync(async () => {
+        it("sends category update to API", async () => {
             let category = new AdminUpdateCategory();
 
             category.group = "Skill";
@@ -100,8 +98,8 @@ describe("AdminCategoriesService", () => {
             expect(http.put).toHaveBeenCalled();
             expect(spy.calls.mostRecent().args[0]).toEqual("categories/Skill/somename");
             expect(spy.calls.mostRecent().args[1].visible).toBeTruthy();
-        }));
-        it("correctly encodes spaces in name for resource on API", core.runAsync(async () => {
+        });
+        it("correctly encodes spaces in name for resource on API", async () => {
             let category = new AdminUpdateCategory();
 
             category.group = "Skill";
@@ -115,6 +113,6 @@ describe("AdminCategoriesService", () => {
             expect(http.put).toHaveBeenCalled();
             expect(spy.calls.mostRecent().args[0]).toEqual("categories/Skill/some%20name");
             expect(spy.calls.mostRecent().args[1].visible).toBeTruthy();
-        }));
+        });
     });
 });

@@ -1,8 +1,6 @@
 import Categories from "./categories";
 import { IAdminCategoriesService, AdminCategory, AdminUpdateCategory } from "../../services/api/adminCategoriesService";
 
-const core = require("../../tests/core");
-
 describe("Categories", () => {
     let categories: Array<AdminCategory>;
     let service: IAdminCategoriesService;    
@@ -52,7 +50,7 @@ describe("Categories", () => {
     });
 
     describe("OnLoad", () => {
-        it("loads categories", core.runAsync(async () => {
+        it("loads categories", async () => {
             await sut.OnLoad();
 
             let actual = sut.categorySets;
@@ -64,8 +62,8 @@ describe("Categories", () => {
             expect(actual[1].groupName).toEqual("Languages");
             expect(actual[2].categories.length).toEqual(2);
             expect(actual[2].groupName).toEqual("Genders");
-        }));
-        it("returns empty category sets when no data returned", core.runAsync(async () => {
+        });
+        it("returns empty category sets when no data returned", async () => {
             categories = new Array<AdminCategory>();
 
             await sut.OnLoad();
@@ -79,11 +77,11 @@ describe("Categories", () => {
             expect(actual[1].groupName).toEqual("Languages");
             expect(actual[2].categories.length).toEqual(0);
             expect(actual[2].groupName).toEqual("Genders");
-        }));
+        });
     });
 
     describe("EnsureReviewed", () => {
-        it("does not update category when already reviewed", core.runAsync(async () => {
+        it("does not update category when already reviewed", async () => {
             spyOn(service, "updateCategory");
 
             let category = <AdminCategory>{
@@ -95,8 +93,8 @@ describe("Categories", () => {
             await sut.EnsureReviewed(category);
 
             expect(service.updateCategory).not.toHaveBeenCalled();
-        }));
-        it("updates category when not already reviewed", core.runAsync(async () => {
+        });
+        it("updates category when not already reviewed", async () => {
             let spy = spyOn(service, "updateCategory");
 
             let category = <AdminCategory>{
@@ -112,11 +110,11 @@ describe("Categories", () => {
             expect(spy.calls.mostRecent().args[0].group).toEqual(category.group);
             expect(spy.calls.mostRecent().args[0].name).toEqual(category.name);
             expect(spy.calls.mostRecent().args[0].visible).toEqual(category.visible);
-        }));
+        });
     });
 
     describe("UpdateCategory", () => {
-        it("updates category", core.runAsync(async () => {
+        it("updates category", async () => {
             let spy = spyOn(service, "updateCategory");
 
             let category = <AdminCategory>{
@@ -131,6 +129,6 @@ describe("Categories", () => {
             expect(spy.calls.mostRecent().args[0].group).toEqual(category.group);
             expect(spy.calls.mostRecent().args[0].name).toEqual(category.name);
             expect(spy.calls.mostRecent().args[0].visible).toEqual(category.visible);
-        }));
+        });
     });
 });

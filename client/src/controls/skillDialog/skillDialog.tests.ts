@@ -4,8 +4,6 @@ import { INotify } from "../../services/notify";
 import { IListsService, ListItem } from "../../services/listsService";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 
-const core = require("../../tests/core");
-
 describe("SkillDialog", () => {
     let listsService: IListsService;
     let categoriesService: ICategoriesService;
@@ -17,7 +15,7 @@ describe("SkillDialog", () => {
     let sut: SkillDialog;
     let isValid: boolean;
 
-    beforeEach(core.runAsync(async () => {
+    beforeEach(async () => {
         // Cancel out the console calls to avoid noisy logging in tests
         spyOn(console, "info");
             
@@ -106,7 +104,7 @@ describe("SkillDialog", () => {
                 return isValid;
             }
         };
-    }));
+    });
 
     describe("OnLoad", () => {
         // NOTE: OnLoad is invoked in beforeEach to make the remaining test scenarios cleaner
@@ -127,7 +125,7 @@ describe("SkillDialog", () => {
             expect(actual[0]).toEqual("C#");
             expect(actual[1]).toEqual("C++");
         });
-        it("populates lists", core.runAsync(async () => {  
+        it("populates lists", async () => {  
             let expectedTechYearsStarted = new Array<number>(2008, 2007, 2006, 2005, 2004);
             let expectedTechYearsLastUsed = new Array<number>(2010, 2009, 2008, 2007);
             
@@ -145,7 +143,7 @@ describe("SkillDialog", () => {
             expect(sut.techYearsLastUsed).toEqual(expectedTechYearsLastUsed);
             expect(sut.availableSkills.length).toEqual(1);
             expect(sut.availableSkills[0]).toEqual("C++");
-        }));
+        });
     });
 
     describe("SkillsChanged", () => {
@@ -248,14 +246,14 @@ describe("SkillDialog", () => {
     });
 
     describe("OnSave", () => {
-        it("emits saveSkill event when form is valid", core.runAsync(async () => {    
+        it("emits saveSkill event when form is valid", async () => {    
             let spy = spyOn(sut, "$emit");
 
             await sut.OnSave();
             
             expect(spy.calls.argsFor(0)[0]).toEqual("saveSkill");
-        }));
-        it("does not emit saveSkill event when form is invalid", core.runAsync(async () => {    
+        });
+        it("does not emit saveSkill event when form is invalid", async () => {    
             isValid = false;
 
             spyOn(sut, "$emit");
@@ -263,15 +261,15 @@ describe("SkillDialog", () => {
             await sut.OnSave();
             
             expect((<any>sut).$emit).not.toHaveBeenCalled();
-        }));
-        it("resets form validation when form is valid", core.runAsync(async () => {    
+        });
+        it("resets form validation when form is valid", async () => {    
             let spy = spyOn((<any>sut).$validator.errors, "clear");
             
             await sut.OnSave();
             
             expect(spy.calls.argsFor(0)[0]).toEqual("skillForm");
-        }));
-        it("does not reset form validate when form is invalid", core.runAsync(async () => {    
+        });
+        it("does not reset form validate when form is invalid", async () => {    
             isValid = false;
 
             spyOn((<any>sut).$validator.errors, "clear");
@@ -279,8 +277,8 @@ describe("SkillDialog", () => {
             await sut.OnSave();
             
             expect((<any>sut).$validator.errors.clear).not.toHaveBeenCalled();
-        }));
-        it("notifies with warning when form is invalid", core.runAsync(async () => {    
+        });
+        it("notifies with warning when form is invalid", async () => {    
             isValid = false;
 
             spyOn(notify, "showWarning");
@@ -288,6 +286,6 @@ describe("SkillDialog", () => {
             await sut.OnSave();
             
             expect(notify.showWarning).toHaveBeenCalled();
-        }));
+        });
     });
 });

@@ -1,8 +1,6 @@
 import { Category, CategoriesService } from "./categoriesService";
 import { IHttp } from "../http";
 
-const core = require("../../tests/core");
-
 describe("Category", () => {
     describe("constructor", () => {
         it("copies values from source", () => {
@@ -80,15 +78,15 @@ describe("CategoriesService", () => {
     });
 
     describe("getCategories", () => {
-        it("returns categories from API", core.runAsync(async () => {
+        it("returns categories from API", async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.getCategories();
 
             expect(http.get).toHaveBeenCalledWith("categories/");
             expect(actual.length).toEqual(categories.length);
-        }));
-        it("returns sorted categories", core.runAsync(async () => {
+        });
+        it("returns sorted categories", async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.getCategories();
@@ -103,8 +101,8 @@ describe("CategoriesService", () => {
             expect(actual[3].name).toEqual("Azure");
             expect(actual[4].group).toEqual("skill");
             expect(actual[4].name).toEqual("AZY");
-        }));
-        it("returns category instances", core.runAsync(async () => {
+        });
+        it("returns category instances", async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.getCategories();
@@ -114,6 +112,6 @@ describe("CategoriesService", () => {
             // Display name is a function on the class instance rather than an object cast as the class
             // This proves that the class constructor is used to ensure the correct class instance is involved
             expect(category.displayName).toEqual(category.name + " (" + category.linkCount + ")");
-        }));
+        });
     });
 });

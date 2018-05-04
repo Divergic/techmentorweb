@@ -1,8 +1,6 @@
 import SearchFilters from "./searchFilters";
 import { ICategoriesService, Category, CategoryGroup } from "../../services/api/categoriesService";
 
-const core = require("../../tests/core");
-
 describe("SearchFilters", () => {
     let sut: SearchFilters;
     let service: ICategoriesService;
@@ -56,7 +54,7 @@ describe("SearchFilters", () => {
     });
 
     describe("OnLoad", () => {
-        it("loads categories and matches filters", core.runAsync(async () => {
+        it("loads categories and matches filters", async () => {
             spyOn(sut, "LoadCategories");
             spyOn(sut, "MatchFilters");
             spyOn(sut, "RunSearch");
@@ -66,11 +64,11 @@ describe("SearchFilters", () => {
             expect(sut.LoadCategories).toHaveBeenCalled();
             expect(sut.MatchFilters).toHaveBeenCalled();
             expect(sut.RunSearch).toHaveBeenCalled();
-        }));
+        });
     });
 
     describe("OnRouteChanged", () => {
-        it("loads categories and matches filters", core.runAsync(async () => {
+        it("loads categories and matches filters", async () => {
             spyOn(sut, "LoadCategories");
             spyOn(sut, "MatchFilters");
             spyOn(sut, "RunSearch");
@@ -80,17 +78,17 @@ describe("SearchFilters", () => {
             expect(sut.LoadCategories).not.toHaveBeenCalled();
             expect(sut.MatchFilters).toHaveBeenCalled();
             expect(sut.RunSearch).toHaveBeenCalled();
-        }));
+        });
     });
 
     describe("LoadCategories", () => {
-        it("loads languages", core.runAsync(async () => {
+        it("loads languages", async () => {
             await sut.LoadCategories();
 
             expect(sut.languages.length).toEqual(1);
             expect(sut.languages[0]).toEqual(categories[1]);
-        }));
-        it("ignores languages with 0 linkCount", core.runAsync(async () => {
+        });
+        it("ignores languages with 0 linkCount", async () => {
             categories.push(<Category>{
                 group: "language",
                 name: "Spanish",
@@ -101,14 +99,14 @@ describe("SearchFilters", () => {
 
             expect(sut.languages.length).toEqual(1);
             expect(sut.languages[0]).toEqual(categories[1]);
-        }));
-        it("loads genders", core.runAsync(async () => {
+        });
+        it("loads genders", async () => {
             await sut.LoadCategories();
 
             expect(sut.genders.length).toEqual(1);
             expect(sut.genders[0]).toEqual(categories[2]);
-        }));
-        it("ignores genders with 0 linkCount", core.runAsync(async () => {
+        });
+        it("ignores genders with 0 linkCount", async () => {
             categories.push(<Category>{
                 group: "gender",
                 name: "Male",
@@ -119,20 +117,20 @@ describe("SearchFilters", () => {
 
             expect(sut.languages.length).toEqual(1);
             expect(sut.languages[0]).toEqual(categories[1]);
-        }));
-        it("loads skills", core.runAsync(async () => {
+        });
+        it("loads skills", async () => {
             await sut.LoadCategories();
 
             expect(sut.skills.length).toEqual(2);
             expect(sut.skills[0]).toEqual(categories[0]);
             expect(sut.skills[1]).toEqual(categories[3]);
-        }));
-        it("sets loadingLists to false", core.runAsync(async () => {
+        });
+        it("sets loadingLists to false", async () => {
             await sut.LoadCategories();
 
             expect(sut.loadingLists).toBeFalsy();
-        }));
-        it("ignores skills with 0 linkCount", core.runAsync(async () => {
+        });
+        it("ignores skills with 0 linkCount", async () => {
             categories.push(<Category>{
                 group: "skill",
                 name: "WPFz",
@@ -143,34 +141,34 @@ describe("SearchFilters", () => {
 
             expect(sut.languages.length).toEqual(1);
             expect(sut.languages[0]).toEqual(categories[1]);
-        }));
-        it("sets loadingLists to false", core.runAsync(async () => {
+        });
+        it("sets loadingLists to false", async () => {
             expect(sut.loadingLists).toBeTruthy();
             
             await sut.LoadCategories();
 
             expect(sut.loadingLists).toBeFalsy();
-        }));
-        it("returns cached categories from the same instance", core.runAsync(async () => {
+        });
+        it("returns cached categories from the same instance", async () => {
             spyOn(service, "getCategories").and.callThrough();
 
             await sut.LoadCategories();
             await sut.LoadCategories();
             
             expect(service.getCategories).toHaveBeenCalledTimes(1);
-        }));
+        });
     });
 
     describe("MatchFilters", () => {
-        it("set selectedLanguages to empty when no filter parameter provided", core.runAsync(async () => {
+        it("set selectedLanguages to empty when no filter parameter provided", async () => {
             sut.$router.currentRoute.query = {};
 
             await sut.LoadCategories();
             await sut.MatchFilters();
 
             expect(sut.selectedLanguages.length).toEqual(0);
-        }));
-        it("set selectedLanguages to single filter parameter", core.runAsync(async () => {
+        });
+        it("set selectedLanguages to single filter parameter", async () => {
             sut.$router.currentRoute.query = {
                 language: "English"
             };
@@ -180,8 +178,8 @@ describe("SearchFilters", () => {
 
             expect(sut.selectedLanguages.length).toEqual(1);
             expect(sut.selectedLanguages[0]).toEqual("English");
-        }));
-        it("set selectedLanguages to multiple filter parameters", core.runAsync(async () => {
+        });
+        it("set selectedLanguages to multiple filter parameters", async () => {
             categories.push(
                 <Category>{
                     group: CategoryGroup.Language,
@@ -198,8 +196,8 @@ describe("SearchFilters", () => {
             expect(sut.selectedLanguages.length).toEqual(2);
             expect(sut.selectedLanguages[0]).toEqual("English");
             expect(sut.selectedLanguages[1]).toEqual("Spanish");
-        }));
-        it("matches case insensitive language", core.runAsync(async () => {
+        });
+        it("matches case insensitive language", async () => {
             categories.push(
                 <Category>{
                     group: CategoryGroup.Language,
@@ -216,8 +214,8 @@ describe("SearchFilters", () => {
             expect(sut.selectedLanguages.length).toEqual(2);
             expect(sut.selectedLanguages[0]).toEqual("English");
             expect(sut.selectedLanguages[1]).toEqual("Spanish");
-        }));
-        it("ignores language filter that does not match category", core.runAsync(async () => {
+        });
+        it("ignores language filter that does not match category", async () => {
             sut.$router.currentRoute.query = {
                 language: <any>["English", "Spanish"]
             };
@@ -227,16 +225,16 @@ describe("SearchFilters", () => {
 
             expect(sut.selectedLanguages.length).toEqual(1);
             expect(sut.selectedLanguages[0]).toEqual("English");
-        }));
-        it("set selectedSkills to empty when no filter parameter provided", core.runAsync(async () => {
+        });
+        it("set selectedSkills to empty when no filter parameter provided", async () => {
             sut.$router.currentRoute.query = {};
 
             await sut.LoadCategories();
             await sut.MatchFilters();
 
             expect(sut.selectedSkills.length).toEqual(0);
-        }));
-        it("set selectedSkills to single filter parameter", core.runAsync(async () => {
+        });
+        it("set selectedSkills to single filter parameter", async () => {
             sut.$router.currentRoute.query = {
                 skill: "C#"
             };
@@ -246,8 +244,8 @@ describe("SearchFilters", () => {
 
             expect(sut.selectedSkills.length).toEqual(1);
             expect(sut.selectedSkills[0]).toEqual("C#");
-        }));
-        it("set selectedSkills to multiple filter parameters", core.runAsync(async () => {
+        });
+        it("set selectedSkills to multiple filter parameters", async () => {
             sut.$router.currentRoute.query = {
                 skill: <any>["C#", "C++"]
             };
@@ -258,8 +256,8 @@ describe("SearchFilters", () => {
             expect(sut.selectedSkills.length).toEqual(2);
             expect(sut.selectedSkills[0]).toEqual("C#");
             expect(sut.selectedSkills[1]).toEqual("C++");
-        }));
-        it("matches case insensitive skill", core.runAsync(async () => {
+        });
+        it("matches case insensitive skill", async () => {
             sut.$router.currentRoute.query = {
                 skill: <any>["c#", "c++"]
             };
@@ -270,8 +268,8 @@ describe("SearchFilters", () => {
             expect(sut.selectedSkills.length).toEqual(2);
             expect(sut.selectedSkills[0]).toEqual("C#");
             expect(sut.selectedSkills[1]).toEqual("C++");
-        }));
-        it("ignores skill filter that does not match category", core.runAsync(async () => {
+        });
+        it("ignores skill filter that does not match category", async () => {
             sut.$router.currentRoute.query = {
                 skill: <any>["C#", "Azure"]
             };
@@ -281,16 +279,16 @@ describe("SearchFilters", () => {
 
             expect(sut.selectedSkills.length).toEqual(1);
             expect(sut.selectedSkills[0]).toEqual("C#");
-        }));        
-        it("set selectedGender to null when no filter parameter provided", core.runAsync(async () => {
+        });        
+        it("set selectedGender to null when no filter parameter provided", async () => {
             sut.$router.currentRoute.query = {};
 
             await sut.LoadCategories();
             await sut.MatchFilters();
 
             expect(sut.selectedGender).toBeNull();
-        }));
-        it("set selectedGender to single filter parameter", core.runAsync(async () => {
+        });
+        it("set selectedGender to single filter parameter", async () => {
             sut.$router.currentRoute.query = {
                 gender: "Female"
             };
@@ -299,8 +297,8 @@ describe("SearchFilters", () => {
             await sut.MatchFilters();
 
             expect(sut.selectedGender).toEqual("Female");
-        }));
-        it("set selectedGender to first filter parameters", core.runAsync(async () => {
+        });
+        it("set selectedGender to first filter parameters", async () => {
             categories.push(
                 <Category>{
                     group: CategoryGroup.Gender,
@@ -315,8 +313,8 @@ describe("SearchFilters", () => {
             await sut.MatchFilters();
 
             expect(sut.selectedGender).toEqual("Female");
-        }));
-        it("matches case insensitive gender", core.runAsync(async () => {
+        });
+        it("matches case insensitive gender", async () => {
             categories.push(
                 <Category>{
                     group: CategoryGroup.Gender,
@@ -331,8 +329,8 @@ describe("SearchFilters", () => {
             await sut.MatchFilters();
 
             expect(sut.selectedGender).toEqual("Male");
-        }));
-        it("ignores gender filter that does not match category", core.runAsync(async () => {
+        });
+        it("ignores gender filter that does not match category", async () => {
             sut.$router.currentRoute.query = {
                 gender: "Non-binary"
             };
@@ -341,7 +339,7 @@ describe("SearchFilters", () => {
             await sut.MatchFilters();
 
             expect(sut.selectedGender).toBeNull();
-        }));
+        });
     });
     
     describe("FiltersSelected", () => {

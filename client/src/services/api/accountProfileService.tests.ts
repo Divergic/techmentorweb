@@ -3,8 +3,6 @@ import { AccountProfileService, AccountProfile, ProfileStatus, ExportPhoto, Expo
 import { IHttp } from "../http";
 import { Comparer } from "../../tests/comparer";
 
-const core = require("../../tests/core");
-
 describe("AccountProfile", () => {
     let source: AccountProfile;
     
@@ -225,44 +223,44 @@ describe("ProfileService", () => {
     });
 
     describe("deleteAccountProfile", () => {
-        it("removes profile from API", core.runAsync(async () => {
+        it("removes profile from API", async () => {
             spyOn(http, "delete").and.callThrough();
 
             await sut.deleteAccountProfile();
 
             expect(http.delete).toHaveBeenCalledWith("profile/");
-        }));
+        });
     });
 
     describe("exportAccountProfile", () => {
-        it("returns profile from API", core.runAsync(async () => {
+        it("returns profile from API", async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.exportAccountProfile();
 
             expect(http.get).toHaveBeenCalledWith("profile/export/");
             expect(actual).toEqual(exportProfile);
-        }));
+        });
     });
 
     describe("getAccountProfile", () => {
-        it("returns profile from API", core.runAsync(async () => {
+        it("returns profile from API", async () => {
             spyOn(http, "get").and.callThrough();
 
             let actual = await sut.getAccountProfile();
 
             expect(http.get).toHaveBeenCalledWith("profile/");
             expect(actual).toEqual(profile);
-        }));
+        });
     });
 
     describe("updateAccountProfile", () => {
-        it("puts profile to API", core.runAsync(async () => {
+        it("puts profile to API", async () => {
             spyOn(http, "put").and.callThrough();
 
             await sut.updateAccountProfile(profile);
 
             expect(http.put).toHaveBeenCalledWith("profile/", profile);
-        }));
+        });
     });
 });
