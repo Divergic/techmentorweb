@@ -18,6 +18,7 @@ module.exports = {
     apiUri: "https://techmentorapidev.azurewebsites.net/",
     clientApplicationInsightsKey: "",
     sentryDsn: "",
+    sentryToken: "testToken",
 
     // Server configuration
     serverApplicationInsightsKey: "",

@@ -8,6 +8,7 @@ function buildConfiguration() {
         port: webpackDefine.port,
         reportUri: webpackDefine.reportUri,
         sentryDsn: webpackDefine.sentryDsn,
+        sentryToken: webpackDefine.sentryToken,
         version: webpackDefine.version
     };
     

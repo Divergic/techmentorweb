@@ -39,6 +39,7 @@ module.exports = {
                 "port": config.port,
                 "reportUri": JSON.stringify(config.reportUri),
                 "sentryDsn": JSON.stringify(config.sentryDsn),
+                "sentryToken": JSON.stringify(config.sentryToken),
                 "version": JSON.stringify(config.version)
             } 
         }),

@@ -1,6 +1,7 @@
 const express = require("express");
 const serveStatic = require("serve-static");
 const mime = require("mime-types");
+const serverConfig = require("./serverConfig");
 
 const router = express.Router();
 
@@ -9,19 +10,26 @@ router.head("/", function (req, res) {
 });
 
 router.get("*.map", function (req, res) {
-    res.status(403);
+    let sentryToken = req.get("X-Sentry-Token")
     
-    if (req.accepts("html")) {
-        // respond with html page
-        res.send("403: Forbidden");
-    }
-    else if (req.accepts("json")) {
-        // respond with json
-        res.send({ error: "Forbidden" });
+    if (sentryToken === serverConfig.sentryToken) {
+        req.sendFile(req.path + req.query);
     }
     else {
-        // default to plain-text. send()
-        res.type("txt").send("Forbidden");
+        res.status(403);
+        
+        if (req.accepts("html")) {
+            // respond with html page
+            res.send("403: Forbidden");
+        }
+        else if (req.accepts("json")) {
+            // respond with json
+            res.send({ error: "Forbidden" });
+        }
+        else {
+            // default to plain-text. send()
+            res.type("txt").send("Forbidden");
+        }
     }
 });
 
