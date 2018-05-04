@@ -2,7 +2,7 @@ const express = require("express");
 const serveStatic = require("serve-static");
 const mime = require("mime-types");
 const serverConfig = require("./serverConfig");
-
+const path = require('path');
 const router = express.Router();
 
 router.head("/", function (req, res) {
@@ -13,7 +13,9 @@ router.get("*.map", function (req, res) {
     let sentryToken = req.get("X-Sentry-Token")
     
     if (sentryToken === serverConfig.sentryToken) {
-        res.sendFile(req.path);
+        let localPath = path.resolve(req.path);
+
+        res.sendFile(localPath);
     }
     else {
         res.status(403);
