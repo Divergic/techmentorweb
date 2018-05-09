@@ -3,12 +3,13 @@ import homeComponent from "../../pages/home/home.vue";
 import searchComponent from "../../pages/search/search.vue";
 import profileComponent from "../../pages/profile/profile.vue";
 
+const adminsComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/admins/admins.vue");
+const reportAbuseComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/reportabuse/reportabuse.vue");
+const unauthorizedComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/unauthorized/unauthorized.vue");
+
 const conductComponent = () => import(/* webpackChunkName: "app.policy" */ "../../pages/conduct/conduct.vue");
 const privacyComponent = () => import(/* webpackChunkName: "app.policy" */ "../../pages/privacy/privacy.vue");
 const termsComponent = () => import(/* webpackChunkName: "app.policy" */ "../../pages/terms/terms.vue");
-
-const reportAbuseComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/reportabuse/reportabuse.vue");
-const unauthorizedComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/unauthorized/unauthorized.vue");
 
 const signInComponent = () => import(/* webpackChunkName: "app.auth" */ "../../pages/signin/signin.vue");
 
@@ -29,6 +30,7 @@ let routes = [
     { name: "privacy", path: "/privacy/", component: privacyComponent, meta: { signInTarget: "accountProfile" } },
     { name: "terms", path: "/terms/", component: termsComponent, meta: { signInTarget: "accountProfile" } },
     
+    { name: "admins", path: "/admins/", component: adminsComponent, meta: { signInTarget: "accountProfile" } },
     { name: "reportabuse", path: "/reportabuse/", component: reportAbuseComponent, meta: { signInTarget: "accountProfile" } },
     { name: "unauthorized", path: "/unauthorized/", component: unauthorizedComponent, meta: { signOutToHome: true } },
 
