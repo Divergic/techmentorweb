@@ -14,6 +14,9 @@ module.exports = {
     resolve: {
         extensions: [".ts", ".vue", ".js"]
     },
+    performance: {
+        hints: false
+    },
     module: {
         rules: [
             {
