@@ -22,7 +22,7 @@ const notFoundComponent = () => import(/* webpackChunkName: "app.public" */ "../
 
 let routes = [
     { name: "home", path: "/", component: homeComponent, meta: { signInTarget: "accountProfile" } },
-    { name: "search", path: "/search", component: searchComponent, meta: { signInTarget: "accountProfile" } },
+    { name: "search", path: "/search/", component: searchComponent, meta: { signInTarget: "accountProfile" } },
     { name: "profile", path: "/profiles/:id", component: profileComponent, meta: { signInTarget: "accountProfile" } },
 
     { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "accountProfile" } },
