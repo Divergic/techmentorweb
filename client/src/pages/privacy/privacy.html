@@ -2,7 +2,7 @@
   <h1 class="headline">Privacy Policy</h1>
   <p>This privacy policy sets out how Tech Mentors uses and protects any information you provide when using this website.</p>
   <p>Tech Mentors is committed to protecting your privacy. We will only request and use personally identifiable information in accordance with this privacy statement.</p>
-  <p>Tech Mentors may change this policy from time to time by updating this page. Please periodically check this page to ensure that you are happy with any changes. You may view the history of this <a href="https://github.com/Divergic/techmentorweb/commits/master/client/src/pages/privacy/privacy.html" target="_blank">Privacy Notice on GitHub</a>.</p>
+  <p>Tech Mentors may change this policy from time to time by updating this page. Please periodically check this page to ensure that you are happy with any changes. You may view the history of this <a href="https://github.com/Divergic/techmentorweb/commits/master/client/src/pages/privacy/privacy.html" target="_blank">Privacy Policy on GitHub</a>.</p>
   <p>This policy is effective from 25th May 2018.</p> 
 
   <h2 class="title">Your personal data – what is it?</h2>
@@ -11,7 +11,7 @@
   <h2 class="title">Who are we?</h2>
   <p>Tech Mentors is the data controller for this website. This means it decides how your personal data is processed and for what purposes.</p>
   <p id="dpo">The Tech Mentors Data Protection Officer is:<br/>
-  <strong>Rory Primrose</strong><br/>
+  <b>Rory Primrose</b><br/>
   Email: <Email name="rory" domain="techmentors.info" /><br/>
   Twitter: <a href="https://twitter.com/roryprimrose" target="_blank">roryprimrose</a></p>
 
@@ -37,36 +37,56 @@
   <p>Tech Mentors may run background processing tasks using the personal information you provide. These processes will only involve your personal data for the purposes of administrating this website and the data it holds. Background processing of personal information that involves a third party will only involve nominated third parties from the list below.</p>
   <p>We collect your email address so that we may contact you privately for any matter related to Tech Mentors. Tech Mentors will only use your email address for this purpose. Your email address will only be available to a representative of Tech Mentors and the nominated third parties listed below. Tech Mentors will not make your email address available to the public.</p>
   <p>Tech Mentors may share your email address and any other personal data with the following nominated third parties:</p>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Justification</th>
-      <th>Links</th>
-    </tr>
-    <tr>
-      <td><a href="https://www.mailgun.com/" target="_blank">Mailgun</a></td> 
-      <td>Sending an email related to Tech Mentors to either yourself or <a href="/admins/">administrators</a> of Tech Mentors</td>
-      <td>
-        <a href="https://www.mailgun.com/gdpr/" target="_blank">GDPR And EU Data Protection</a><br/>
-        <a href="https://www.mailgun.com/privacy-policy/" target="_blank">Privacy Policy</a><br/>
-        <a href="https://www.mailgun.com/terms/" target="_blank">Terms Of Service</a>
-      </td>
-    </tr>
-    <tr>
-      <td><a href="https://azure.microsoft.com/services/application-insights/" target="_blank">Microsoft Application Insights</a></td>
-      <td>Application performance monitoring, analytics and error reporting</td>
-      <td><a href="https://docs.microsoft.com/azure/application-insights/app-insights-data-retention-privacy/" target="_blank">Data retention and privacy</a></td>
-    </tr>
-    <tr>
-      <td><a href="https://sentry.io/" target="_blank">Sentry</a></td>
-      <td>Error reporting</td>
-      <td>
-        <a href="https://sentry.io/security/" target="_blank">Security &amp; Compliance</a><br/>
-        <a href="https://sentry.io/privacy/" target="_blank">Privacy Policy</a><br/>
-        <a href="https://sentry.io/terms/" target="_blank">Terms of Service</a>
-      </td>
-    </tr>
-  </table>
+
+  <v-layout row wrap class="hidden-xs-only">
+    <v-flex xs3 class="text-xs-center subheading pa-2">
+      <b>Name</b>
+    </v-flex>
+    <v-flex xs6 class="text-xs-center subheading pa-2">
+      <b>Justification</b>
+    </v-flex>
+    <v-flex xs3 class="text-xs-center subheading pa-2">
+      <b>Links</b>
+    </v-flex>
+  </v-layout>
+  <v-divider class="hidden-xs-only" />
+  <v-layout row wrap>
+    <v-flex xs12 sm3 class="pa-2">
+      <a href="https://www.mailgun.com/" target="_blank">Mailgun</a>
+    </v-flex>
+    <v-flex xs12 sm6 class="pa-2">Sends emails related to Tech Mentors to either yourself or <a href="/admins/">administrators</a> of Tech Mentors
+    </v-flex>
+    <v-flex xs12 sm3 class="pa-2">        
+      <a href="https://www.mailgun.com/gdpr/" target="_blank">GDPR And EU Data Protection</a><br/>
+      <a href="https://www.mailgun.com/privacy-policy/" target="_blank">Privacy Policy</a><br/>
+      <a href="https://www.mailgun.com/terms/" target="_blank">Terms Of Service</a>
+    </v-flex>
+  </v-layout>
+  <v-divider />
+  <v-layout row wrap>
+    <v-flex xs12 sm3 class="pa-2">
+      <a href="https://azure.microsoft.com/services/application-insights/" target="_blank">Microsoft Application Insights</a>
+    </v-flex>
+    <v-flex xs12 sm6 class="pa-2">Application performance monitoring, analytics and error reporting
+    </v-flex>
+    <v-flex xs12 sm3 class="pa-2">        
+      <a href="https://docs.microsoft.com/azure/application-insights/app-insights-data-retention-privacy/" target="_blank">Data retention and privacy</a>
+    </v-flex>
+  </v-layout>
+  <v-divider />
+  <v-layout row wrap>
+    <v-flex xs12 sm3 class="pa-2">
+      <a href="https://sentry.io/" target="_blank">Sentry</a>
+    </v-flex>
+    <v-flex xs12 sm6 class="pa-2">
+      Error reporting
+    </v-flex>
+    <v-flex xs12 sm3 class="pa-2">        
+      <a href="https://sentry.io/security/" target="_blank">Security &amp; Compliance</a><br/>
+      <a href="https://sentry.io/privacy/" target="_blank">Privacy Policy</a><br/>
+      <a href="https://sentry.io/terms/" target="_blank">Terms of Service</a>
+    </v-flex>
+  </v-layout>
 
   <h2 class="title">Where do we keep your personal data?</h2>
   <p>Any personal data provided to Tech Mentors is stored in the United States of America.</p>
@@ -98,7 +118,7 @@
   <p>If you believe that any information we are holding on you is incorrect or incomplete, please update, hide or delete your Tech Mentors profile as required.</p>
   
   <h2 class="title">Further processing</h2>
-  <p>If we wish to use your personal data for a new purpose, not covered by this Privacy Notice, then we will provide you with a new notice explaining this new use prior to commencing the processing and setting out the relevant purposes and processing conditions. Where and whenever necessary, we will seek your prior consent to the new processing.</p>
+  <p>If we wish to use your personal data for a new purpose, not covered by this Privacy Policy, then we will provide you with a new notice explaining this new use prior to commencing the processing and setting out the relevant purposes and processing conditions. Where and whenever necessary, we will seek your prior consent to the new processing.</p>
   
   <h2 class="title">Contact Details</h2>
   <p>To exercise all relevant rights, queries of complaints please in the first instance contact the <a href="/admins/">administrators</a> of Tech Mentors or the <a href="#dpo">Data Protection Officer</a>.</p>
