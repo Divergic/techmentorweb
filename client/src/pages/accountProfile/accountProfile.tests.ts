@@ -775,47 +775,15 @@ describe("AccountProfile", () => {
 
             expect(sut.consentRequired).toBeFalsy();
         });
-        it("returns true when profile is Unavailable and CoC is false", () => {
+        it("returns true when profile is Unavailable", () => {
             model.status = ProfileStatus.Unavailable;
-            model.acceptCoC = false;
-            model.acceptTaC = true;
 
             expect(sut.consentRequired).toBeTruthy();
         });
-        it("returns true when profile is Unavailable and TaC is false", () => {
-            model.status = ProfileStatus.Unavailable;
-            model.acceptCoC = true;
-            model.acceptTaC = false;
-
-            expect(sut.consentRequired).toBeTruthy();
-        });
-        it("returns false when profile is Unavailable and CoC and TaC are true", () => {
-            model.status = ProfileStatus.Unavailable;
-            model.acceptCoC = true;
-            model.acceptTaC = true;
-
-            expect(sut.consentRequired).toBeFalsy();
-        });
-        it("returns true when profile is Available and CoC is false", () => {
+        it("returns true when profile is Available", () => {
             model.status = ProfileStatus.Available;
-            model.acceptCoC = false;
-            model.acceptTaC = true;
 
             expect(sut.consentRequired).toBeTruthy();
-        });
-        it("returns true when profile is Available and TaC is false", () => {
-            model.status = ProfileStatus.Available;
-            model.acceptCoC = true;
-            model.acceptTaC = false;
-
-            expect(sut.consentRequired).toBeTruthy();
-        });
-        it("returns false when profile is Available and CoC and TaC are true", () => {
-            model.status = ProfileStatus.Available;
-            model.acceptCoC = true;
-            model.acceptTaC = true;
-
-            expect(sut.consentRequired).toBeFalsy();
         });
     });
 });
