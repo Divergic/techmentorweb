@@ -1,5 +1,5 @@
 import Profile from "./accountProfile";
-import { IAccountProfileService, AccountProfile, ExportProfile } from "../../services/api/accountProfileService";
+import { IAccountProfileService, AccountProfile, ProfileStatus, ExportProfile } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify } from "../../services/notify";
 import { IListsService, ListItem } from "../../services/listsService";
@@ -764,6 +764,58 @@ describe("AccountProfile", () => {
             let actual = sut.compiledMarkdown.replace(/\r?\n|\r/g, "");
 
             expect(actual).toEqual("<ul><li>stuff</li></ul>");
+        });
+    });
+
+    describe("consentRequired", () => {
+        it("returns false when profile is Hidden", () => {
+            model.status = ProfileStatus.Hidden;
+            model.acceptCoC = false;
+            model.acceptTaC = false;
+
+            expect(sut.consentRequired).toBeFalsy();
+        });
+        it("returns true when profile is Unavailable and CoC is false", () => {
+            model.status = ProfileStatus.Unavailable;
+            model.acceptCoC = false;
+            model.acceptTaC = true;
+
+            expect(sut.consentRequired).toBeTruthy();
+        });
+        it("returns true when profile is Unavailable and TaC is false", () => {
+            model.status = ProfileStatus.Unavailable;
+            model.acceptCoC = true;
+            model.acceptTaC = false;
+
+            expect(sut.consentRequired).toBeTruthy();
+        });
+        it("returns false when profile is Unavailable and CoC and TaC are true", () => {
+            model.status = ProfileStatus.Unavailable;
+            model.acceptCoC = true;
+            model.acceptTaC = true;
+
+            expect(sut.consentRequired).toBeFalsy();
+        });
+        it("returns true when profile is Available and CoC is false", () => {
+            model.status = ProfileStatus.Available;
+            model.acceptCoC = false;
+            model.acceptTaC = true;
+
+            expect(sut.consentRequired).toBeTruthy();
+        });
+        it("returns true when profile is Available and TaC is false", () => {
+            model.status = ProfileStatus.Available;
+            model.acceptCoC = true;
+            model.acceptTaC = false;
+
+            expect(sut.consentRequired).toBeTruthy();
+        });
+        it("returns false when profile is Available and CoC and TaC are true", () => {
+            model.status = ProfileStatus.Available;
+            model.acceptCoC = true;
+            model.acceptTaC = true;
+
+            expect(sut.consentRequired).toBeFalsy();
         });
     });
 });
