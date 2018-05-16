@@ -221,7 +221,7 @@ export default class Profile extends AuthComponent {
         window.open(uri, "_blank");
     }
 
-    public OnViewCoCClick(event: Event): void {
+    public OnCheckboxLinkClick(event: Event): void {
         event.stopPropagation();
         event.preventDefault();
 
