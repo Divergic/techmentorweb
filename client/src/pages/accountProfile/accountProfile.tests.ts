@@ -768,21 +768,25 @@ describe("AccountProfile", () => {
     });
 
     describe("consentRequired", () => {
-        it("returns false when profile is Hidden", () => {
+        it("returns false when profile is Hidden", async () => {
             model.status = ProfileStatus.Hidden;
-            model.acceptCoC = false;
-            model.acceptTaC = false;
+
+            await sut.OnLoad();
 
             expect(sut.consentRequired).toBeFalsy();
         });
-        it("returns true when profile is Unavailable", () => {
+        it("returns true when profile is Unavailable", async () => {
             model.status = ProfileStatus.Unavailable;
+
+            await sut.OnLoad();
 
             expect(sut.consentRequired).toBeTruthy();
         });
-        it("returns true when profile is Available", () => {
+        it("returns true when profile is Available", async () => {
             model.status = ProfileStatus.Available;
 
+            await sut.OnLoad();
+            
             expect(sut.consentRequired).toBeTruthy();
         });
     });
