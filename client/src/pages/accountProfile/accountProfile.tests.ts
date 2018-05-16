@@ -691,7 +691,7 @@ describe("AccountProfile", () => {
         });
     });
 
-    describe("OnViewCoCClick", () => {
+    describe("OnCheckboxLinkClick", () => {
         it("cancels click event", () => {
             let element = {
                 href: "https://www.somwhere.com/",
@@ -708,7 +708,7 @@ describe("AccountProfile", () => {
             spyOn(event, "stopPropagation");
             spyOn(event, "preventDefault");
 
-            sut.OnViewCoCClick(event);
+            sut.OnCheckboxLinkClick(event);
 
             expect(event.stopPropagation).toHaveBeenCalled();
             expect(event.preventDefault).toHaveBeenCalled();
@@ -728,7 +728,7 @@ describe("AccountProfile", () => {
 
             spyOn(window, "open");
 
-            sut.OnViewCoCClick(event);
+            sut.OnCheckboxLinkClick(event);
 
             expect(window.open).toHaveBeenCalledWith(element.href, element.target);
         });
