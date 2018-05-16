@@ -7,14 +7,20 @@
             <v-list-tile :to="{ name: 'home' }">
                 <v-list-tile-title class="grey--text text--darken-1">Home</v-list-tile-title>
             </v-list-tile>
-            <v-list-tile :to="{ name: 'conduct' }">
-                <v-list-tile-title class="grey--text text--darken-1">Code of Conduct</v-list-tile-title>
-            </v-list-tile>
             <v-list-tile v-if="IsAuthenticated" :to="{ name: 'accountProfile' }">
                 <v-list-tile-title class="grey--text text--darken-1">Profile</v-list-tile-title>
             </v-list-tile>
             <v-list-tile v-if="IsAdministrator" :to="{ name: 'admin' }">
                 <v-list-tile-title class="grey--text text--darken-1">Admin</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile :to="{ name: 'conduct' }">
+                <v-list-tile-title class="grey--text text--darken-1">Code of Conduct</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile :to="{ name: 'privacy' }">
+                <v-list-tile-title class="grey--text text--darken-1">Privacy Policy</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile :to="{ name: 'terms' }">
+                <v-list-tile-title class="grey--text text--darken-1">Terms and Conditions</v-list-tile-title>
             </v-list-tile>
             <RegisterListTile></RegisterListTile>
             <AuthListTile></AuthListTile>

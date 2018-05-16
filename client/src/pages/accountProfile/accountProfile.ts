@@ -249,6 +249,14 @@ export default class Profile extends AuthComponent {
         }
     }
     
+    public get consentRequired(): Boolean {
+        if (this.model.status === ProfileStatus.Hidden) {
+            return false;
+        }
+
+        return true;
+    }
+
     private toTitleCase(value: string): string {
         return value.toLowerCase().split(" ").map((word) => {
             return word.replace(word[0], word[0].toUpperCase());

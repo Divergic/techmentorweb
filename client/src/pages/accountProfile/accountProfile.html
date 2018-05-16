@@ -145,7 +145,7 @@
                         @input="CompileMarkdown"
                         multi-line>
                     </v-text-field>
-                    <p class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. <strong>NOTE:</strong> Images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
+                    <p class="text-xs-left">The About field supports <a href="https://help.github.com/categories/writing-on-github/" target="_blank">GitHub flavoured markdown</a>. <b>NOTE:</b> Images will not be supported due to <a href="https://en.wikipedia.org/wiki/Content_Security_Policy" target="_blank">CSP</a>.</p>
                 </v-flex>
                 <v-flex xs12 sm6 class="text-xs-left mb-3">
                     <h4 class="text-xs-left mb-2">About preview</h4>
@@ -228,12 +228,23 @@
                         v-model="model.acceptCoC"
                         name="acceptCoC"
                         color="success"
-                        required
                         :error-messages="errors.collect('acceptCoC')"
                         data-vv-scope="profileForm"
-                        data-vv-as="accept Code of Conduct"
-                        v-validate="'required:true'">
-                        <span slot="label">I accept and will abide by the Tech Mentors <router-link to="conduct" target="_blank" @click.native.prevent="OnViewCoCClick">Code of Conduct</router-link></span>
+                        data-vv-as="Code of Conduct"
+                        v-validate ="{ rules: { consent: this.consentRequired} }">
+                        <span slot="label">I accept and will abide by the Tech Mentors <router-link to="conduct" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Code of Conduct</router-link></span>
+                    </v-checkbox>
+                </v-flex>
+                <v-flex xs12>
+                    <v-checkbox
+                        v-model="model.acceptTaC"
+                        name="acceptTaC"
+                        color="success"
+                        :error-messages="errors.collect('acceptTaC')"
+                        data-vv-scope="profileForm"
+                        data-vv-as="Terms and Conditions"
+                        v-validate ="{ rules: { consent: this.consentRequired} }">
+                        <span slot="label">I accept the Tech Mentors <router-link to="terms" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Terms and Conditions</router-link></span>
                     </v-checkbox>
                 </v-flex>
                 <v-flex xs12 class="text-xs-right">

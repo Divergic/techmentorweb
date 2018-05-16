@@ -59,7 +59,7 @@ export default class StoreDataOptions implements Vuex.StoreOptions<StoreData> {
         }
     };
 
-    public plugins: Vuex.Plugin<PersistedState>[] = [
+    public plugins: Vuex.Plugin<any>[] = [
         PersistedState()
     ];
 }

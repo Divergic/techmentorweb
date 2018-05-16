@@ -68,6 +68,12 @@ VeeValidate.Validator.extend("noSlashes", {
         return regex.test(value);
     }
   });
+VeeValidate.Validator.extend("consent", {
+    getMessage: field => "Accepting the " + field + " is required when your profile is either Available or Unavailable.",
+    validate: value => {
+        return value;
+    }
+});
 
 Vue.use(VeeValidate);
  

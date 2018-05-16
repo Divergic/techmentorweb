@@ -3,10 +3,12 @@ import homeComponent from "../../pages/home/home.vue";
 import searchComponent from "../../pages/search/search.vue";
 import profileComponent from "../../pages/profile/profile.vue";
 
-const conductComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/conduct/conduct.vue");
-const reportAbuseComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/reportabuse/reportabuse.vue");
-const notFoundComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/notfound/notfound.vue");
+const contactComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/contact/contact.vue");
 const unauthorizedComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/unauthorized/unauthorized.vue");
+
+const conductComponent = () => import(/* webpackChunkName: "app.policy" */ "../../pages/conduct/conduct.vue");
+const privacyComponent = () => import(/* webpackChunkName: "app.policy" */ "../../pages/privacy/privacy.vue");
+const termsComponent = () => import(/* webpackChunkName: "app.policy" */ "../../pages/terms/terms.vue");
 
 const signInComponent = () => import(/* webpackChunkName: "app.auth" */ "../../pages/signin/signin.vue");
 
@@ -16,13 +18,18 @@ const adminComponent = () => import(/* webpackChunkName: "app.admin" */ "../../p
 const categoriesComponent = () => import(/* webpackChunkName: "app.admin" */ "../../pages/categories/categories.vue");
 const approveComponent = () => import(/* webpackChunkName: "app.admin" */ "../../pages/approve/approve.vue");
 
+const notFoundComponent = () => import(/* webpackChunkName: "app.public" */ "../../pages/notfound/notfound.vue");
+
 let routes = [
     { name: "home", path: "/", component: homeComponent, meta: { signInTarget: "accountProfile" } },
-    { name: "search", path: "/search", component: searchComponent, meta: { signInTarget: "accountProfile" } },
+    { name: "search", path: "/search/", component: searchComponent, meta: { signInTarget: "accountProfile" } },
     { name: "profile", path: "/profiles/:id", component: profileComponent, meta: { signInTarget: "accountProfile" } },
 
     { name: "conduct", path: "/conduct/", component: conductComponent, meta: { signInTarget: "accountProfile" } },
-    { name: "reportabuse", path: "/reportabuse/", component: reportAbuseComponent, meta: { signInTarget: "accountProfile" } },
+    { name: "privacy", path: "/privacy/", component: privacyComponent, meta: { signInTarget: "accountProfile" } },
+    { name: "terms", path: "/terms/", component: termsComponent, meta: { signInTarget: "accountProfile" } },
+    
+    { name: "contact", path: "/contact/", component: contactComponent, meta: { signInTarget: "accountProfile" } },
     { name: "unauthorized", path: "/unauthorized/", component: unauthorizedComponent, meta: { signOutToHome: true } },
 
     { name: "signin", path: "/signin/", component: signInComponent },

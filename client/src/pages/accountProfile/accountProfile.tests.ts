@@ -1,5 +1,5 @@
 import Profile from "./accountProfile";
-import { IAccountProfileService, AccountProfile, ExportProfile } from "../../services/api/accountProfileService";
+import { IAccountProfileService, AccountProfile, ProfileStatus, ExportProfile } from "../../services/api/accountProfileService";
 import Failure from "../../services/failure";
 import { INotify } from "../../services/notify";
 import { IListsService, ListItem } from "../../services/listsService";
@@ -764,6 +764,30 @@ describe("AccountProfile", () => {
             let actual = sut.compiledMarkdown.replace(/\r?\n|\r/g, "");
 
             expect(actual).toEqual("<ul><li>stuff</li></ul>");
+        });
+    });
+
+    describe("consentRequired", () => {
+        it("returns false when profile is Hidden", async () => {
+            model.status = ProfileStatus.Hidden;
+
+            await sut.OnLoad();
+
+            expect(sut.consentRequired).toBeFalsy();
+        });
+        it("returns true when profile is Unavailable", async () => {
+            model.status = ProfileStatus.Unavailable;
+
+            await sut.OnLoad();
+
+            expect(sut.consentRequired).toBeTruthy();
+        });
+        it("returns true when profile is Available", async () => {
+            model.status = ProfileStatus.Available;
+
+            await sut.OnLoad();
+            
+            expect(sut.consentRequired).toBeTruthy();
         });
     });
 });
