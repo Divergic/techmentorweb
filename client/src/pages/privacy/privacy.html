@@ -5,10 +5,10 @@
   <p>Tech Mentors may change this policy from time to time by updating this page. Please periodically check this page to ensure that you are happy with any changes. You may view the history of this <a href="https://github.com/Divergic/techmentorweb/commits/master/client/src/pages/privacy/privacy.html" target="_blank">Privacy Policy on GitHub</a>.</p>
   <p>This policy is effective from 25th May 2018.</p> 
 
-  <h2 class="title">Your personal data – what is it?</h2>
+  <h2 class="title">What is your personal data</h2>
   <p>Personal data relates to data that can identify a living individual. Identification can be by the information alone or in conjunction with any other information in the data controller’s possession or likely to come into such possession.</p>
 
-  <h2 class="title">Who are we?</h2>
+  <h2 class="title">Who we are</h2>
   <p>Tech Mentors is the data controller for this website. This means it decides how your personal data is processed and for what purposes.</p>
   <p id="dpo">The Tech Mentors Data Protection Officer is:<br/>
   <b>Rory Primrose</b><br/>
@@ -57,7 +57,7 @@
         <span class="hidden-xs-only">Mailgun</span>
       </a>
     </v-flex>
-    <v-flex xs12 sm6 class="pa-2">Sends emails related to Tech Mentors to either yourself or <router-link to="contact">administrators</router-link> of Tech Mentors
+    <v-flex xs12 sm6 class="pa-2">Sends emails related to Tech Mentors to either yourself or <router-link :to="{ name: 'contact' }">administrators</router-link> of Tech Mentors
     </v-flex>
     <v-flex xs12 sm3 class="pa-2">        
       <a href="https://www.mailgun.com/gdpr/" target="_blank">GDPR And EU Data Protection</a><br/>
@@ -97,11 +97,11 @@
     </v-flex>
   </v-layout>
 
-  <h2 class="title">Where do we keep your personal data?</h2>
+  <h2 class="title">How we store your personal data</h2>
   <p>Any personal data provided to Tech Mentors is stored in the United States of America.</p>
   <p>Tech Mentors uses encrypted transport mechanisms (TLS via HTTPS for example) between all points of infrastructure that your personal data moves through. Tech Mentors also encrypts your personal data when stored (encrypted as rest).</p>
   
-  <h2 class="title">How long do we keep your personal data?</h2>
+  <h2 class="title">How long we keep your personal data</h2>
   <p>We keep your personal data indefinitely. You may delete your account and personal data at any time using the <a href="/profile/#privacy">Privacy Controls</a> under your profile administration page.</p>
   
   <h2 class="title">Your rights and your personal data</h2>
@@ -118,7 +118,7 @@
   <h2 class="title">Controlling your personal information</h2>
   <p>You may choose to restrict the collection or use of your personal information in the following ways:</p>
   <ul class="browser-list">
-    <li>only provide information that you are happy with being available to the public - via the <router-link to="accountProfile">profile administration page</router-link></p>
+    <li>only provide information that you are happy with being available to the public - via the <router-link :to="{ name: 'accountProfile' }">profile administration page</router-link></p>
     <li>hide your profile if you want to Tech Mentors to retain your profile information but not allow it to be available to the public or allow your profile to appear in search results – via the <a href="/profile/#privacy">Privacy Controls</a> in the profile administration page</li>
     <li>delete your profile if you no longer want Tech Mentors to hold your personal information – via the <a href="/profile/#privacy">Privacy Controls</a> in the profile administration page</li>
     <li>export your profile data – via the <a href="/profile/#privacy">Privacy Controls</a> in the profile administration page</li>
@@ -130,7 +130,7 @@
   <p>If we wish to use your personal data for a new purpose, not covered by this Privacy Policy, then we will provide you with a new notice explaining this new use prior to commencing the processing and setting out the relevant purposes and processing conditions. Where and whenever necessary, we will seek your prior consent to the new processing.</p>
   
   <h2 class="title">Contact Details</h2>
-  <p>To exercise all relevant rights, queries of complaints please in the first instance contact the <router-link to="contact">administrators</router-link> of Tech Mentors or the <a href="#dpo">Data Protection Officer</a>.</p>
+  <p>To exercise all relevant rights, queries of complaints please in the first instance contact the <router-link :to="{ name: 'contact' }">administrators</router-link> of Tech Mentors or the <a href="#dpo">Data Protection Officer</a>.</p>
   
   <h2 class="title">How we use cookies</h2>
   <p>A cookie is a small file that asks permission to be placed on your computer's hard drive. Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit a particular site. Cookies allow web applications to respond to you as an individual. The web application can tailor its operations based on information stored in the cookie.</p>

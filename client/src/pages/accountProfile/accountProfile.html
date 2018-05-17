@@ -232,7 +232,7 @@
                         data-vv-scope="profileForm"
                         data-vv-as="Code of Conduct"
                         v-validate ="{ rules: { consent: this.consentRequired} }">
-                        <span slot="label">I accept and will abide by the Tech Mentors <router-link to="conduct" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Code of Conduct</router-link></span>
+                        <span slot="label">I accept and will abide by the Tech Mentors <router-link :to="{ name: 'conduct' }" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Code of Conduct</router-link></span>
                     </v-checkbox>
                 </v-flex>
                 <v-flex xs12>
@@ -244,7 +244,7 @@
                         data-vv-scope="profileForm"
                         data-vv-as="Terms and Conditions"
                         v-validate ="{ rules: { consent: this.consentRequired} }">
-                        <span slot="label">I accept the Tech Mentors <router-link to="terms" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Terms and Conditions</router-link></span>
+                        <span slot="label">I accept the Tech Mentors <router-link :to="{ name: 'terms' }" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Terms and Conditions</router-link></span>
                     </v-checkbox>
                 </v-flex>
                 <v-flex xs12 class="text-xs-right">
