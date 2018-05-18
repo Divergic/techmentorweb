@@ -237,10 +237,10 @@
                 </v-flex>
                 <v-flex xs12>
                     <v-checkbox
-                        v-model="model.acceptTos"
-                        name="acceptTos"
+                        v-model="model.acceptToS"
+                        name="acceptToS"
                         color="success"
-                        :error-messages="errors.collect('acceptTos')"
+                        :error-messages="errors.collect('acceptToS')"
                         data-vv-scope="profileForm"
                         data-vv-as="Terms of Service"
                         v-validate ="{ rules: { consent: this.consentRequired} }">

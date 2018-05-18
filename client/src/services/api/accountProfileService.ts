@@ -10,7 +10,7 @@ export class ProfileStatus {
 export class AccountProfile {
     public about: string | null;
     public acceptCoC: boolean;
-    public acceptTos: boolean;
+    public acceptToS: boolean;
     public bannedAt: Date | null;
     public birthYear: number | null;
     public email: string;
@@ -34,7 +34,7 @@ export class AccountProfile {
             // This is a copy constructor
             this.about = profile.about;
             this.acceptCoC = profile.acceptCoC;
-            this.acceptTos = profile.acceptTos;
+            this.acceptToS = profile.acceptToS;
             this.bannedAt = profile.bannedAt;
             this.birthYear = profile.birthYear;
             this.email = profile.email;
@@ -68,7 +68,7 @@ export class AccountProfile {
         else {
             this.about = null;
             this.acceptCoC = false;
-            this.acceptTos = false;
+            this.acceptToS = false;
             this.bannedAt = null;
             this.birthYear = null;
             this.email = <string><any>null;

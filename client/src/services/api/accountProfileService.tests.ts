@@ -10,7 +10,7 @@ describe("AccountProfile", () => {
         source = <AccountProfile>{
             about: "My profile about information",
             acceptCoC: true,
-            acceptTos: true,
+            acceptToS: true,
             bannedAt: new Date(),
             birthYear: 1974,
             email: "here@test.com",
@@ -44,7 +44,7 @@ describe("AccountProfile", () => {
 
             expect(actual.about).toBeNull();
             expect(actual.acceptCoC).toBeFalsy();
-            expect(actual.acceptTos).toBeFalsy();
+            expect(actual.acceptToS).toBeFalsy();
             expect(actual.bannedAt).toBeNull();
             expect(actual.birthYear).toBeNull();
             expect(actual.email).toBeNull();
@@ -115,7 +115,7 @@ describe("ExportProfile", () => {
         source = <ExportProfile>{
             about: "My profile about information",
             acceptCoC: true,
-            acceptTos: true,
+            acceptToS: true,
             bannedAt: new Date(),
             birthYear: 1974,
             email: "here@test.com",
@@ -158,7 +158,7 @@ describe("ExportProfile", () => {
 
             expect(actual.about).toBeNull();
             expect(actual.acceptCoC).toBeFalsy();
-            expect(actual.acceptTos).toBeFalsy();
+            expect(actual.acceptToS).toBeFalsy();
             expect(actual.bannedAt).toBeNull();
             expect(actual.birthYear).toBeNull();
             expect(actual.email).toBeNull();
