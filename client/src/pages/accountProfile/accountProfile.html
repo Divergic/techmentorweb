@@ -237,14 +237,14 @@
                 </v-flex>
                 <v-flex xs12>
                     <v-checkbox
-                        v-model="model.acceptTaC"
-                        name="acceptTaC"
+                        v-model="model.acceptToS"
+                        name="acceptToS"
                         color="success"
-                        :error-messages="errors.collect('acceptTaC')"
+                        :error-messages="errors.collect('acceptToS')"
                         data-vv-scope="profileForm"
-                        data-vv-as="Terms and Conditions"
+                        data-vv-as="Terms of Service"
                         v-validate ="{ rules: { consent: this.consentRequired} }">
-                        <span slot="label">I accept the Tech Mentors <router-link :to="{ name: 'terms' }" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Terms and Conditions</router-link></span>
+                        <span slot="label">I accept the Tech Mentors <router-link :to="{ name: 'terms' }" target="_blank" @click.native.prevent="OnCheckboxLinkClick">Terms of Service</router-link></span>
                     </v-checkbox>
                 </v-flex>
                 <v-flex xs12 class="text-xs-right">
