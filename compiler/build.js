@@ -15,7 +15,12 @@ module.exports = function() {
         fs.ensureDir("./dist/node_modules/");
         fs.copy('./server/node_modules/', './dist/node_modules/', err =>{
                 if(err) return console.error(err);
-            });        
+            });
+            
+        console.log("Copying web.config to dist");
+        fs.copy('./web.config', './dist/web.config', err =>{
+                if(err) return console.error(err);
+            });
     }
     
     if (config.selfHost) {
