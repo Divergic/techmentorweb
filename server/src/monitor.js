@@ -1,16 +1,17 @@
-const appInsights = require('applicationinsights');
+// const appInsights = require('applicationinsights');
 const serverConfig = require("./serverConfig");
 const Raven = require('raven');
 
 module.exports = function() {
     const appInsightsKey = serverConfig.applicationInsightsKey;
-    
-    if (appInsightsKey
-        && appInsightsKey.length > 0) {
-        console.log("Configuring Application Insights using key " + appInsightsKey + " for environment " + serverConfig.environment);
 
-        appInsights.setup(appInsightsKey).start();
-    }
+    // This currently fails when running under local IIS
+    // if (appInsightsKey
+    //     && appInsightsKey.length > 0) {
+    //     console.log("Configuring Application Insights using key " + appInsightsKey + " for environment " + serverConfig.environment);
+
+    //     appInsights.setup(appInsightsKey).start();
+    // }
 
     const sentryDsn = serverConfig.sentryDsn;
 
