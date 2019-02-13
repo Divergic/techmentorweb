@@ -51,6 +51,7 @@ router.use("/content", serveStatic(__dirname + "/content", staticConfig));
 router.use("/images", serveStatic(__dirname + "/images", staticConfig));
 router.use("/scripts", serveStatic(__dirname + "/scripts", staticConfig));
 router.use("/views", serveStatic(__dirname + "/views", staticConfig));
+router.use("/.well-known", serveStatic(__dirname + "/.well-known", staticConfig));
 
 // Any other request gets the website
 router.use(function (req, res, next) {
